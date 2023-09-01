@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>2. Programació multifil</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 2. Programació multifil.</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="index.html">2. Programació multifil</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>2. Programació multifil</h1>
+        </header>
+        <h2 id="1-introducció">1. Introducció</h2>
+<p>Els threads, fils d&rsquo;execució o processos lleugers, són les unitats més menudes de processament que pot ser programada pels sistemes operatius, i que permet a un mateix procés, executar diferents tasques de forma simultània. Cada fil d&rsquo;execució executa una tasca concreta, i ofereix així al programador la possibilitat de dissenyar programes que executen funcions diferents de forma concurrent.</p>
+<p>Aquesta tècnica de programació amb fils es coneix com multithreading o multifil, i permet simplificar el disseny d&rsquo;aplicacions concurrents i millorar el rendiment en la creació de processos.</p>
+<p>Recordeu que la principal diferència entre els processos i els fils és que els fils d&rsquo;un mateix procés comparteixen els mateixos recursos (memòria, fitxers oberts&hellip;). Així doncs, quan creem diversos objectes d&rsquo;una mateixa classe, pot que diversos fils d&rsquo;execució accedisquen a una dada o objecte concret. Diem, en aquest cas, que <strong>la dada o objecte està en conflicte</strong>, i a la secció de codi que accedeix a aquestes dades o objectes, li diem <strong>secció crítica</strong>.</p>
+<p>Alguns dels exemples més habituals a les que es fa ús de fils d&rsquo;execució, poden ser les aplicacions multimèdia i les aplicacions client-servidor.</p>
+<h2 id="2-threads-en-java">2. Threads en Java</h2>
+<h3 id="21-creació-de-threads">2.1. Creació de threads</h3>
+<p>Per tal de crear threads en Java podem optar per dues opcions:</p>
+<ul>
+<li>Crear <strong>una classe que herete de la classe Thread</strong>, o bé</li>
+<li>crear una classe que <strong>implemente la interfície Runnable</strong>.</li>
+</ul>
+<p>L'<strong>opció aconsellada</strong> a la documentació de Java és fer ús de la <strong>interfície Runnable</strong>. Ambdós mecanismes són pràcticament equivalents, amb la diferència que si fem la nostra classe descendent de <code>Thread</code>, per les característiques de Java, aquesta no pot heretar d&rsquo;altra classe, pel que si volem que la nostra classe pertanga a certa jerarquia i a més tinga les característiques dels Threads, hem d&rsquo;utilitzar interfícies.</p>
+<p>Per crear un thread mitjançant la implementació de <code>Runnable</code>, farem el següent:</p>
+<ol>
+<li>Definir una classe que implemente la interfície <code>Runnable</code> i el mètode <code>public void run()</code>, amb la funcionalitat que s&rsquo;haurà d&rsquo;executar en el fil:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">classeThreadable</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Declaració d&#39;atributs i mètodes
+</span><span style="color:#75715e"></span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// Funcionalitat a realitzar
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ol start="2">
+<li>Crear un thread a partir de la classe anterior:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Thread fil<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>classeThreadable<span style="color:#f92672">);</span>
+</code></pre></div><p>El més habitual serà emmagatzemar els diferents threads en un vector en lloc de fer-ho en un objecte solt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Creem el vector vetor_fils, per emmagatzemar els diferents fils d&#39;execució
+</span><span style="color:#75715e"></span>Thread vector_fils<span style="color:#f92672">[]=</span><span style="color:#66d9ef">new</span> Thread <span style="color:#f92672">[</span>longitud<span style="color:#f92672">];</span>
+<span style="color:#f92672">...</span>
+<span style="color:#75715e">// I després creem els diferents threads en la corresponent posició del vector:
+</span><span style="color:#75715e"></span>Thread fil<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>vector_fils<span style="color:#f92672">[</span>posició<span style="color:#f92672">]);</span>
+vector_fils<span style="color:#f92672">[</span>posicio_i<span style="color:#f92672">]=</span>fil<span style="color:#f92672">;</span> 	<span style="color:#75715e">//  Sent i un índex qualsevol del vector
+</span></code></pre></div><ol start="3">
+<li>Llançar el thread amb <code>start()</code> i esperar-lo amb <code>join()</code>:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    fil<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">// O bé, si el tenim al vector
+</span><span style="color:#75715e"></span>    vector_fils<span style="color:#f92672">[</span>posicio<span style="color:#f92672">].</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    fil<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+    <span style="color:#75715e">// O bé
+</span><span style="color:#75715e"></span>    vector_fils<span style="color:#f92672">[</span>posicio<span style="color:#f92672">].</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+</code></pre></div><h4 id="start-i-run">start() i run()</h4>
+<p>Si ens adonem, per crear el thread, hem fet ús del mètode <code>start()</code>, i la classe que implementa <code>Runnable</code>, defineix un mètode <code>run()</code>. Quina relació hi ha entre estos dos mètodes?</p>
+<p>El mètode <code>run()</code>, que és el que definim nosaltres a la classe, conté el codi que volem executar <em>asíncronament</em> en un thread que llançarem posteriorment. Si invocàrem <code>run()</code> directament, el mètode s&rsquo;executaría de forma síncrona (en el mateix thread en què estem), mentre que si la nostra és una subclasse de <code>Thread</code> o implementa <code>Runnable</code>, el mètode <code>start()</code> ens crea el fil i fa que en un moment donat, el fil d&rsquo;execució llance el mètode <code>run()</code> de forma asíncrona, tornant de seguida el control al fil actual, i deixant el nou thread executant el que hi havera al codi de <code>run()</code> fins que aquest acabe.</p>
+<h4 id="join">join()</h4>
+<p>Parem especial atenció al <code>join</code>. Tots els programes multifil tenen un fil principal que ha d&rsquo;esperar que acaben els fils associats, per a la qual cosa utilitzem el mètode <code>join</code>. Pe què s&rsquo;anomena així? Quan creem un thread, es produeix una bifurcació, es creen dos <em>camins</em> d&rsquo;execució diferents, pel que quan un procés acaba i ha d&rsquo;esperar a l&rsquo;altre, es produeix una unificació, un <em>join</em>.</p>
+<p><img src="../img/join.png" alt="Exemple de join"></p>
+<h4 id="altres-mètodes-de-la-class-thread">Altres mètodes de la class thread</h4>
+<p>Veiem a la següent taula una síntesi dels mètodes comentats i altres mètodes utilitzats en la gestió de threads:</p>
+<table>
+<thead>
+<tr>
+<th>Mètode</th>
+<th>Descripció</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>long getId()</code></td>
+<td>Retorna l&rsquo;identificador del thread, consistent en un enter llarg positiu generat automàticament en la creació del fil. Aquest número és únic i inalterable durant el cicle de vida del  thread</td>
+</tr>
+<tr>
+<td><code>void setName(String Nom)</code></td>
+<td>Permet donar-li un nom al thread</td>
+</tr>
+<tr>
+<td><code>String getName(String Nom)</code></td>
+<td>Retorna el nom que li hem assignat al thread</td>
+</tr>
+<tr>
+<td><code>Thread currentThread()</code></td>
+<td>Retorna un objecte de la classe Thread que representa el fil d&rsquo;execució actual.</td>
+</tr>
+<tr>
+<td><code>void setPriority(int prioritat)</code></td>
+<td>Permet establir la prioritat del fil, de forma indicativa, ja que el sistema operatiu no està obligat a respectar-la. La prioritat màxima i mínima venen donades per les constants <code>MAX_PRIORITY</code> i <code>MIN_PRIORITY</code>.</td>
+</tr>
+<tr>
+<td><code>int getPriority()</code></td>
+<td>Retorna la prioritat del fil</td>
+</tr>
+<tr>
+<td><code>void Thread.sleep(long ms)</code></td>
+<td>Permet deixar el procés en suspensió durant un temps concret</td>
+</tr>
+<tr>
+<td><code>void join()</code></td>
+<td>Finalitza el fil d&rsquo;execució, tornant el control al fil principal que va llençar el fil secundari, amb la possibilitat d&rsquo;escollir el temps d&rsquo;espera en mil·lisegons</td>
+</tr>
+<tr>
+<td><code>void yield()</code></td>
+<td>Torna a un procés a l&rsquo;estat de <em>llest per executar</em>, de manera que permet que passen a executar-se altres fils de la mateixa prioritat (però no posa en pausa el fil)</td>
+</tr>
+<tr>
+<td><code>void interrupt()</code></td>
+<td>Interromp l&rsquo;execució del fil</td>
+</tr>
+<tr>
+<td><code>boolean interrupted()</code></td>
+<td>Retorna si el fil actual ha estat interromput</td>
+</tr>
+<tr>
+<td><code>boolean isAlive()</code></td>
+<td>Retorna cert si el fil està viu</td>
+</tr>
+<tr>
+<td><code>public Thread.State getState()</code></td>
+<td>Retorna l&rsquo;estat del fil, que pot ser <code>NEW</code>, <code>RUNNABLE</code>, <code>BLOCKED</code>, <code>WAITING</code>, <code>TIMED_WAITING</code>, <code>TERMINATED</code></td>
+</tr>
+<tr>
+<td><code>String toString()</code></td>
+<td>Heratat d&rsquo;Object, retorna una cadena amb una representació del thread, incloent-hi el nom, la prioritat i el grup</td>
+</tr>
+</tbody>
+</table>
+<p>Podem trobar més informació sobre la classe Thread i la resta de mètodes relacionats amb ella a la documentació de l&rsquo;OpenJDK:</p>
+<ul>
+<li><a href="https://cr.openjdk.java.net/~iris/se/11/latestSpec/api/java.base/java/lang/Thread.html">https://cr.openjdk.java.net/~iris/se/11/latestSpec/api/java.base/java/lang/Thread.html</a>.</li>
+</ul>
+<h3 id="22-exemples">2.2. Exemples</h3>
+<h4 id="exemple-1">Exemple 1</h4>
+<p>El següent programa exemple1.java crea una classe que rep un nom en el constructor i l&rsquo;emmagatzema, i que implementa un mètode <code>run()</code> que obté informació sobre el thread actual (l&rsquo;id, el nom del thread i l&rsquo;atribut <em>nom</em> de la classe -que no són el mateix-), i els mostra per pantalla. Finalment, el mètode <code>main()</code> crea tres objectes i tres fils diferents i els llança en paral·lel.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">exemple1</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 
+</span><span style="color:#75715e">        Exemple tipus &#34;Hola Món&#34; amb threads
+</span><span style="color:#75715e">    */</span>
+
+    String nom<span style="color:#f92672">;</span>
+    <span style="color:#75715e">// Constructors
+</span><span style="color:#75715e"></span>        exemple1<span style="color:#f92672">(){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Anònim&#34;</span><span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+        exemple1<span style="color:#f92672">(</span>String nom<span style="color:#f92672">){</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span>nom<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Aquest és el mètode que s&#39;exeutarà quan
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// s&#39;invoque al mètode start del thread.
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Agafem la referència al thread actual
+</span><span style="color:#75715e"></span>            Thread filActual<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// I imprimim informació sobre el seu nom i algunes propietats
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hola Món dels threads. Sóc &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl meu id de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getId</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl nom de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tLa meua prioritat és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getPriority</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+
+
+        <span style="color:#f92672">}</span>  <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Creem alguns objectes d&#39;exemple
+</span><span style="color:#75715e"></span>            exemple1 ex1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> exemple1<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;C3PO&#34;</span><span style="color:#f92672">);</span>
+            exemple1 ex2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> exemple1<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;R2D2&#34;</span><span style="color:#f92672">);</span>
+            exemple1 ex3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> exemple1<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;BB8&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// I els fils corresponents
+</span><span style="color:#75715e"></span>            Thread fil1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>ex1<span style="color:#f92672">);</span>
+            Thread fil2<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>ex2<span style="color:#f92672">);</span>
+            Thread fil3<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>ex3<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Llancem els fils
+</span><span style="color:#75715e"></span>            fil1<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            fil2<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            fil3<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// I els juntem amb l&#39;actual quan acaben
+</span><span style="color:#75715e"></span>            fil1<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+            fil2<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+            fil3<span style="color:#f92672">.</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>L&rsquo;eixida del programa serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ java exemple1
+Hola Món dels threads. Sóc BB8:
+	El meu id de thread és <span style="color:#ae81ff">13</span>
+	El nom de thread Thread-2
+	La meua prioritat <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc C3PO:
+	El meu id de thread és <span style="color:#ae81ff">11</span>
+	El nom de thread Thread-0
+	La meua prioritat <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc R2D2:
+	El meu id de thread és <span style="color:#ae81ff">12</span>
+	El nom de thread Thread-1
+	La meua prioritat <span style="color:#ae81ff">5</span>
+
+</code></pre></div><h4 id="exemple-2">Exemple 2</h4>
+<p>En aquest exemple, hem fet una variació de l&rsquo;anterior, per tal que reba una llista de noms com a arguments, i cree tants fils com hem indicat, fent ús de vectors per emmagatzemar els objectes i els threads.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">exemple2</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 
+</span><span style="color:#75715e">        Exemple tipus &#34;Hola Món&#34; amb threads i vectors
+</span><span style="color:#75715e">    */</span>
+
+    String nom<span style="color:#f92672">;</span> 
+    <span style="color:#75715e">// Constructors
+</span><span style="color:#75715e"></span>    exemple2<span style="color:#f92672">(){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Anònim&#34;</span><span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    exemple2<span style="color:#f92672">(</span>String nom<span style="color:#f92672">){</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span>nom<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+   
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Aquest és el mètode que s&#39;exeutarà quan
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// s&#39;invoque al mètode start del thread.
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Agafem la referència al thread actual
+</span><span style="color:#75715e"></span>            Thread filActual<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// I imprimim informació sobre el seu nom i algunes propietats
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hola Món dels threads. Sóc &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl meu id de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getId</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl nom de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tLa meua prioritat és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getPriority</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+             
+            
+        <span style="color:#f92672">}</span>  <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+
+            <span style="color:#75715e">// Definim un vector per emmagatzemar els threads
+</span><span style="color:#75715e"></span>            Thread<span style="color:#f92672">[]</span> LlistaThreads<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">[</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">];</span>
+            
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                <span style="color:#75715e">// Creem l&#39;objecte
+</span><span style="color:#75715e"></span>                exemple2 nom<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> exemple2<span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
+                <span style="color:#75715e">// I el thread que l&#39;utilitza
+</span><span style="color:#75715e"></span>                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>nom<span style="color:#f92672">);</span>
+                <span style="color:#75715e">// I el llancem
+</span><span style="color:#75715e"></span>                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#75715e">// Una vegada llançats, els juntem tots
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+
+
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>En aquest cas, l&rsquo;eixida serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ java exemple2 Leia Luke Han Chewie
+Hola Món dels threads. Sóc Luke:
+	El meu id de thread és <span style="color:#ae81ff">12</span>
+	El nom de thread és Thread-1
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Han:
+	El meu id de thread és <span style="color:#ae81ff">13</span>
+	El nom de thread és Thread-2
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Leia:
+	El meu id de thread és <span style="color:#ae81ff">11</span>
+	El nom de thread és Thread-0
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Chewie:
+	El meu id de thread és <span style="color:#ae81ff">14</span>
+	El nom de thread és Thread-3
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+</code></pre></div><h4 id="exemple-3">Exemple 3</h4>
+<p>En el següent exemple, veiem la classe que implementa el main pot ser diferent a la classe que implementa Runnable. A més, en aquest exemple, hem fet ús també del sleep, per fer una xicoteta pausa abans que acabe el thread, i mostrar un missatge de comiat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Saluda</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/* 
+</span><span style="color:#75715e">        Exemple tipus &#34;Hola Món&#34; amb threads i vectors
+</span><span style="color:#75715e">    */</span>
+
+    String nom<span style="color:#f92672">;</span> 
+    <span style="color:#75715e">// Constructors
+</span><span style="color:#75715e"></span>    Saluda<span style="color:#f92672">(){</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Anònim&#34;</span><span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+    Saluda<span style="color:#f92672">(</span>String nom<span style="color:#f92672">){</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">=</span>nom<span style="color:#f92672">;</span> <span style="color:#f92672">}</span>
+   
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Aquest és el mètode que s&#39;exeutarà quan
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// s&#39;invoque al mètode start del thread.
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Agafem la referència al thread actual
+</span><span style="color:#75715e"></span>            Thread filActual<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// I imprimim informació sobre el seu nom i algunes propietats
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hola Món dels threads. Sóc &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;:&#34;</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl meu id de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getId</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tEl nom de thread és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()</span>
+            <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n\tLa meua prioritat és &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getPriority</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+
+            filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>1000<span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Eixint de &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nom</span><span style="color:#f92672">);</span>
+
+
+        <span style="color:#f92672">}</span>  <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">exemple3</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+
+            <span style="color:#75715e">// Definim un vector per emmagatzemar els threads
+</span><span style="color:#75715e"></span>            Thread<span style="color:#f92672">[]</span> LlistaThreads<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">[</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">];</span>
+            
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                <span style="color:#75715e">// Creem l&#39;objecte
+</span><span style="color:#75715e"></span>                Saluda nom<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Saluda<span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
+                <span style="color:#75715e">// I el thread que l&#39;utilitza
+</span><span style="color:#75715e"></span>                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>nom<span style="color:#f92672">);</span>
+                <span style="color:#75715e">// I el llancem
+</span><span style="color:#75715e"></span>                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#75715e">// Una vegada llançats, els juntem tots
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                LlistaThreads<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+
+
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+                e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>L&rsquo;eixida és:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$java exemple3 Leia Luke Han Chewie
+Hola Món dels threads. Sóc Han:
+	El meu id de thread és <span style="color:#ae81ff">13</span>
+	El nom de thread és Thread-2
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Luke:
+	El meu id de thread és <span style="color:#ae81ff">12</span>
+	El nom de thread és Thread-1
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Chewie:
+	El meu id de thread és <span style="color:#ae81ff">14</span>
+	El nom de thread és Thread-3
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Hola Món dels threads. Sóc Leia:
+	El meu id de thread és <span style="color:#ae81ff">11</span>
+	El nom de thread és Thread-0
+	La meua prioritat és <span style="color:#ae81ff">5</span>
+
+Eixint de Leia
+Eixint de Luke
+Eixint de Chewie
+Eixint de Han
+
+</code></pre></div><p>Si l&rsquo;executem, comprovarem com entre l&rsquo;últim Hola Mon i els missatges de &ldquo;Eixint de&hellip;&rdquo; passa una estona.</p>
+<h2 id="3-mètodes-sincronitzats-synchronized">3. Mètodes sincronitzats: <em>Synchronized</em></h2>
+<p>Quan ens trobem davant la necessitat de comunicar fils, tenim diverses possibilitats. Una d&rsquo;elles serà <strong>fer ús d&rsquo;un objecte compartit</strong>.</p>
+<p>Anem a reprendre un exemple conegut: Obtindre la suma de tots els nombres naturals entre dos índexs donats, dividint el procés en tants fils com processadors tinga la màquina.</p>
+<p>Per a això, farem ús d&rsquo;una classe <code>Acumulador</code>, que únicament acumularà les diferents sumes parcials que vagen realitzant-se. Aquest objecte estarà compartit entre els diferents threads:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Acumulador</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">long</span> acumulador<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+    Acumulador<span style="color:#f92672">(){};</span>
+   
+    <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">get</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">acumulador</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> quantitat<span style="color:#f92672">){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Actualitzant comptador a &#34;</span><span style="color:#f92672">+</span>quantitat<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">acumulador</span><span style="color:#f92672">=</span>quantitat<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem té el constructor, i dos mètodes per obtenir (get) i establir (set) el valor de l&rsquo;acumulador.</p>
+<p>Ara anem a crear la classe suma, que serà qui implemente la interfície <code>Runnable</code> i definisca el mètode <code>run</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Suma</span> <span style="color:#66d9ef">implements</span> Runnable <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">long</span> n1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">long</span> n2<span style="color:#f92672">;</span>
+    Acumulador ac<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">// Constructors
+</span><span style="color:#75715e"></span>    Suma<span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    Suma<span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> n1<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> n2<span style="color:#f92672">,</span> Acumulador ac<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">=</span>n1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">=</span>n2<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ac</span><span style="color:#f92672">=</span>ac<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">long</span> result<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            Thread filActual<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Iniciant el fil&#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;: Suma (&#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> i<span style="color:#f92672">=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                    result<span style="color:#f92672">=</span>result<span style="color:#f92672">+</span>i<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#66d9ef">long</span> acTmp<span style="color:#f92672">=</span>ac<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+            Thread me<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+            me<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>500<span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Finalitzat el fil&#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Resultat del fil: &#34;</span><span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+            ac<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>acTmp<span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+   
+        <span style="color:#f92672">}</span>  <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>En aquesta classe tenim:</p>
+<ul>
+<li>El constructor <code>Suma(long n1, long n2, Acumulador ac)</code>, que inicialitzarà la classe amb els dos índexs que cal sumar i un objecte acumulador.</li>
+<li>El mètode <code>run()</code>, que mostrarà diferents missatges, i serà qui realitze la suma entre els dos índexs indicats. Quan tinga el resultat, agafarà el valor actual del comptador (<code>long acTmp=ac.get()</code>) i l&rsquo;actualitzarà, acumulant la suma parcial (<code>ac.set(acTmp+result)</code>). <strong>Com podem veure, entre el <code>get</code> i el <code>set</code> afegim de forma intencionada una pausa de 0,5 segons</strong>. Açò és per emular un processament més costós, i ens servirà per il·lustrar el problema que presenta aquesta solució.</li>
+</ul>
+<p>Finalment, implementem la classe principal <code>sumaThreadsErr</code>, que serà qui cree l&rsquo;objecte acumulador i tants fils com processadors tinguem, dividint la feina entre aquests fils, i passant-los l&rsquo;acumulador per tal d&rsquo;emmagatzemar la suma total:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">sumaThreadsErr</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// Capturem els paràmetres
+</span><span style="color:#75715e"></span>        Long index1<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+        Long index2<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+
+        <span style="color:#75715e">// Creem l&#39;acumulador
+</span><span style="color:#75715e"></span>        Acumulador ac<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Acumulador<span style="color:#f92672">();</span>
+        
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Ordenem els índexs, per si el primer és major que el segon
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index1<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">){</span>
+                Long tmp<span style="color:#f92672">=</span>index1<span style="color:#f92672">;</span>
+                index1<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+                index2<span style="color:#f92672">=</span>tmp<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#75715e">// Particionem el rang de valors en tants rangs com processadors tenim
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Calculem primer la quantitat de processadors
+</span><span style="color:#75715e"></span>            Runtime runtime<span style="color:#f92672">=</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">int</span> num_processadors<span style="color:#f92672">=</span>runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">availableProcessors</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Dividint la tasca en &#34;</span><span style="color:#f92672">+</span>num_processadors<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; fils&#34;</span><span style="color:#f92672">);</span>
+            
+            <span style="color:#75715e">// Obtenció dels rangs
+</span><span style="color:#75715e"></span>            Long increment<span style="color:#f92672">=((</span>index2<span style="color:#f92672">-</span>index1<span style="color:#f92672">)/(</span>num_processadors<span style="color:#f92672">-</span>1<span style="color:#f92672">));</span>
+            
+            <span style="color:#75715e">// Creació del vector de fils
+</span><span style="color:#75715e"></span>            Thread vectorFils<span style="color:#f92672">[]=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">[</span>num_processadors<span style="color:#f92672">];</span>
+            
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>num_processadors<span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
+
+                <span style="color:#75715e">// Creem un objecte de tipus Suma, que és threadable
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">long</span> ini<span style="color:#f92672">=</span>index1<span style="color:#f92672">+</span>increment<span style="color:#f92672">*</span>i<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">long</span> fin<span style="color:#f92672">=</span>index1<span style="color:#f92672">+</span>increment<span style="color:#f92672">*(</span>i<span style="color:#f92672">+</span>1<span style="color:#f92672">)-</span>1<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>fin<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">)</span> fin<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+                Suma sumParcial<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Suma<span style="color:#f92672">(</span>ini<span style="color:#f92672">,</span>fin<span style="color:#f92672">,</span> ac<span style="color:#f92672">);</span>
+                
+                <span style="color:#75715e">// I creem i llancem el fil
+</span><span style="color:#75715e"></span>                vectorFils<span style="color:#f92672">[</span>i<span style="color:#f92672">]=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>sumParcial<span style="color:#f92672">);</span>
+                vectorFils<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">setName</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Fil &#34;</span><span style="color:#f92672">+</span>i<span style="color:#f92672">);</span>
+                vectorFils<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+
+
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>num_processadors<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> vectorFils<span style="color:#f92672">[</span>i<span style="color:#f92672">].</span><span style="color:#a6e22e">join</span><span style="color:#f92672">();</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Suma total: &#34;</span><span style="color:#f92672">+</span>ac<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+
+
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Fixeu-se que el join l&rsquo;hem de fer en un bucle fora del bucle principal. Recordeu que el join atura el thread actual a l&rsquo;espera que el thread indicat acabe, per &ldquo;juntar&rdquo;, ambdós fils. Així, si l&rsquo;incloem dins el bucle principal en el que estem creant els threads, en cada iteració hauria d&rsquo;esperar que el thread fill acabara, pel que estaríem llançant els threads en sèrie, i no en paral·lel. De la manera com hem fet, llancem els threads i ens esperem després.</p>
+<p>Anem a analitzar ara el resultat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ javac sumaThreadsErr.java
+$ java sumaThreadsErr <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">100</span>
+Dividint la tasca en <span style="color:#ae81ff">4</span> fils
+Iniciant el filFil 2: Suma <span style="color:#f92672">(</span>67,99<span style="color:#f92672">)</span>
+Iniciant el filFil 0: Suma <span style="color:#f92672">(</span>1,33<span style="color:#f92672">)</span>
+Iniciant el filFil 3: Suma <span style="color:#f92672">(</span>100,100<span style="color:#f92672">)</span>
+Iniciant el filFil 1: Suma <span style="color:#f92672">(</span>34,66<span style="color:#f92672">)</span>
+Finalitzat el filFil <span style="color:#ae81ff">1</span>
+Finalitzat el filFil <span style="color:#ae81ff">2</span>
+Finalitzat el filFil <span style="color:#ae81ff">0</span>
+Finalitzat el filFil <span style="color:#ae81ff">3</span>
+Resultat: <span style="color:#ae81ff">561</span>
+Actualitzant comptador a <span style="color:#ae81ff">561</span>
+Resultat: <span style="color:#ae81ff">2739</span>
+Actualitzant comptador a <span style="color:#ae81ff">2739</span>
+Resultat: <span style="color:#ae81ff">100</span>
+Actualitzant comptador a <span style="color:#ae81ff">100</span>
+Resultat: <span style="color:#ae81ff">1650</span>
+Actualitzant comptador a <span style="color:#ae81ff">1650</span>
+Suma total: <span style="color:#ae81ff">1650</span>
+</code></pre></div><p>Fixeu-vos que cada actualització de l&rsquo;acumulador estableix aquest al mateix valor que el resultat de la suma, en lloc d&rsquo;acumular-lo. Per tant, <strong>el resultat és incorrecte!</strong>.</p>
+<p>On ha estat el problema? En què amb la pausa de 500ms que hem introduït de forma deliberada, els processos agafen el valor de l&rsquo;acumulador, i mig segon després l&rsquo;actualitzen. En aquest mig segon poden passar moltes coses, com per exemple, que un altre thread haja actualitzat ja aquest comptador.</p>
+<p>Reprenent un dels conceptes que s&rsquo;han comentat al principi de la unitat, aquesta part del mètode <code>run()</code> que modifica el comptador és el que coneixeríem com <strong>secció crítica</strong>.</p>
+<p>Per tant, com accedim als objectes comuns en la secció crítica de forma segura? Cal establir algun mecanisme perquè les operacions sobre aquests objectes es realitzen <strong>de forma atòmica</strong>, és a dir, que fins que no finalitze una operació sobre l&rsquo;objecte, no en comence altra. Açò s&rsquo;aconsegueix amb <strong><code>Synchronized</code></strong>.</p>
+<p>Per tal de fer ús de <code>Syncronized</code>, podem fer dues coses:</p>
+<ul>
+<li>Declarar un mètode en la classe <code>Runnable</code> com a <code>synchronized</code>, i accedir a ell des del mètode <code>run()</code>, o bé</li>
+<li>Declarar una secció de codi <code>syncronyzed</code>.</li>
+</ul>
+<p>Optarem per aquesta última opció, ja que és preferible sincronitzar com menys part de codi millor, per qüestions d&rsquo;eficiència (la part dins de la secció crítica no és paral·lelitzable). Així doncs, el següent fragment de codi:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">long</span> acTmp<span style="color:#f92672">=</span>ac<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+    Thread me<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+    me<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>500<span style="color:#f92672">);</span>
+
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Finalitzat el fil&#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Resultat: &#34;</span><span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+    ac<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>acTmp<span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+</code></pre></div><p>S&rsquo;hauría d&rsquo;expressar així:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">synchronized</span><span style="color:#f92672">(</span>ac<span style="color:#f92672">){</span>
+    <span style="color:#66d9ef">long</span> acTmp<span style="color:#f92672">=</span>ac<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+    Thread me<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+    me<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>500<span style="color:#f92672">);</span>
+
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Finalitzat el fil&#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">());</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Resultat: &#34;</span><span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+    ac<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>acTmp<span style="color:#f92672">+</span>result<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, el codi intern és el mateix, però ho hem afegit tot dins un bloc de codi amb <code>synchronized(ac)</code>, indicant que <code>ac</code> és l&rsquo;objecte compartit i protegit, al que s&rsquo;ha d&rsquo;accedir de forma atòmica.</p>
+<p>Amb aquesta modificació, ja podem veure el correcte funcionament del programa:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ javac sumaThreads.java
+$ java sumaThreads <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">100</span>
+Dividint la tasca en <span style="color:#ae81ff">4</span> fils
+Iniciant el filFil 1: Suma <span style="color:#f92672">(</span>34,66<span style="color:#f92672">)</span>
+Iniciant el filFil 0: Suma <span style="color:#f92672">(</span>1,33<span style="color:#f92672">)</span>
+Iniciant el filFil 2: Suma <span style="color:#f92672">(</span>67,99<span style="color:#f92672">)</span>
+Iniciant el filFil 3: Suma <span style="color:#f92672">(</span>100,100<span style="color:#f92672">)</span>
+Finalitzat el filFil <span style="color:#ae81ff">1</span>
+Resultat: <span style="color:#ae81ff">1650</span>
+Actualitzant comptador a <span style="color:#ae81ff">1650</span>
+Finalitzat el filFil <span style="color:#ae81ff">3</span>
+Resultat: <span style="color:#ae81ff">100</span>
+Actualitzant comptador a <span style="color:#ae81ff">1750</span>
+Finalitzat el filFil <span style="color:#ae81ff">2</span>
+Resultat: <span style="color:#ae81ff">2739</span>
+Actualitzant comptador a <span style="color:#ae81ff">4489</span>
+Finalitzat el filFil <span style="color:#ae81ff">0</span>
+Resultat: <span style="color:#ae81ff">561</span>
+Actualitzant comptador a <span style="color:#ae81ff">5050</span>
+Suma total: <span style="color:#ae81ff">5050</span>
+</code></pre></div><h2 id="4-coordinació-de-threads-el-problema-dels-productors-i-consumidors">4. Coordinació de threads. El problema dels productors i consumidors</h2>
+<p>El problema del model productor-consumidor és un clàssic de la sincronització. Consisteix en el fet que existeix un thread que produeix dades, i un thread que les consumeix. El problema apareix quan el consumidor consumeix més de pressa que el que produeix el productor.</p>
+<p>Com a exemple, veiem el següent programa, on disposarem d&rsquo;un objecte compartit, al qual, una classe <em>productora</em> escriu valors i són consumits per una classe <em>consumidora</em>:</p>
+<p>La classe <code>ObjecteCompartit</code> tindrà un atribut enter on guardarà un valor, i un booleà que indique la disponibilitat d&rsquo;aquest. També implementa un mètode <code>get</code>, que retorna el valor que conté l&rsquo;objecte i deixa en fals la disponibilitat d&rsquo;aquest, ja que aquest ha estat consumit. El mètode <code>set</code>, estableix aquest valor, i indica que està disponible.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ObjecteCompartit</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> valor<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">boolean</span> disponible<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span> <span style="color:#75715e">// Inicialment no tenim valor
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get</span><span style="color:#f92672">(){</span> 
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> val<span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">=</span>val<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Per la seua banda, les classes <code>Productor</code> i <code>Consumidor</code>, que seràn <code>Runnable</code>, s&rsquo;inicialitzaran amb un objecte compartit, i en el seu mètode <code>run()</code>, tindran un bucle que escriurà i llegirà, respectivament, cinc valors en l&rsquo;objecte compartit. Com podem veure, la classe <code>Productor</code>, farà una pausa de 500ms després de produir cada element, mentre que la classe <code>Consumidor</code>, la farà de 100ms.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Productor</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Referència a un objecte compartit
+</span><span style="color:#75715e"></span>    ObjecteCompartit compartit<span style="color:#f92672">;</span>
+
+    Productor<span style="color:#f92672">(</span>ObjecteCompartit oc<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">compartit</span><span style="color:#f92672">=</span>oc<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>5<span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El productor produeix: &#34;</span><span style="color:#f92672">+</span>i<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">compartit</span><span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>500<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Consumidor</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Referència a un objecte compartit
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> ObjecteCompartit compartit<span style="color:#f92672">;</span>
+
+    Consumidor<span style="color:#f92672">(</span>ObjecteCompartit oc<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">compartit</span><span style="color:#f92672">=</span>oc<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>5<span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El consumidor consumeix: &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">compartit</span><span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">());</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">().</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>100<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Finalment, la classe principal <code>exempleProdCons</code> crearà un thread amb el productor i altre amb el consumidor, i els llançarà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">exempleProdCons</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ObjecteCompartit oc<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ObjecteCompartit<span style="color:#f92672">();</span>
+        Thread p<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Productor<span style="color:#f92672">(</span>oc<span style="color:#f92672">));</span>
+        Thread c<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Consumidor<span style="color:#f92672">(</span>oc<span style="color:#f92672">));</span>
+        p<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+        c<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>El resultat del programa és:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ javac exempleProdCons.java
+$ java exempleProdCons
+El consumidor consumeix: -1
+El productor produeix: <span style="color:#ae81ff">0</span>
+El consumidor consumeix: <span style="color:#ae81ff">0</span>
+El consumidor consumeix: -1
+El consumidor consumeix: -1
+El consumidor consumeix: -1
+El productor produeix: <span style="color:#ae81ff">1</span>
+El productor produeix: <span style="color:#ae81ff">2</span>
+El productor produeix: <span style="color:#ae81ff">3</span>
+El productor produeix: <span style="color:#ae81ff">4</span>
+</code></pre></div><p>Quan l&rsquo;eixida desitjable sería:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">El productor produeix: <span style="color:#ae81ff">0</span>
+El consumidor consumeix: <span style="color:#ae81ff">0</span>
+El productor produeix: <span style="color:#ae81ff">1</span>
+El consumidor consumeix: <span style="color:#ae81ff">1</span>
+El productor produeix: <span style="color:#ae81ff">2</span>
+El consumidor consumeix: <span style="color:#ae81ff">2</span>
+El productor produeix: <span style="color:#ae81ff">3</span>
+El consumidor consumeix: <span style="color:#ae81ff">3</span>
+El productor produeix: <span style="color:#ae81ff">4</span>
+El consumidor consumeix: <span style="color:#ae81ff">4</span>
+</code></pre></div><p>És a dir, voldríem que el consumidor i el productor realitzaran la lectura i l&rsquo;escriptura de forma coordinada.</p>
+<p>Per aconseguir açò, el desitjable seria que quan el productor escriu en l&rsquo;objecte compartit, avisara al consumidor, i quan l&rsquo;objecte compartit estigués disponible per guardar valors, que avisara el productor. Açò s&rsquo;aconsegueix amb els mètodes <code>wait()</code>, <code>notify()</code> i <code>notiftAll()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Mètode</th>
+<th>Descripció</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>void wait()</code></td>
+<td>Fa que el fil que l&rsquo;invoque quede suspés fins que altre fil invoque al mètode <code>notify()</code> o <code>notiftAll()</code></td>
+</tr>
+<tr>
+<td><code>void notify()</code></td>
+<td>Desperta a un dels fils que ha realitzat una crida a <code>wait()</code>. Si han segut diversos fils, només se&rsquo;n tria un</td>
+</tr>
+<tr>
+<td><code>void notifyAll()</code></td>
+<td>Desperta tots els fils que estiguen esperant l&rsquo;objecte</td>
+</tr>
+</tbody>
+</table>
+<p>Amb açò, l&rsquo;única cosa que caldrà canviar serà l&rsquo;accés a l&rsquo;objecte compartit. Veiem-ho per parts.</p>
+<ul>
+<li>Quan el productor genera un resultat (fa un set), si l&rsquo;objecte compartit encara té un valor que no s&rsquo;ha consumit (per tant <code>disponible==true</code>), haurà d&rsquo;esperar que algú el consumisca, per tant haurà de fer un <code>wait()</code> fins que disponible siga fals, senyal que algú l&rsquo;ha consumit:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>disponible<span style="color:#f92672">==</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>Aquest bucle no està contínuament executant-se, sinò que s&rsquo;espera al <code>wait()</code>. Quan altre fil realitza un <code>notify()</code>, es llança l&rsquo;event <code>InterruptedException</code>, que capturem dins el bucle, de manera que fa que es &ldquo;desperte&rdquo;, del wait i torne a comprovar si la dada és disponible. Si la dada segueix estant disponible, tornem a esperar, i si ja no està disponible, podrem continuar, establint el valor de l&rsquo;objecte compartit, indicant que hi ha dades disponibles, i avisant a tots els possibles consumidors que estigueren esperant:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">=</span>val<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        notifyAll<span style="color:#f92672">();</span>
+</code></pre></div><ul>
+<li>Quan el consumidor haja de consumir un valor (fa un get) de l&rsquo;objecte compartit, el mètode <em>get</em> ha d&rsquo;assegurar que hi haja algun valor disponible, de manera que estarà adormit (<code>wait()</code>) fins que hi haja alguna dada disponible (disponible==true).</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>disponible<span style="color:#f92672">==</span><span style="color:#66d9ef">false</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>Una vegada hi hagen dades disponibles i el consumidor s&rsquo;haja despertat per la interrupció generada (amb notify/notifyAll), aquest consumirà la informació i indicarà a l&rsquo;objecte compartit que la informació ja no es troba disponible, notificant tots els threads que estigueren també a l&rsquo;espera.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">   <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+    notifyAll<span style="color:#f92672">();</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Veiem com queda finalment la classe ObjecteCompartit. Fixeu-vos que els mètodes <em>get</em> i <em>set</em> s&rsquo;han definit com a <code>synchronized</code>, per accedir de forma atòmica al contingut de l&rsquo;objecte compartit i evitar errors d&rsquo;execució:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ObjecteCompartit</span><span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">int</span> valor<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">boolean</span> disponible<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span> <span style="color:#75715e">// Inicialment no tenim valor
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">get</span><span style="color:#f92672">(){</span> 
+
+        <span style="color:#75715e">// Mentre no tingam dades disponibles ens esperem
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>disponible<span style="color:#f92672">==</span><span style="color:#66d9ef">false</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Quan es desperte, tornem a establir la 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// disponibilitat a fals, notifiquem a tots
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// els productors de la disponibilitat i 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// retornem el valor.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+        notifyAll<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">;</span> 
+
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> val<span style="color:#f92672">){</span> 
+
+        <span style="color:#75715e">// Mentre queden dades ens esperem
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>disponible<span style="color:#f92672">==</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                wait<span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException e<span style="color:#f92672">){}</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Quan es desperte, tornem a establir la 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// disponibilitat a cert, establim el valor
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// generat pel productor, i notifiquem a tots
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// els consumidors de la disponibilitat.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">valor</span><span style="color:#f92672">=</span>val<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">disponible</span><span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        notifyAll<span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="5-callable-i-executor">5. Callable i Executor</h2>
+<p>Des de l&rsquo;API de Java 7, disposem de la llibreria <code>java.util.concurrent.*</code>, que ens ofereix un conjunt de classes i interfícies que ens permeten gestionar la programació concurrent d&rsquo;una forma més senzilla i òptima.</p>
+<p>Entre elles, trobem el Framework Executor. Fins ara, hem vist que quan una aplicació ha d&rsquo;executar diverses tasques de forma concurrent, cal implementar codi relacionat amb els <em>threads</em>, crear un objecte per <em>thread</em>, executar-lo i obtenir els resultats amb algun objecte compartit. Aquest <em>framework</em> separa la tasca de creació del <em>thread</em>, la seua execució i l&rsquo;administració, encapsulant la funcionalitat i millorant el rendiment, fent ús d&rsquo;un <em>pool de threads</em>. En principi, la forma de treballar del framweork és simple: només requereix instàncies d&rsquo;objectes de tipus <em>Runnable</em> o <em>Callable</em> i ell s&rsquo;encarrega de la resta.</p>
+<p>Reprendrem l&rsquo;exemple del sumatori entre un rang de valors per donar un cop d&rsquo;ull a aquesta llibreria.</p>
+<p>En primer lloc, haurem d&rsquo;importar la llibreria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.util.concurrent.*<span style="color:#f92672">;</span>
+</code></pre></div><p>La primera diferència que veurem és que la classe <code>Acumulador</code> ja no ens farà falta, com després veurem, pel que no apareix.</p>
+<p>Veiem ara la classe <strong><code>Suma</code></strong>:</p>
+<ul>
+<li>En primer lloc, la classe implementarà la interfície <code>Callable</code>, en lloc de <code>Runnable</code>, indicant un tipus de dada, en aquest cas <code>&lt;Long&gt;</code>.</li>
+<li>En lloc d&rsquo;implementar el mètode <code>void run()</code>, implementarà el mètode <code>Long call()</code>. Aquesta funcio fa la mateixa funcionalitat que <code>run()</code>, amb la diferència que després de realitzar els càlculs, en lloc d&rsquo;actualitzar l&rsquo;acumulador, fa un <code>return</code>. Dels càlculs. Aquest és el principal avantatge de la interfície <code>Callable</code>, i que ens resol un problema bastant habitual que és que els <em>threads</em> puguen tornar un valor després d&rsquo;acabar la seua funcionalitat:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Suma</span> <span style="color:#66d9ef">implements</span> Callable<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">long</span> n1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">long</span> n2<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">// Constructors
+</span><span style="color:#75715e"></span>    Suma<span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    Suma<span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> n1<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> n2<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">=</span>n1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">=</span>n2<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">call</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception<span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">long</span> result<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            Thread filActual<span style="color:#f92672">=</span>Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">currentThread</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Iniciant el fil &#34;</span><span style="color:#f92672">+</span>filActual<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;: Suma (&#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;)&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> i<span style="color:#f92672">=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n1</span><span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">n2</span><span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                    result<span style="color:#f92672">=</span>result<span style="color:#f92672">+</span>i<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+
+        <span style="color:#f92672">}</span>  <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">long</span><span style="color:#f92672">)</span>0<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Al programa principal també haurem de fer alguns canvis. Com veiem al codi, Definim un objecte anomenat <code>servei</code> de la classe <code>ExecutorService</code>. El funcionament és el següent:</p>
+<ul>
+<li>Creem un dipòsit (pool) de threads de longitud fixa i igual al nombre de processadors, amb <code>Executors.newFixedThreadPool(num_processadors)</code>.</li>
+<li>Llancem els diferents threads amb l&rsquo;ordre següent:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Future<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> resultat<span style="color:#f92672">=</span>servei<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Suma<span style="color:#f92672">(</span>ini<span style="color:#f92672">,</span>fin<span style="color:#f92672">));</span>
+</code></pre></div><p>Amb açò, indiquem que resultat serà un enter de tipus <em>Long</em> i que rebrem posteriorment (<em>Future</em>); i invoquem al mètode <code>submit</code> de l&rsquo;executor amb la classe que implementa el mètode <code>call</code>.</p>
+<ul>
+<li>Esperem fins que la variable <em>futura</em> <code>resultat</code> tinga valor, i fem ús d&rsquo;ell. Aquestes variables de tipus <code>Future</code>, disposaran d&rsquo;un mètode <code>isDone</code> que indica quan tenim el resultat a punt, i d&rsquo;un mètode <code>get</code> que ens permetran obtenir el valor que ens ha retornat el mètode <code>Callable</code>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>200<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> sumaTotal<span style="color:#f92672">=</span>sumaTotal<span style="color:#f92672">+</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+</code></pre></div><ul>
+<li>Finalment, una vegada tinguem tots els resultats, farem ús del <code>shutdown</code> de l&rsquo;executor per finalitzar l&rsquo;aplicació:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">servei<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
+</code></pre></div><p>Veiem l&rsquo;exemple complet com queda:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">sumaThreads2</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// Capturem els paràmetres
+</span><span style="color:#75715e"></span>        Long index1<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+        Long index2<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Ordenem els índex, per si el primer és major que el segon
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index1<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">){</span>
+                Long tmp<span style="color:#f92672">=</span>index1<span style="color:#f92672">;</span>
+                index1<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+                index2<span style="color:#f92672">=</span>tmp<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#75715e">// Particionem el rang de valors en tants rangs com processadors tenim
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Calculem primer la quantitat de processadors
+</span><span style="color:#75715e"></span>            Runtime runtime<span style="color:#f92672">=</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">int</span> num_processadors<span style="color:#f92672">=</span>runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">availableProcessors</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Dividint la tasca en &#34;</span><span style="color:#f92672">+</span>num_processadors<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; fils&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Obtenció dels rangs
+</span><span style="color:#75715e"></span>            Long increment<span style="color:#f92672">=((</span>index2<span style="color:#f92672">-</span>index1<span style="color:#f92672">)/(</span>num_processadors<span style="color:#f92672">-</span>1<span style="color:#f92672">));</span>
+
+            ExecutorService servei<span style="color:#f92672">=</span>Executors<span style="color:#f92672">.</span><span style="color:#a6e22e">newFixedThreadPool</span><span style="color:#f92672">(</span>num_processadors<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">long</span> sumaTotal<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span> i<span style="color:#f92672">&lt;</span>num_processadors<span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
+
+                <span style="color:#66d9ef">long</span> ini<span style="color:#f92672">=</span>index1<span style="color:#f92672">+</span>increment<span style="color:#f92672">*</span>i<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">long</span> fin<span style="color:#f92672">=</span>index1<span style="color:#f92672">+</span>increment<span style="color:#f92672">*(</span>i<span style="color:#f92672">+</span>1<span style="color:#f92672">)-</span>1<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>fin<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">)</span> fin<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+
+                Future<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">&gt;</span> resultat<span style="color:#f92672">=</span>servei<span style="color:#f92672">.</span><span style="color:#a6e22e">submit</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Suma<span style="color:#f92672">(</span>ini<span style="color:#f92672">,</span>fin<span style="color:#f92672">));</span>
+
+                <span style="color:#66d9ef">while</span><span style="color:#f92672">(!</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                    Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>200<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">isDone</span><span style="color:#f92672">())</span> sumaTotal<span style="color:#f92672">=</span>sumaTotal<span style="color:#f92672">+</span>resultat<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">();</span>
+
+            <span style="color:#f92672">}</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Suma total: &#34;</span><span style="color:#f92672">+</span>sumaTotal<span style="color:#f92672">);</span>
+            servei<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdown</span><span style="color:#f92672">();</span>
+
+
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">catch</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-introducció">1. Introducció</a></li>
+    <li><a href="#2-threads-en-java">2. Threads en Java</a>
+      <ul>
+        <li><a href="#21-creació-de-threads">2.1. Creació de threads</a></li>
+        <li><a href="#22-exemples">2.2. Exemples</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-mètodes-sincronitzats-synchronized">3. Mètodes sincronitzats: <em>Synchronized</em></a></li>
+    <li><a href="#4-coordinació-de-threads-el-problema-dels-productors-i-consumidors">4. Coordinació de threads. El problema dels productors i consumidors</a></li>
+    <li><a href="#5-callable-i-executor">5. Callable i Executor</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

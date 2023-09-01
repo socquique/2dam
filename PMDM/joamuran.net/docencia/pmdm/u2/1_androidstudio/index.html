@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>1. Android Studio i Kotlin. Primers pasos.</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.html">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.html">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_arquitecturaapps/index.html">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_elemensui/index.html">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../4_recyclerview/index.html">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../5_eventsrecyclerview/index.html">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../6_menus/index.html">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.html">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.html">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>1. Android Studio i Kotlin. Primers pasos.</h1>
+        </header>
+        <h2 id="1-android-studio">1. Android Studio</h2>
+<p>Android Studio és un IDE basat en JetBrains IntelliJ Idea per al desenvolupament en Android.</p>
+<p>Les principals característiques d&rsquo;aquest IDE són:</p>
+<ul>
+<li>És distribuït sota llicència Apache 2.0 (lliure)</li>
+<li>Està desenvolupat en Java, C i C++</li>
+<li>Fa ús de Gradle per a la construcció de paquets</li>
+<li>Refactorització de codi</li>
+<li>Entorn WYSIWYG (What you see is what you get)</li>
+<li>Ofereix supoert per a aplicacions Android Wear /Wear OS, per a dispositius corporals (wereables),</li>
+<li>Ofereix emupadors de dispositius virtuals per executar i depurar apliccions</li>
+</ul>
+<h2 id="2-installació">2. Instal·lació</h2>
+<p>El lloc web d&rsquo;Android Studio (<a href="https://developer.android.com/studio">https://developer.android.com/studio</a>) ens ofereix la possibilitat de descarregar i instal·lar l&rsquo;IDE en qualsevol plataforma.</p>
+<p>Al nostre cas, per tal de facilitar la instla·lació, en Ubuntu/Justix farem ús d&rsquo;Ubuntu Make.</p>
+<p>Amb Ubuntu make, per tal d&rsquo;instal·lar només haurem de fer:</p>
+<pre><code>$ umake android android-studio
+</code></pre><p>Aquesta ordre ens demanarà el nostre usuari i contrassenya de root. Posteriorment, ens demanarà el directori on fer la instal·lació (generalment <code>/home/nom_usuari/.local/share/umake/android/android-studio</code>), i finalment, que acceptem la llicència.</p>
+<p>Després d&rsquo;estes preguntes, descarregarà tot allò que necessita per començar la instal·lació (aquest procés tardarà una estoneta&hellip; són més de 1.5GB de disc).</p>
+<p>Una vegada instal·lat, és possible que hajam de reiniciar la sessió per tal de poder accedir a ell.</p>
+<p><img src="../img/splash.png" alt="Inici de Androd Studio"></p>
+<p>LA primera vegada que iniciem Android Studio, se&rsquo;ns obre un assistent per fer la configuració de l&rsquo;IDE:</p>
+<p><img src="../img/assistent1.png" alt="Assistent d&rsquo;Android Studio"></p>
+<p><img src="../img/assistent2.png" alt="Assistent d&rsquo;Android Studio"></p>
+<p>En aquest cas, anem a seleccionar l&rsquo;opció estàndard.</p>
+<p>La següent pantalla d&rsquo;aquest assistent, ens demana el tema, presentant-nos un tema fosc (Darcula) i un tema més clar (Light):</p>
+<p><img src="../img/assistent3.png" alt="Assistent d&rsquo;Android Studio"></p>
+<p>L&rsquo;últim que ens demana és que configurem els diferents components del SDK. Deixarem els components que apareixen de forma predeterminada: <strong>Android SDK</strong> i l'<strong>API 30: Android 10.0+)</strong>. El que sí que haurem de modificar és la ruta per a la instal·lació del SDK, que per omissió ens marca la mateixa on tenim l&rsquo;Android Studio:</p>
+<p><img src="../img/assistent4.png" alt="Assistent d&rsquo;Android Studio"></p>
+<p>Modifiquem aquest ruta al nostre home, per exemple: <code>~/.local/share/Android/Sdk</code> (que caldrà crear prèviament):</p>
+<p><img src="../img/assistent5.png" alt="Assistent d&rsquo;Android Studio"></p>
+<p>La següent pantalla ens mostrarà un ressum de la instal·lació que es va a realitzar, fem click en <em><strong>Següent</strong></em>.</p>
+<p>Finalment, l&rsquo;assistent detecta que ens trobem a un sistema Linux i ens permet habilitar la virtualització basada en el kernel (KVM) per tal d&rsquo;executar l&rsquo;emulador d&rsquo;Android en el mode de rendiment accelerat.</p>
+<p>Al lloc web <a href="https://developer.android.com/studio/run/emulator-acceleration?utm_source=android-studio#vm-linux">https://developer.android.com/studio/run/emulator-acceleration?utm_source=android-studio#vm-linux</a> se&rsquo;ns explica com podem habilitar KVM per fer açò.</p>
+<blockquote>
+<p>Per comprovar si tenim kvm habilitat, podem fer ús de l&rsquo;ordre <code>kvm-ok</code> del paquet <code>cpu-checker</code>:</p>
+<pre><code>$ kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+</code></pre></blockquote>
+<p>Quan li donem click a <code>Finish</code> començarà amb la descàrrega i instal·lació de tot el programari que necessita.</p>
+<p>Finalitzat aquest procés d&rsquo;instal·lació, ja tindrem disponible la pantalla de benvinguda.</p>
+<h2 id="3-primers-passos-amb-android-studio">3. Primers passos amb Android Studio</h2>
+<p>Després de la instal·lació, i sempre que tornem a obrir Android Studio, se&rsquo;ns presenta una finestra de benvinguda semblant a la següent:</p>
+<p><img src="../img/androidStudio1.png" alt="Finestra Inicial d&rsquo;Android Studio"></p>
+<p>Des de la que podrem fer vàries coses, tals com:</p>
+<ul>
+<li>Iniciar un projecte nou</li>
+<li>Obrir un projecte que ja existeix al nostre ordinador</li>
+<li>Obtenir un projecte des d&rsquo;un sistema de control de versions</li>
+<li>Depurar aplicacions</li>
+<li>Importar altres projectes creats amb altres IDEs</li>
+<li>Importar codis d&rsquo;exemple</li>
+</ul>
+<p>Per tal de fer un xicotet exemple d&rsquo;Hola Món, seleccionarem la primera <em>Start a New Android Project</em> per començar un projecte nou.</p>
+<p>Després ens demanarà que triem la plataforma per a la que anem a desenvolupar el nostr projecte i el tipus de projecte. Android Studio ens permet desenvolupar aplicacions per a diferents dispositius, tals com telèfons i tauleta, wereables, televisors, cotxes o IoT (Internet of Things).</p>
+<p><img src="../img/androidStudio2.png" alt="Selecció de la plataforma i tipus de projecte"></p>
+<p>Pel que fa al tipus de projecte, que triarem a la part de baix, se&rsquo;ns ofereix una sèrie de platilles predissenyades per començar. Per fer una aplicació de tipus <em>Hola Món</em> senzilla seleccionarem <em>Empty Activity</em>, per tal que siga una aplicació consistent en una única pantalla.</p>
+<blockquote>
+<p>En Android, les diferents <em>pantalles</em> que conformen una aplicació es coneixen com <em>Activities</em> o Activitats.</p>
+</blockquote>
+<p>En la pròxima pantalla se&rsquo;ns demanen algunes dades del projecte, com el llenguatge i el SDK mínim que suportarem. Triarem el llenguatge Kotlin i la el SDK mínim Android 5.</p>
+<p><img src="../img/androidStudio3.png" alt="Afegint informació de l&rsquo;aplicació"></p>
+<blockquote>
+<h4 id="quin-sdk-escollir">Quin SDK escollir?</h4>
+<p>Escollir un SDK mínim dependrà de les funcionalitats que necessitem a la nostra aplicació i de la quantitat de dispositius als què volem arribar.</p>
+<p>Si modifiquem el SDK, veurem que a la part de baix ens va canviant el percentatge de dispositius per als què funcionaria la nostra aplicació. Com més baixet triem l&rsquo;SDK arribarem a més dispositius, però no tindrem totes les funcionalitats de les últimes versions de l&rsquo;API de l&rsquo;SDK. En canvi, si triem un SDK amb major nivell d&rsquo;API, tindrem més funcionalitats, peró la nostra aplicació serà suportada per menys dispositius.</p>
+<p>Per ajudar-nos en la selecció, Android Studio ens ofereix si fem click a <em>Help me choose</em> un ressum dels diferents SDKs que suporta, junt amb el nivell de l&rsquo;API i les principals característiques d&rsquo;aquest, així com el percentatge de dispositius que la suportaríen.</p>
+<p><img src="../img/androidStudio4.png" alt="Versions de la plataforma d&rsquo;Android"></p>
+</blockquote>
+<p>Una vegada tenim les característiques del projecte definides, donem clic a finalitzar per a que ens genere tot el projecte.</p>
+<h3 id="31-la-interfície-dandroid-studio">3.1. La interfície d&rsquo;Android Studio</h3>
+<p>Una vegada generat el projecte se&rsquo;ns obri la següent finestra:</p>
+<p><img src="../img/androidStudio5.png" alt="El nostre projecte en Android"></p>
+<p>Poc a poc anirem descobrint detalls d&rsquo;aquesta interfície, però com veiem, no dista molt dels IDEs que ja coneixem. A la següent imatge podem veure les parts principals d&rsquo;aquesta interfície:</p>
+<p><img src="../img/interficie.png" alt="Interfície d&rsquo;Android Studio"></p>
+<p>En ella distingim:</p>
+<ul>
+<li>La <strong>barra d&rsquo;eines</strong> per gravar, obrir, construir o executar el programa, entre d&rsquo;altres opcions,</li>
+<li>La <strong>barra de navegació</strong>, per explorar el projecte,</li>
+<li>La <strong>finestra de l&rsquo;editor</strong>, on tenim el codi o el disseny de l&rsquo;aplicació,</li>
+<li>La <strong>barra de la finestra d&rsquo;eines</strong>, que envolta tot l&rsquo;IDE i conté botons per expandir o contraure finestres d&rsquo;eines individuals,</li>
+<li>Les <strong>Finestres d&rsquo;Eines</strong>, amb diverses utilitats, com l&rsquo;administració de projectes, recerca de text, control de versions, finestra de depuració, etc. A la finestra de l&rsquo;esquerra d&rsquo;Administració del projecte, podem veure que apareixen diverses <em>vistes</em> del nostre projecte. Les que més utilitzarem serà la pròpia del projecte (Project), la de fitxers (Project Files) o la d&rsquo;Android.</li>
+</ul>
+<p>Podem trobar més informació sobre la interfície a la web de desenvolupadors d&rsquo;Android: <a href="https://developer.android.com/studio/intro?hl=es-419">https://developer.android.com/studio/intro?hl=es-419</a></p>
+<h3 id="32-la-vista-de-fitxers-del-projecte">3.2. La vista de fitxers del projecte</h3>
+<p>Centrant-nos ara en aquesta finestra lateral d&rsquo;eines per vore com s&rsquo;ha estructurat el projecte generat i com es mostra a les diferents vistes. Anem a seleccionar la vista de <em>Project Files</em> per veure més clar tota l&rsquo;estructura generada:</p>
+<p><img src="../img/androidStudio6.png" alt="Fitxes del projecte"></p>
+<p>Com veiem, es tracta d&rsquo;una estructura molt semblant a la dels projectes en Gradle que ja hem vist. En la carpeta arrel, disposem dels wrappers per a Windows (gradlew i gradlew.bat), alguns fitxers de configuració, de git, i el més important: el fitxer build.graddle, de configuració del projecte. Si l&rsquo;obrim veurem que està expressat en el format <em>Groovy</em> que ja coneixem i que inclou alguns repositoris i dependències, però no inclou cal classe per llançar l&rsquo;aplicació.</p>
+<p>Per altra banda, veiem que no existeix el directori <code>src</code> típic amb el codi font, però en canvi, tenim una carpeta <code>app</code> (que com veurem després, defineix un <em>mòdul</em>). Si obrim aquesta carpeta, veurem que dins tenim la carpet a<code>src</code> de fonts, més una carpeta buida per a llibreries, i altre fitxer <code>build.gradle</code>. Si obrim aquest fitxer, veurem un codi semblant a aquest:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">apply plugin: <span style="color:#e6db74">&#39;com.android.application&#39;</span>
+apply plugin: <span style="color:#e6db74">&#39;kotlin-android&#39;</span>
+apply plugin: <span style="color:#e6db74">&#39;kotlin-android-extensions&#39;</span>
+
+android <span style="color:#f92672">{</span>
+    compileSdkVersion <span style="color:#ae81ff">30</span>
+    buildToolsVersion <span style="color:#e6db74">&#34;30.0.2&#34;</span>
+
+    defaultConfig <span style="color:#f92672">{</span>
+        applicationId <span style="color:#e6db74">&#34;com.ieschabas.pmdm.holamon&#34;</span>
+        minSdkVersion <span style="color:#ae81ff">21</span>
+        targetSdkVersion <span style="color:#ae81ff">30</span>
+        versionCode <span style="color:#ae81ff">1</span>
+        versionName <span style="color:#e6db74">&#34;1.0&#34;</span>
+
+        testInstrumentationRunner <span style="color:#e6db74">&#34;androidx.test.runner.AndroidJUnitRunner&#34;</span>
+    <span style="color:#f92672">}</span>
+
+    buildTypes <span style="color:#f92672">{</span>
+        release <span style="color:#f92672">{</span>
+            minifyEnabled <span style="color:#66d9ef">false</span>
+            proguardFiles <span style="color:#a6e22e">getDefaultProguardFile</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;proguard-android-optimize.txt&#39;</span><span style="color:#f92672">),</span> <span style="color:#e6db74">&#39;proguard-rules.pro&#39;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#f92672">...</span>
+</code></pre></div><p>Com veiem, apareix una nova secció <code>android</code>, i el plugin <code>com.android.application</code>, junt amb algunes coses més. Android Studio afig un complement d&rsquo;Android per als projectes Gradle, que ofereix algunes capacitats específiques per a Android. Els projectes en Gradle, permeten aqueta flexibilitat de tindre un fitxer de compilació <code>build.gradle</code> de nivell superior per a tot el projecte, i fitxers de compilació <code>build.gradle</code> a nivell de mòduls independents. Quan importem un projecte existent, Android Studio generarà automàticament aquests fitxers de compilació.</p>
+<p>Un altre detall curiós és que a diferència d&rsquo;un projecte Kotlin, la carpeta <code>src/main</code> conté una subcarpeta <code>java</code>, encara que el codi que conté siga kotlin.</p>
+<p>Per altra banda, la carpeta de recursor <code>resources</code>, ara s&rsquo;anomenarà <code>res</code>, i recordem que contindrà tots els recursos de la nostra aplicació. En projectes Android, aquesta carpeta rep encara més rellevància, ja que a banda d&rsquo;imatges, emmagatzema també el codi XML de les interfícies d&rsquo;usuari.</p>
+<p>Dins aquesta carpeta <code>src/main</code>, també tenim el fitxer <code>AndroidManifest.xml</code>, amb informació sobre l&rsquo;aplicació i els seus recursos (nom, icona, tema, activitat principal, etc.)</p>
+<h3 id="33-la-vista-android">3.3. La vista Android</h3>
+<p>Si canviem a la vista d&rsquo;Android, veurem els diferents mòduls de què consta el nostre projecte.</p>
+<p><img src="../img/androidStudio7.png" alt="Vista Android"></p>
+<blockquote>
+<h4 id="estructura-dun-projecte-android-studio">Estructura d&rsquo;un projecte Android Studio</h4>
+<p>Cada projecte Android Studio inclou un o més mòduls amb fitxers de codi font i recursos. Aquests tipus de mòduls poden ser:</p>
+<ul>
+<li>Mòduls d&rsquo;Apps per a Android</li>
+<li>Mòduls de biblioteca</li>
+<li>Mòduls de Google App Engine</li>
+</ul>
+</blockquote>
+<p>Al notre cas, només disposem d&rsquo;un mòdul anomenat <code>app</code>, i dins d&rsquo;ell distingim tres carpetes:</p>
+<ul>
+<li>La carpeta <code>manifest</code> amb el fitxer <code>AndroidManifest.xml</code>,</li>
+<li>La carpeta <code>java</code>, amb els diferents fonts i tests,</li>
+<li>La carpeta <code>res</code>, amb els diferents recursos de l&rsquo;aplicació.</li>
+</ul>
+<p>A mé també tenim accés als diferents scripts de Gradle i fitxers de configuració.</p>
+<h2 id="4-execució-de-laplicació">4. Execució de l&rsquo;aplicació</h2>
+<p>Tinguem en compte que encara no hem afegit cap línia de codi a banda del què ens genera automàticament el projecte.</p>
+<p>Anem a llançar ara l&rsquo;aplicació, de manera que puguem veure aquesta <em>empty activity</em> de què consta.</p>
+<p>Per a això, farem clic en el <em>Play</em> de la barra d&rsquo;eines, i observem què passa:</p>
+<p><img src="../img/androidStudio8.png" alt="Error de dispositiu"></p>
+<p>Què ha passat? Doncs que no tenim cap <em>dispositiu</em> sobre el que llançar l&rsquo;aplicació.</p>
+<p>Per configurar doncs un dispositiu tenim dues opcions:</p>
+<ul>
+<li>Fer ús d&rsquo;un emulador, o bé</li>
+<li>Executar-lo en un dispositiu físic</li>
+</ul>
+<p>Anem a fer ús d&rsquo;un emulador. Per a això, ens fixem en la marra d&rsquo;eines, al desplegable que de moment marca <em>No Devices</em>:</p>
+<p><img src="../img/androidStudio9.png" alt="Obrir AVD Manager"></p>
+<p>Fem clic en ell, per obrir ara el <em>AVD Manager</em>. Dins d&rsquo;aquest, crearem un dispospositiu nou (<em>Create Virtual Device</em>).</p>
+<p>És important escollir un dispositiu que dispose de Google Play, com per exemple el Pixel 3. Després triarem el sistema operatiu que volem en ell. En el nostre cas, hem triat Android 10. Tingueu en compte que caldrà descarregar el sistema abans de continuar, el que pot ser un procés bastant costós, segons tot el què estiguem instal·lant (Sistema operatiu, playstore,etc.)</p>
+<p><img src="../img/AVD.png" alt="Creació del dispositiu"></p>
+<p>I ara ja, finalment, podem llançar l&rsquo;aplicació en el dispositiu emulat, i com veurem, mostra el missatge <em>Hola Mon</em>.</p>
+<p><img src="../img/HolaMon.png" alt="Hola Món"></p>
+<blockquote>
+<h4 id="activant-la-virtualització-a-lemulador">Activant la virtualització a l&rsquo;emulador</h4>
+<p>Una vegada tenim l&rsquo;emulador descarregat, podem activar l&rsquo;acceleració de la màquina virtual.</p>
+<p>Per a això, només cal que, des de la línia d&rsquo;ordres activem el paràmetre <code>-accel-check</code> de l&rsquo;emulador. Si hem instal·lat el SDK en <code>~/.local/share/Android/Sdk</code>, podem activar-ho amb:</p>
+<pre><code> ~/.local/share/Android/Sdk/emulator/emulator -accel-check
+</code></pre><p>Disposeu de més informació sobre l&rsquo;acceleració de la màquina virutal i gràfica al següent enllaç:</p>
+<ul>
+<li><a href="https://developer.android.com/studio/run/emulator-acceleration?hl=es">https://developer.android.com/studio/run/emulator-acceleration?hl=es</a></li>
+</ul>
+</blockquote>
+<h2 id="5-fitxers-dactivities-i-layouts">5. Fitxers d&rsquo;Activities i Layouts</h2>
+<p>Com hem dit, cada pantalla de la nostra aplicació rep el nom d'<em>Activity</em>. Aquestes pantalles, tindran dos fitxers associats, el corresponent a la interfície, que es trobarà com un recurs, dins la carpeta <code>src</code> i fitxer de codi font.</p>
+<p>Per a la finestra principal de la nostra aplicació <em>MainActivity</em>, disposem del següent fitxer font <em>MainActivity.kt</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieschabas.pmdm.holamon
+
+<span style="color:#66d9ef">import</span> androidx.appcompat.app.AppCompatActivity
+<span style="color:#66d9ef">import</span> android.os.Bundle
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+}
+</code></pre></div><p>La sintaxi d&rsquo;aquest codi ens és familiar. En primer lloc, defineix el paquet <code>com.ieschabas.pmdm.holamon</code> i importa un parell de llibreríes.</p>
+<p>Després, defineix la classe MainActivity com a una classe descendent de la classe AppCompatActivity, i està sobreescrivint el seu mètode <code>onCreate</code>. Aquest mètode rep un objecte de tipus <em>Bundle</em> anomenat savedInstanceState, que pot ser nul (?). A més, dins d&rsquo;ell, invoca el mètode onCreate de la seua classe pare, passant-li el mateix objecte. Poc a poc anirem veient què és tot açò.</p>
+<p>Per altra banda, als recursos del sistema tenim, dins la carpeta <code>layout</code> el fitxer <code>activity-main.xml</code>. Tot i ser un fitxer XML, Android Studio ens mostra una interfície WYSIWYG (<em>What you see is what you get</em>), de manera que veiem el <em>disseny</em> de la pantalla, junt amb diferents elements d&rsquo;interfície que podríem afegir, simplement, arrossegant i soltant en aquesta.</p>
+<p><img src="../img/dissenyador.png" alt="Dissenyador d&rsquo;interfífies"></p>
+<p>Com veiem, aquesta vista de disseny del Layout ens permet modificar tant les propietats dels objectes que tenim a l&rsquo;activitat, a través de les <em>Propietats del component</em> i les seues <em>Eines de Disseny</em>, així com afegir nous elements mitjançant la paleta de components i veure com aquests s&rsquo;organitzen mitjançant l'<em>Arbre de components</em>. Si ens fixem en aquest arbre de components, veurem que tenim un component de tipus <em>TextView</em> dins el <em>ConstrantLayout</em>.</p>
+<p>Per altra banda, si volem accedir a consultar el codi d&rsquo;aquesta interfície, ho podem fer amb la barra de botons ubicada a la part superior dreta de la vista de disseny, i on podem alternar entre el codi XML, la vista de disseny o una vista híbrida:</p>
+<p><img src="../img/dissenyador2.png" alt="Dissenyador d&rsquo;interfífies"></p>
+<blockquote>
+<p>Proveu a modificar la propietat <em>Text</em> del <em>TextView</em>, i torneu a llançar l&rsquo;aplicació en l&rsquo;emulador.</p>
+</blockquote>
+<p>Adoneu-vos que en aquest cas, no hem definit el missatge al codi del programa principal Kotlin, sinò que el misstge està definit dins la pròpia interfície. No obstant això, aquest missatge es pot modificar des del propi codi Kotlin.</p>
+<p>Per altra banda, podem consultar l&rsquo;XML de la interfície, per veure&rsquo;n quin format té i com s&rsquo;expressen aquests atributs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">tools:context=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/TextPrincipal&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;Bon dia!&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toBottomOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintLeft_toLeftOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintRight_toRightOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toTopOf=</span><span style="color:#e6db74">&#34;parent&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div><h2 id="6-enllaçant-layout-i-activities">6. Enllaçant Layout i Activities</h2>
+<p>Kotlin disposa d&rsquo;un mecanisme bastant senzill per enllaçar els diferents Layouts i les Activities.</p>
+<p>Abans que res, tornem al disseny, i arrosseguem un objecte de tipus <em>botó simple</em> a qualsevol lloc de la vista prèvia, i li modifiquem el text de dins, modificant la propietat <em>text</em>.</p>
+<p>Una altra cosa important que farem és <strong>afegir un id tant al botó com al TextView</strong>. Aquest <em>id</em> ens servirà per referir-nos a ells posteriorment.</p>
+<p><img src="../img/androidStudio11.png" alt="Obrir AVD Manager"></p>
+<p><img src="../img/androidStudio12.png" alt="Obrir AVD Manager"></p>
+<p>Podem</p>
+<p>Ara tornem al codi Kotlin, i afegim el següent import:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> kotlinx.android.synthetic.main.activity_main.*
+</code></pre></div><p>Amb això, <em>importarem</em> els elements d&rsquo;interfície de la vista <em>activity_main</em>.</p>
+<p>Ara, anem a modificar el codi del mètode onCreate amb el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        boto1.setOnClickListener { TextPrincipal.text=<span style="color:#e6db74">&#34;Bon dia a tu també!&#34;</span> }
+    }
+</code></pre></div><p>Veiem per damunt alguns detalls d&rsquo;aquest codi:</p>
+<ul>
+<li>Estem sobreescrivint el mètode <code>onCreate</code> de la classe <code>AppCompatActivity</code>.</li>
+<li>Aquest mètode és realment una funció de <em>callback</em> (<em>retorn de crida</em> en la documentació) en resposta a l&rsquo;event de creació de l&rsquo;Activity. Com veurem més endavant, una Activity té un cicle de vida, al llarg del qual ocórren determinats esdeveniments. En aquest cas, estem associant una funció de callback que es llançarà quan es cree (<code>onCreate</code>) l&rsquo;activitat. Tot i que ho veurem més endavant, podem trobar informació sobre el cicle de vida d&rsquo;una Activity en <a href="https://developer.android.com/guide/components/activities/activity-lifecycle?hl=es">https://developer.android.com/guide/components/activities/activity-lifecycle?hl=es</a></li>
+<li>El mètode de <em>callback</em> <code>onCreate</code> rep un objecte de tipus <code>Bundle</code> un tipus <em>nullable</em> (?) anomenat <code>savedInstanceState</code>, amb l&rsquo;estat de l&rsquo;activitat si aquest havia estat guardat.</li>
+<li>El primer que fa aquest <em>callback</em> serà invocar el mètode <code>onCreate</code>, de la seua classe pare, passant-li també l&rsquo;estat com a argument.</li>
+<li>Després, actualitzem la vista amb el contingut de <em>Resource Layout</em> <code>activity-main.xml</code>. Per a això fem ús de la càsse estàtica <code>R.layout</code>, i accedim al seu <code>activity_main</code>.</li>
+<li>Ara, per accedir als elements d&rsquo;aquesta vista, com que els tenim importats, ho podem fer de forma directa. La línia:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    boto1.setOnClickListener { TextPrincipal.text=<span style="color:#e6db74">&#34;Bon dia a tu també!&#34;</span> }
+</code></pre></div><p>Accedeix a l&rsquo;element de la interfície <code>boto1</code>, al qual li associa un <em>Event Listener</em> per a quan es fa click sobre ell (<code>setOnClickListener</code>). Aquesta funció de callback, el que fa és accedir a l&rsquo;element de la interfície <code>TextPrincipal</code> i modificar la seua propietat <code>text</code>. Recordeu que tot i que estem accedint a través de <code>.text</code>, realment estem accedint al mètode <code>get</code> que Kotlin ha generat per a aquest atribut.</p>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-android-studio">1. Android Studio</a></li>
+    <li><a href="#2-installació">2. Instal·lació</a></li>
+    <li><a href="#3-primers-passos-amb-android-studio">3. Primers passos amb Android Studio</a>
+      <ul>
+        <li></li>
+        <li><a href="#31-la-interfície-dandroid-studio">3.1. La interfície d&rsquo;Android Studio</a></li>
+        <li><a href="#32-la-vista-de-fitxers-del-projecte">3.2. La vista de fitxers del projecte</a></li>
+        <li><a href="#33-la-vista-android">3.3. La vista Android</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-execució-de-laplicació">4. Execució de l&rsquo;aplicació</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#5-fitxers-dactivities-i-layouts">5. Fitxers d&rsquo;Activities i Layouts</a></li>
+    <li><a href="#6-enllaçant-layout-i-activities">6. Enllaçant Layout i Activities</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

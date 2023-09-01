@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>Unitat 1. Tecnologies per a aplicacions en dispositius mòbils</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 1. Programació Concurrent</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="index.html">Unitat 1. Tecnologies per a aplicacions en dispositius mòbils</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>Unitat 1. Tecnologies per a aplicacions en dispositius mòbils</h1>
+        </header>
+        <h2 id="1-introduccó">1. Introducció</h2>
+<p>En aquesta unitat introductòria, anem a fer un breu repàs a les principals tecnologíes de què disposem a l&rsquo;hora d&rsquo;abordar la programació d&rsquo;una aplicació per a dispositius mòbils.</p>
+<p>Imaginem-nos que volem desenvolupar una aplicació mòbil. Què és el primer que ens vindría al cap? Amb quin llenguatge programar-la? En quin entorn? Per a quins dispositius? Mòbil? Tauleta? Rellotge intel·ligent? Televisió?</p>
+<p>Es tracta d&rsquo;una pregunta un tant més complexa que quan ens plantegem fer una aplicació per a PC.</p>
+<p>Com sabem, existeixen diverses plataformes i sistemes operatius per a dispositius mòbils. Anem a veure els principals.</p>
+<h3 id="11-android">1.1. Android</h3>
+<p>Android és un SO desenvolupat per Google i basat en el Kernel de Linux, fabricat específicament per a dispositius mòbils amb pantalla tàctil: telèfons mòbils, tauletes, rellotges intel·ligents, televisors o fins i tot, alguns cotxes.</p>
+<p>L&rsquo;estrucutra d&rsquo;Android es compon d&rsquo;aplicacions que s&rsquo;executen en un framework Java d&rsquo;aplicacions orientades a objectes sobre el nucli de les biblioteques de Java. La màquina virutal de Java sobre la que s&rsquo;executen aquestes aplicacions era Dalvik fins la versió 5.0, per canviar en versions posteriors a l&rsquo;entorn Android Runtime (ART). La principal diferència entre estes màquines virtual era que Dakvik realitzava la compilació en temps d&rsquo;execució, mentre que ART compila el Java bytecode durant la instal·lació de l&rsquo;aplicació.</p>
+<p>Les llibreríes que s&rsquo;utilitzen estan escrites en llenguatge C, i inclouen un administrador d&rsquo;interfície gràfica (surface manager), un framework OpenCore, una base de dades relacional SQLite, una interfície de programació gràficaOpenGL ES 2.0 3D, un motor de renderitzat WebKit, un motor gràfic SGL, SSL i una llibería estàndard de C.</p>
+<p>Amb tot açò, el llenguatge per al desenvolupament en Android ha estat tradicionalment Java. Recentment, Google ha adoptat el llenguatge Kotlin com a llenguatge oficial de programació en Android, que és un llenguatge més potent i que genera codi executable directament a la JVM.</p>
+<h3 id="12ios">1.2.IOs</h3>
+<p>L&rsquo;iOS és el sistema operatiu més venut per darrere d&rsquo;Android, i és propietat de la multinacional Apple. Va ser creat per a l&rsquo;iPhone, i posteriorment adoptat en l&rsquo;iPod touch i l&rsquo;iPad. IOS no permet la instal·lació en maquinari d&rsquo;altres companyíes.</p>
+<p>iOS aporta diversos elements de control, com lliscadors, interruprots i botons, donant una resposta a les ordres de l&rsquo;usuari immediata i una intericie fluïda. L&rsquo;usuari pot interactuar amb el sistema operatiu mitjançant gestos, lliscaments, tocs, pessics&hellip;</p>
+<p>iOS deriva de macOS, i aquest de Darwin BSD, que és un sistema opratiu de tipus Unix.</p>
+<p>L&rsquo;arquitectura d&rsquo;iOS compta amb quatre capes d&rsquo;abstracció: la capa del nucli del OS, la capa de <em>Serveis Principals</em>, la capa de <em>mitjans</em> i la capa de <em>Cocoa Touch</em></p>
+<p>El desenvolupament d&rsquo;aplicacions de forma nativa per a iOS passa per llenguatges com Objective-C i Swift.</p>
+<h2 id="2-tipus-daplicacions-mòbils">2. Tipus d&rsquo;aplicacions mòbils</h2>
+<p>Tal i com hem vist, el desenvolupament d&rsquo;una aplicació mòbil que funcione de forma nativa en determinat dispositiu passa pel desenvolupament en les tecnologíes pròpies d&rsquo;aquest.</p>
+<p>No obstant això, existeixen diverses tencologíes que amb els seus avantatges i inconvenients pretenen abarcar el desenvolupament multiplataforma en el seu sentit més ampli.</p>
+<p>Tenint en compte la <em>proximitat</em> al codi natiu de cada plataforma, podem distingir diferents tipus d&rsquo;aplicaicons (de la menys pròxima a la més):</p>
+<ul>
+<li>Aplicacions responsive (Webapps)</li>
+<li>Aplicacions híbrides</li>
+<li>Aplicacions web progressibes (PWAs)</li>
+<li>Apliccions compilades</li>
+<li>Aplicacions natives</li>
+</ul>
+<p><img src="img/pwas.png" alt="PWA Frameworks"></p>
+<p>Expliquem primer aquesta última i anem acostant-nos a ella poc a poc.</p>
+<h3 id="21-aplicacions-natives">2.1. Aplicacions natives</h3>
+<p>Són aquelles que es desenvolupen específicament per al sisema operatiu en què es van a executar, i per tant, aprofitaran millor tots els seus recursos. A més, permeten accedir a totes les funcionalitats de les plataformes, i sempre tindrem disponible abans que ningú qualsevol novetat o característica nova.</p>
+<p>Per al desenvolupament natiu en Android utilitzarem Java o Kotlin, mentre que pera Android Objective-C i Swift (iOS), i no es necessita cap pas addicional per portar el codi a codi natiu (bytecode).</p>
+<p>Tot açò dóna com a resultat aplicacions fluïdes i que ofereixen la millor experiència d&rsquo;usuari. Com a punt negatiu, tindrem un increment del cost de producció i manteniment.</p>
+<h3 id="22-aplicacions-web-responsive-webapps">2.2. Aplicacions web responsive (webapps)</h3>
+<p>Es tracta d&rsquo;aplicacions basades en tecnología web: <em>HTML+CSS+Javascript</em>, i que per tal d&rsquo;executar-se, necessiten únicament un navegador web. El fet de ser <em>responsive</em> implica que la seua interfície s&rsquo;adapte a qualsevol dispositiu.</p>
+<p>Per a aquest tipus d&rsquo;aplicaicons, no és necessari desenvolupar res en codi natiu, i són totalment multiplataforma, ja que per executar-se ho fan sobre el propi navegador web del sistema operatiu en què estiguen, bé siga Android, iOS, Windows, Linux o Mac.</p>
+<p>Així doncs, disposem d&rsquo;un únic codi per executar-se en totes les plataformes, amb la contra que no oferiran una experiència de navegació tan bona a l&rsquo;usuari com les apps natives, sobretot si es tracta d&rsquo;apliccions complexes.</p>
+<h3 id="23-aplicacions-híbries">2.3. Aplicacions híbrides</h3>
+<p>Les aplicacions híbrides fan referència a aquelles que utilitzen tecnología web per construïr un lloc web en HTML+CSS+JS i carreguen aquest en un <em>webview</em>. Un <em>webview</em> no és més que un navegador web sense la barra de navegació i altres opcions, de manera que aparentment, és com si fos una aplicació nativa del dispositiu.</p>
+<p>A més, les aplicacions híbrides poden accedir a través d&rsquo;aquest navegador a algunes característiques del dispositiu, com la ubicació, acceleròmetres, etc.</p>
+<p>Els frameworks més utilitzats per a aquest tipus d&rsquo;aplicacions són <em><strong>Ionic i Phonegap</strong></em>. Es tracta de dos frameworks molt utilitzats per desenvolupadors d&rsquo;aplicaicons web per tal de realitzar aplicacions per a dispositius mòbils. La idea rere estos frameworks és senzilla: S&rsquo;empaqueta l&rsquo;aplicació web, en codi HTML+CSS+JS junt amb el <em>webview</em>. Aquest component sí que estarà en codi natiu per a cada sistema, però l&rsquo;aplicació web és exactament la mateixa. El desavantatge d&rsquo;aquestes tecnologíes és que reaccionen d&rsquo;una forma més lenta, ja que s&rsquo;han de comunicar amb el lloc web per tal d&rsquo;obtenir gran part dels continguts.</p>
+<p>Aquest tipus d&rsquo;aplicacions, sería equiparable a tecnologies com <em>Electron</em> o <em>nwjs</em> en entorns d&rsquo;escriptori.</p>
+<h3 id="24-aplicaicons-web-progressives">2.4. Aplicaicons web progressives</h3>
+<p>Un poc més a prop de les aplicacions natives estan les aplicacions web prgressives, que estan revolucionant el panorama actual. Aquestes aplicacions incrementen i avancen en les funcionalitats segons el dispositiu mòbil en què vagen a executar-se, per tal de treure&rsquo;n major potencial (s&rsquo;adapten de forma <em>progressiva</em> al dispositiu)</p>
+<p>Aquestes aplicacions aporten a l&rsquo;usuari gran part dels avantatges de les aplicacions natives, però amb el desenvolupament en base a tecnologíes web. A més, a diferència de les aplicacions híbrides, permeten el funcionament sense connexió o amb mala connexió al servidor.</p>
+<p>Hi ha multitud de frameworks per al desenvolupament de PWAs, entre els que es troben els principals frameworks per a desenvolupament web: React PWA Libraty, Angular PWA Framework, Vue PWA Framework, Ionic PWA Framework, Svelte, PWA Builder o Polymer.</p>
+<p><img src="../img/pwas.png" alt="PWA Frameworks"></p>
+<h3 id="25-aplicacions-compilades">2.5. Aplicacions compilades</h3>
+<p>Es tracta de tecnologíes que pretenen utilitzar només un llenguatge de programació per tal de generar aplicacions mòbils natives. La idea general és treballar amb una única tecnología i llenguatge de programació i que el codi compilat que es genera, siga codi natiu a les diferents plataformes.</p>
+<p>Algunes de les tencologíes més utilitzades en aquest tipus d&rsquo;aplicaicons són:</p>
+<ul>
+<li>
+<p><strong>React Native i Native Script</strong>: <em><strong>React</strong></em> és un framework creat per Facebook, que utilitza el llenguatge Javascript i la llibrería React, el què permet crear interfícies basades en els seus components. En aquestes aplicacions, el codi javascript s&rsquo;executa en un fil d&rsquo;execució a banda, mentre que els elements de la interfície d&rsquo;usuari són compilats a llenguatge màquina. Per la seua banda, <em><strong>NativeScript</strong></em> ens permet crear aplicacions natives mitjançant Javascript pur o bé utilitzant altres llibreríes com Angular o Vue. També porta diversos components preconstruïts per utilitzar a les interfícies d&rsquo;usuari. A l&rsquo;igual que React Navive, no treballen amb HTML.</p>
+</li>
+<li>
+<p><strong>Flutter</strong>: És un framework desenvolupat i mantingut per Google, que utilitza el llenguatge de programació <em>Dart</em>. La idea és que s&rsquo;escriga tot el codi en Dart, i es compile a codi natiu que s&rsquo;execute completament al dispositiu. Així doncs, Flutter sí que compila a ARM i genera llibreríes C/C++, pel que età més a prop del codi natiu, i per tant és més ràpid. La forma de treballar de Flutter és dissenyar interfícies d&rsquo;usuari anomenades <em>widgets</em>. Flutter ja compta amb  uns sèrie de widgets predeterminats, com botons, barres de navegació, etc.</p>
+</li>
+</ul>
+<h3 id="alguns-enllaços-dinterès">Alguns enllaços d&rsquo;interès</h3>
+<ul>
+<li><a href="https://americavirtual.net/desarrollo-aplicaciones-multiplataforma/">https://americavirtual.net/desarrollo-aplicaciones-multiplataforma/</a></li>
+<li><a href="https://medium.com/@noebranagan/https-medium-com-noebranagan-hablemos-de-multiplataforma-2ba36fb25265">https://medium.com/@noebranagan/https-medium-com-noebranagan-hablemos-de-multiplataforma-2ba36fb25265</a></li>
+<li><a href="https://www.21twelveinteractive.com/flutter-vs-react-native-vs-ionic-vs-nativescript/">https://www.21twelveinteractive.com/flutter-vs-react-native-vs-ionic-vs-nativescript/</a></li>
+<li><a href="https://www.ftxinfotech.com/blog/react-native-vs-ionic-vs-flutter-vs-phonegap/">https://www.ftxinfotech.com/blog/react-native-vs-ionic-vs-flutter-vs-phonegap/</a></li>
+</ul>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-introduccó">1. Introducció</a>
+      <ul>
+        <li><a href="#11-android">1.1. Android</a></li>
+        <li><a href="#12ios">1.2.IOs</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-tipus-daplicacions-mòbils">2. Tipus d&rsquo;aplicacions mòbils</a>
+      <ul>
+        <li><a href="#21-aplicacions-natives">2.1. Aplicacions natives</a></li>
+        <li><a href="#22-aplicacions-web-responsive-webapps">2.2. Aplicacions web responsive (webapps)</a></li>
+        <li><a href="#23-aplicacions-híbries">2.3. Aplicacions híbries</a></li>
+        <li><a href="#24-aplicaicons-web-progressives">2.4. Aplicaicons web progressives</a></li>
+        <li><a href="#25-aplicacions-compilades">2.5. Aplicacions compilades</a></li>
+        <li><a href="#alguns-enllaços-dinterès">Alguns enllaços d&rsquo;interès</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

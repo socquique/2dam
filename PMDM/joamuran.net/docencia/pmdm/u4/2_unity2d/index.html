@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>Jocs de plataformes amb Unity</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 4. Unity 3d</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../1_unity/index.html">Introducció a Unity</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.html">Jocs de plataformes amb Unity</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>Jocs de plataformes amb Unity</h1>
+        </header>
+        <h2 id="1-introducció">1. Introducció</h2>
+<p>En aquesta segona sessió de Unity anem a sentar les bases per a la creació d&rsquo;un joc 2D de plataformes. Tot el que veiem, serà aplicable també a jocs 3D.</p>
+<p>Partirem d&rsquo;un projecte de tpus 2D buit. Quan el carreguem, vorem que la interfície és la mateixa que pera 3D, amb la diferència que la vista de l&rsquo;escena es mostra en 2D (tot i que podem canviar-la a 3d).</p>
+<p>El primer que farem serà afegir alguns GameObjects a l&rsquo;escena, junt amb els components més bàsics, per començar a treballar les físiques i la interacció, i posteriorment ja anirem enriquint els gràfics i depurant alguns aspectes.</p>
+<p>Com a base de la sessió, i per ampliar coneixements, tenim curs d&rsquo;openWebinars <a href="https://openwebinars.net/academia/aprende/unity-videojuegos-2d/1880/"><em>Unity i Videojuegos 2D</em>, de José Vázquez.</a></p>
+<h2 id="2-creant-lescena-i-el-personatge">2. Creant l&rsquo;escena i el personatge</h2>
+<p>El primer que farem serà configurar una escena inicial i el nostre personatge, al que posteriorment dotarem de propietats, físiques, etc.</p>
+<p>Cal tindre en compte que com anem a fer un joc 2D, els GameObjects que utilitzarem es troben a la categoria <em>2D Object</em>. Dins d&rsquo;esta categoria podem vore com tenim diversos elements que podem afegir a l&rsquo;escena. Començarem pels més senzills, els <em>sprites</em>.</p>
+<blockquote>
+<p><strong>Sprite</strong></p>
+<p>Un sprite és un tipus de mapa de bits que es crea en la pantalla de l&rsquo;ordinador a partir d&rsquo;una imatge. Aplicat al món dels videojocs 2D són un conjunt d&rsquo;imatges que representen de forma gràfica personatges, objectes o part d&rsquo;ells, i creen efectes de moviment o canvis d&rsquo;estat.</p>
+<p>En Unity, els sprites són objectes gràfics 2D, als que podrem associar-los imatges, i que podríen comparar-se a les textures dels polígons quan treballem en 3D.</p>
+</blockquote>
+<p>Anem a crear un objecte 2D de tipus <em>Sprite</em>, al que anomenarem <em>Plataforma1</em>. Quan el creem, aquest GameObject no serà visible, ja que haurem d&rsquo;associar-li una imatge. Si ens fixem en l&rsquo;Inspector, veurem que aquest té, per una banda el component <em>Transform</em> que han de tindre tots els GameObjects per tal de poder posicionar-los a l&rsquo;escena, i també té un component <em>Sprite Renderer</em>. Aquest component serà el que li dóne forma i color a l&rsquo;sprite. A més, haurem d&rsquo;afegir-li un component de tipus <strong>Box Collider 2D</strong>, de manera que l&rsquo;objecte siga capaç de detectar col·lisisons. Dins aquest component podem ajustar diversos paràmetres, entre ells, les vores que tindrà el propi collider.</p>
+<p><img src="../img/2DCreaSprite.png" alt="Creació de l&rsquo;sprite per a una plataforma"></p>
+<p>Dins les opcions del component <em>Collider</em> tenim, entre d&rsquo;altres l&rsquo;opció de <em>Is Trigger</em>. Si marquem aquesta opció, en lloc de <em>xocar</em> amb altres elements, el que farà és llançar un esdeveniment, que podrem capturar i reaccionar a ell. Per exemple, si volem detectar quan el personatge passa per determinat lloc per llançar-li un projectil, podem fer-ho d&rsquo;aquesta manera.</p>
+<p>Bñe, Una vegada creada la plataforma, sobre la mateixa base, podem crear algunes plataformes més (podem duplicar-les amb <code>Ctrl + D</code>), i variar-los la posició i el tamany, per crear una escena més completa.</p>
+<p>en segon lloc, crearem el personatge, i ho farem de la mateixa manera, com un sprite amb detecció de col·lissions, i a més, amb un component <strong>Rigibody 2D</strong>:</p>
+<p><img src="../img/2DCreaPersonatge.png" alt="Creació de l&rsquo;sprite per al personatge"></p>
+<p>Pel que fa a les propietats del <em>rigibody</em>, veiem que podem ajustar molts paràmetres, entre ells la gravetat, la massa de l&rsquo;objecte o la forma en què es detecten les col·lissions, entre d&rsquo;altres. Amb aquesta última podem triar entre <em>Contínua</em>, amb un major consum de recursos o <em>Discreta</em>, amb menys recursos, però amb la possibilitat que no es detecte correctament si l&rsquo;objecte va molt de pressa.  Un altre aspecte interessant d&rsquo;aquest component són les <em><strong>Constraints</strong></em>. Amb elles podem determinar si un objecte va a quedar-se aturat bé en l&rsquo;eix x o y, o si volem o no que realitze rotacions sobre l&rsquo;eix z, amb el qual, el personatge podría quedar-se cap per avall si tenim activat.</p>
+<p>Més o menys, el resultat de l&rsquo;escena vindria a ser alguna cosa semblant a:</p>
+<p><img src="../img/2DescenaInicial.png" alt="Creació de l&rsquo;sprite per al personatge"></p>
+<p>Si reproduïm l&rsquo;escena polsant a Play, vorem com l&rsquo;objecte cau (perquè és un rigibody 2D i per tant li afecta la física 2D), i es manté a la plataforma, ja que ambdos elements tenen un component <em>Box Collider 2D</em>. Proveu a deixar caure el personatge a prop del cantó d&rsquo;una plataforma i observeu-ne el seu comportament, si tenim activada o no la <em>Constraint</em> de la rotació sobre l&rsquo;eix z.</p>
+<p>Fixeu-vos també que el que col·lissiona són, evidentment els colliders, de manera que pot donar la sensació que l&rsquo;sprite del personatge està <em>sobrevolant</em> la plataforma. Recordem que podem ajustar els colliders per a que aquest efecte desaparega, però de moment, no ens preocuparem d&rsquo;això, i ho ajustarem quan ja tinguem definits els gràfics per a cada sprite.</p>
+<h2 id="3-movent-el-personatge">3. Movent el personatge</h2>
+<p>Per tal de moure el personatge, ho farem mitjançant un script. Per a això, en la carpeta del projecte, ens crearem una nova carpeta per a <em>Scripts</em>, i dins d&rsquo;aquesta, afegirem un nou script anomenat <em>Personatge.cs</em> (l&rsquo;extensió la posa autompaticament). Aquest script, per defecte té el següent codi autogenerat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> System.Collections;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> UnityEngine;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Personatge</span> : MonoBehaviour
+{
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Start()
+    {
+        
+    }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()
+    {
+        
+    }
+}
+</code></pre></div><p>Recordem que totes les classes que generem, descendiran de la classe <code>MonoBehaviour</code>, que representa els GameObjects, i fa que aquest script es puga associar (<em>attach</em>) com a component a un objecte.</p>
+<p>A més, se&rsquo;ns han generat els mètodes <code>Start</code> i <code>Update</code>. El primer serveix per inicialitzart l&rsquo;objecte, mentre que el segon s&rsquo;invoca en cada generació de frames dins el <em>Game Loop</em> o bucle del joc.</p>
+<blockquote>
+<p><strong>Game Loop</strong></p>
+<p>Si havérem de programar el joc sense fer ús de cap motor (recordeu si l&rsquo;heu feta la pràctica dels óssos i la mel de PSP), afegiríem la major part del codi dins un bucle de l&rsquo;estil <code>while (true){...}</code>. Dins aquest bucle ens encarregaríem de recalcular les posicions dels personatges, actualitzar-les, comprovar si hi ha col·lissions i tornar a dibuixar tota l&rsquo;escena.</p>
+<p>En Unity, i en general en tots els motors de jocs, aquest <em>bucle</em> s&rsquo;anomena el <em>Game Loop</em>. La forma de treballar amb aquest Game Loop és a través de la captura d&rsquo;events. Durant aquest bucle, el motor passa per diferents fases (inicialització, actualització, detecció d&rsquo;entrades, aplicació de físiques, renderització, entre molts altres). En cadascuna d&rsquo;aquestes fases es llancen events que podem capturar des dels nostres scripts, per tal d&rsquo;afegir el comportament desitjat als nostres objectes.</p>
+<p>Podeu donar una ullada a l'<em>Script Lifecicle Flowchart</em> disponible a la documentació de Unity en:</p>
+<ul>
+<li><a href="https://docs.unity3d.com/Manual/ExecutionOrder.html">https://docs.unity3d.com/Manual/ExecutionOrder.html</a></li>
+</ul>
+</blockquote>
+<p>El que farem, per tal de moure el personatge, serà, en cada frame (al mètode <code>Update</code>) vore si s&rsquo;estan prement les tecles o no. Per a això utilitzarem la classe Input, que ens permet detectar les pulsacions de teclat i l&rsquo;entrada en general. Veiem el codi complet dle mètode <code>Uodate</code> i passarem a analitzar-lo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">    <span style="color:#66d9ef">void</span> Update()
+    {
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
+            <span style="color:#75715e">//Movem a l&#39;esquerra
+</span><span style="color:#75715e"></span>            transform.Translate(<span style="color:#66d9ef">new</span> Vector2(-<span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">0.0f</span>));
+        }
+
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
+            <span style="color:#75715e">//Movem a la dreta
+</span><span style="color:#75715e"></span>            transform.Translate(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">0.0f</span>));
+        }
+
+        <span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+            <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span>){
+                GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">300.0f</span>));
+            }
+        }
+     
+    }
+</code></pre></div><h3 id="31-moviment-a-esquerra-i-dreta">3.1. Moviment a esquerra i dreta</h3>
+<p>Per tal d&rsquo;anar a un o a altre costat, fem ús del mètode <code>Input.GetKey</code>, especificant com a artugment les claus de les tecles que volem capturar (<code>KeyCode.A</code>, <code>KeyCode.LeftArrow</code>, <code>KeyCode.D</code>, <code>KeyCode.RightArrow</code>). Observeu com, per a cada tipus de moviment podem detectar una o altra tecla (la A o el cursor a l&rsquo;esquerra) amb un <code>||</code>.</p>
+<p>Cal tindre en compte que amb <em>GetKey</em> detectem l&rsquo;event de mantindre polsada una tecla, a diferència del mètode <em>GeyKeyDown</em>, que utilitzarem després, i que detecta només quan es prem la tecla.</p>
+<p>Ara, per tal d&rsquo;aplicar el moviment, el que farem serà aplicar-li una transformació de moviment, consistent en traslladar aquest a l&rsquo;esquerra. En Unity, i en general en qualsevol sistema de coordenades, aquests moviments s&rsquo;expressaran mitjançant <em>vectors</em> .</p>
+<blockquote>
+<p>En el camp de la física i les matemàtiques, un vector és un segment o recta en l&rsquo;espai que parteix d&rsquo;un punt cap a altre; té una direcció i un sentit, i expressen magnituds vectorials.</p>
+<p>Quan treballem en informàtica gràfica, els vectors (i les matrius) ens són d&rsquo;utilitat per tal d&rsquo;aplicar transformacions geomètriques, com puguen ser trasllacions, rotacions o escalats de figures.</p>
+</blockquote>
+<p>Al nostre cas, per tal de moure l&rsquo;objecte a l&rsquo;esquerra, li afegirem un moviment de trasllació (<code>transform.Translate</code>) amb un vector (-0.1, 0.0) (<code>new Vector2(-0.1f, 0.0f)</code>).</p>
+<p><img src="../img/2Dvectors.png" alt="Vectors en 2D"></p>
+<p>Per a moure el personatge a la dreta, el procediment és el mateix, amb la diferència que el nou vector serà (0.1, 0.0).</p>
+<p>També podríem haver utilitzat <code>Vector3</code> en lloc de <code>Vector2</code>, que s&rsquo;utilitza per a 3D, sense afegir la component <em>Z</em> i interpretaría que en aquest cas la component és 0.</p>
+<h3 id="32-fent-que-bote-el-personatge">3.2. Fent que bote el personatge</h3>
+<p>Per tal de fer que el personatge bote, utilitzarem les tecles <code>W</code>, i <code>UpArrow</code>. La primera diferència respecte a quan va a esquerra o dreta és que només volem que es detecte la tecla quan s&rsquo;ha polsat, per a que el personatge bote. Per això utilitzarem <code>GetKeyDown</code>, en lloc de <code>GetKey</code>, ja que si no, el personatge botaria mentre mantinguérem la tecla polsada. Així doncs, la captació de l&rsquo;Input serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+</code></pre></div><p>Ara anem a vore com fer el bot. Per a això, caldrà <em>donar-li un impuls</em> cap amunt al personatge, cosa que aconseguirem gràcies al component <em>Rigibody</em>, que com sabem, aplica la física a l&rsquo;objecte. Veiem com fer-ho.</p>
+<p>Des d&rsquo;un script podem accedir a tots els components que té associats el GameObject sobre el que s&rsquo;aplica l&rsquo;script. Per obtenir la referència a un component fem ús de <code>GetComponent</code>, especificant el tipus <code>&lt;T&gt;</code>, en aquest cas <code>&lt;Riginody2D&gt;</code>. Amb aquesta referència al component, podem manipular els seus valors i fer ús de mètodes específics que aquests ens ofereixen per al codi. Aixó, anem a fer ús del mètode <code>AddForce</code>, que afig un impuls (una força), cap amunt, tot i que l&rsquo;objecte seguirà sent atret per la gravetat, de manera que simule el bot. Per indicar la <em>direcció</em> del bot ho fem amb un vector en 2D, fent ús de <code>new Vector2(forçaEnX, forçaEnY)</code>. La quantitat que posem de força dependrà dels valors de la gravetat i la massa de l&rsquo;objecte.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs">GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">300.0f</span>));
+</code></pre></div><p>Cal anar amb compte si el component que busquem està o no associat a l&rsquo;objecte, per tal d&rsquo;evitar una excepció de tipus <em>MissingComponentException</em>. Per tal de previndre açò podem fer:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+    <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span>){
+        GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">300.0f</span>));
+    }
+}
+</code></pre></div><p>Ara només ens quedaría afegir aquest component al nostre personatge, i vore com funciona:</p>
+<p><img src="../img/2DaddComportamentPersonatge.png" alt="Aplicant el nou component al personatge"></p>
+<p>Si s&rsquo;adoneu, el personatge pot <em>botar</em> en l&rsquo;aire, ja que no comprovem que per a botar haja d&rsquo;estar en terra. Ho vorem al següent apartat. De tota manera, anem a aprofitar per observar el comportament de la detecció de col·lissions. Proveu a botar diverses vegades en l&rsquo;aire fins que el personatge arribe a una <em>altitud</em> considerable (sobre 200 d&rsquo;altura o més) i deixeu-lo caure. Proveu-ho tant amb el tipus de col·lissió <em>Discrete</em> com <em>Continuous</em> del component <em>Rigibody2D</em> i veieu les diferències.</p>
+<h3 id="33-evitant-els-bots-en-laire-amb-etiquetes">3.3. Evitant els bots en l&rsquo;aire amb etiquetes</h3>
+<p>Les etiquetes ens permetien etiquetar objetes, de manera que podem diferenciar-los mitjançant el codi. Recordeu que per crear noves etiquetes, ho podem fer a la configuració del projecte (<em>Edit &gt; Project Settings &gt; Tags and Layers</em>) o des del mateix desplegable d&rsquo;assignar etiqueta, amb l&rsquo;opció <em>Add Tag</em>.</p>
+<p>Així doncs, anem a etiquetar el GameObject que fa de personatge com a <em>Player</em>, que és una etiqueta existent, i <strong>anem a crear una etiqueta nova, que anomenarem <em>plataforma</em></strong>, i que assignarem a totes les plataformes que tenim (podem seleccionar-les totes d&rsquo;una i afegir l&rsquo;etiqueta).</p>
+<p>Per tal de gestionar si el personatge està botant, crearem una propietat booleana per a la classe i que inicialitzarem a fals:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Personatge</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">bool</span> jumping;
+
+    <span style="color:#66d9ef">void</span> Start() {
+        jumping=<span style="color:#66d9ef">false</span>;
+    }
+    ...
+}
+</code></pre></div><p>Amb això, cada vegada que intentem botar, caldrà comprovar que no s&rsquo;està botant, per tant, quan detectem la pulsació de tecla per al bot, farem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+    <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span> &amp;&amp; !jumping){
+        jumping=<span style="color:#66d9ef">true</span>;
+        GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">300.0f</span>));
+    }
+}
+</code></pre></div><p>Com veiem, hem afegir la comprovació que no estiga botant abans d&rsquo;afegir l&rsquo;impuls, i l&rsquo;hem establert a <em>true</em> quan fem el bot.</p>
+<p>Amb això ja ho tindrem quasi tot, excepte que només podrem botar una vegada, ja que no es restableix el valor de <em>jumping</em> a false. Quan farem això? Quan detectem que <em>acaba</em> el bot? Quan l&rsquo;objecte arribe a terra, o dit d&rsquo;altra manera, <strong>col·lissione amb un objecte que estiga etiquetat com a plataforma</strong>.</p>
+<p>Per tal de detectar les col·lissions des de codi disposem de tres mètodes:</p>
+<ul>
+<li><code>OnCollisionEnter</code>: indica quan es produeix (o s&rsquo;entra) en la col·lissió; al nostre cas, seria quan el personatge toca terra;</li>
+<li><code>OnCollisionStay</code>: indica si s&rsquo;està produint (mantenint) la col·lissió; al nostre cas, es dispararia sempre que el personatge estiguera en una plataforma;</li>
+<li><code>OnCollisionExit</code>:  indica quan s&rsquo;abandona o s&rsquo;ix de la col·lissió; que al nostre cas, seria quan el personate <em>comença el bot</em> i deixa d&rsquo;estar en contacte amb la plataforma.</li>
+</ul>
+<p>Per tant, el que ens interessa és el mètode <code>OnCollissionEnter</code>, de manera que quan toque terra, puguem dir que no està botant, i que per tant pot fer un nou bot. El codi per a això serà el nou mètode:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col){
+    <span style="color:#75715e">//Entra si dos objetos colisionan por primera vez
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(_col.gameObject.tag == <span style="color:#e6db74">&#34;plataforma&#34;</span>)
+        jumping = <span style="color:#66d9ef">false</span>;
+}
+</code></pre></div><p>El mètode <code>OnCollisionEnter2D</code> es dispara quan dos objectes 2D col·lissionen per primera vedaga, i rep un objecte de tipus <code>Collision2D</code> que té informació sobre l&rsquo;objecte amb què s&rsquo;ha col·lissionat (semblant a quan rebem un esdeveniment que hem capturat en Javscript, per exemple). En aquest cas, a l&rsquo;objecte col·lissió l&rsquo;hem anomenat <code>_col</code>. Dins el codi, el que fem és obtenir el <code>gameObject</code> amb què hem col·lissionat i d&rsquo;aquest obtenim el tag <code>etiqueta</code>. Si l&rsquo;etiqueta és <em>plataforma</em>, restaurarem el valor de <em>jumping</em> a <code>false</code>, amb el que ja podrem tornar a botar.</p>
+<h3 id="34-algunes-variacions">3.4. Algunes variacions</h3>
+<p><strong>Doble bot</strong></p>
+<p>Si volem afegir un doble bot, podem mantenir un comptador dels bots consecutius que porta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Personatge</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">bool</span> jumping;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> numBots;
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">void</span> Start()
+    {
+        jumping=<span style="color:#66d9ef">false</span>;
+        numBots=<span style="color:#ae81ff">0</span>;
+    }
+...
+}
+</code></pre></div><p>Per altra banda, caldrà vore, quan botem, si el número de bots que ha donat és inferior a 2, i si no és, permetre que es torne a botar. A més, a cada bot, actualitzarem aquest comptador:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">// Doble bot
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+    <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ((GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span>) &amp;&amp; (!jumping || numBots&lt;<span style="color:#ae81ff">2</span>) ){
+        jumping=<span style="color:#66d9ef">true</span>;
+        numBots++;
+        GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">300.0f</span>));
+        }
+    }
+</code></pre></div><p>A més, caldrà tindre un xicotet detall, i és que quan el personatge col·lissiona amb una plataforma per la part de baix d&rsquo;aquesta, tal i com ho tenim interpretaria que ha tornat a terra, i reinicialitzaria els bots. Per evitar això, podem bé comprovar la velocitat relativa a la que s&rsquo;ha col·lissionat, o el vector <em>normal</em> a la superfície en què s&rsquo;ha col·lissionat. En ambdos casos, el valor d&rsquo;aquests haurà de ser positiu:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col){
+    <span style="color:#66d9ef">if</span>(_col.gameObject.tag == <span style="color:#e6db74">&#34;plataforma&#34;</span> &amp;&amp; _col.contacts[<span style="color:#ae81ff">0</span>].normal.y&gt;<span style="color:#ae81ff">0</span>){  
+        jumping = <span style="color:#66d9ef">false</span>;
+        numBots=<span style="color:#ae81ff">0</span>;
+    }
+}
+</code></pre></div><p><strong>Bot en un o altre sentit</strong></p>
+<p>Altra variació que podríem afegir, per exemple sería que no es puguera controlar el bot en l&rsquo;aire, per donar un efecte més realista. Per a això, caldría comprovar que no s&rsquo;està botant metre es vol girar a un o altre costat, i controlar quan es vol fer un bot cap a un o altre sentit, mitjançant la pulsació de les tecles amunt i esquerra o dreta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">// Bot en un o altre sentit
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Personatge</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">bool</span> jumping;
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    
+    <span style="color:#66d9ef">void</span> Start()
+    {
+        jumping=<span style="color:#66d9ef">false</span>;
+    }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()
+    {
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
+            <span style="color:#75715e">//Movem a l&#39;esquerra
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (!jumping) transform.Translate(<span style="color:#66d9ef">new</span> Vector2(-<span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">0.0f</span>));
+        }
+
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
+            <span style="color:#75715e">//Movem a la dreta
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (!jumping) transform.Translate(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.1f</span>, <span style="color:#ae81ff">0.0f</span>));
+        }
+
+        <span style="color:#66d9ef">if</span> ((Input.GetKeyDown(KeyCode.W) &amp;&amp; Input.GetKey(KeyCode.A)) || (Input.GetKeyDown(KeyCode.UpArrow)&amp;&amp;(Input.GetKey(KeyCode.LeftArrow)))){
+            <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span> &amp;&amp; !jumping){
+                jumping=<span style="color:#66d9ef">true</span>;
+                GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(-<span style="color:#ae81ff">300.0f</span>, <span style="color:#ae81ff">350.0f</span>));
+            }
+        }
+
+        <span style="color:#66d9ef">if</span> ((Input.GetKeyDown(KeyCode.W) &amp;&amp; Input.GetKey(KeyCode.D)) || (Input.GetKeyDown(KeyCode.UpArrow)&amp;&amp;(Input.GetKey(KeyCode.RightArrow)))){
+            <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span> &amp;&amp; !jumping){
+                jumping=<span style="color:#66d9ef">true</span>;
+                GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">300.0f</span>, <span style="color:#ae81ff">350.0f</span>));
+            }
+        }
+
+        <span style="color:#75715e">// És important detectar açò després dels bots cap a un o altre costat, ja que en cas contari sempre executaria aquest primer!!
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)){
+            <span style="color:#75715e">//Botem
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (GetComponent&lt;Rigidbody2D&gt;()!=<span style="color:#66d9ef">null</span> &amp;&amp; !jumping){
+                jumping=<span style="color:#66d9ef">true</span>;
+                GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">350.0f</span>));
+            }
+        }
+     
+    }
+
+    <span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col)
+    {
+        <span style="color:#66d9ef">if</span>(_col.gameObject.tag == <span style="color:#e6db74">&#34;plataforma&#34;</span> &amp;&amp; _col.contacts[<span style="color:#ae81ff">0</span>].normal.y==<span style="color:#ae81ff">1</span>){
+            jumping = <span style="color:#66d9ef">false</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="4-afegint-enemics">4. Afegint enemics</h2>
+<p>Per als enemics anem a fer ús dels <em>prefabs</em>. Crearem un enemic abans que res, i a partir d&rsquo;ell generarem un <em>prefab</em>, de manera que pogam crear vàries instànvies a partir d&rsquo;aquest mitjançant codi.</p>
+<p>Per tal de generar l&rsquo;enemic, farem de manera semblant al personatge:</p>
+<ul>
+<li>Crearem un Sprite en la posició (0, 3.24) i d&rsquo;escala (5, 5)</li>
+<li>El component Sprite Renderer serà de tipus <em>UISprite</em> i de color roig,</li>
+<li>Li afegim un component Rigibody 2D, al que congelem la rotació en Z,</li>
+<li>Li afegim un Box Collider 2D</li>
+</ul>
+<p><img src="../img/2DEnemic1.png" alt="Característiques inicials de l&rsquo;enemic"></p>
+<p>Ara ens quedarà afegir-li comportament, ja que de moment, només es veu afectat per la gravetat. Per a això, crearem un script <em>Enemic</em> amb el següent contingut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> System.Collections;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> UnityEngine;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Enemic</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">float</span> direccio;
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">bool</span> triaDireccio(){
+        <span style="color:#75715e">// Decideix si anar a esquerra o dreta
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>)&lt;<span style="color:#ae81ff">0.5f</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+    }
+    <span style="color:#66d9ef">void</span> Start()
+    {
+        direccio=<span style="color:#ae81ff">0.0f</span>;   
+    }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()
+    {
+        
+     transform.Translate(<span style="color:#66d9ef">new</span> Vector2(direccio, <span style="color:#ae81ff">0.0f</span>));   
+    }
+
+<span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col)
+    {
+        <span style="color:#75715e">// Cada vegada que toquem terra, decidim si anar a dreta o esquerra
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(_col.gameObject.tag == <span style="color:#e6db74">&#34;plataforma&#34;</span>){
+            <span style="color:#66d9ef">if</span> (triaDireccio()) 
+                direccio=<span style="color:#ae81ff">0.1f</span>;
+            <span style="color:#66d9ef">else</span> direccio=-<span style="color:#ae81ff">0.1f</span>;
+        }
+    }
+
+}
+</code></pre></div><p>Hem afegit un mètode protegit a dins anomenat <code>triaDireccio</code>, que ens retorna aleatòriament <em>True</em> o <em>False</em>, fent ús del mètode <code>Random.Range</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">bool</span> triaDireccio(){
+    <span style="color:#75715e">// Decideix si anar a esquerra o dreta
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">1.0f</span>)&lt;<span style="color:#ae81ff">0.5f</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+}
+</code></pre></div><p>Aquest mètode l&rsquo;utilitzem quan l&rsquo;objecte enemic col·lissione amb una plataforma, de manera que cada vegada que toque terra, decidirà si va a dreta o esquerre, modificant el valor de <em>direccio</em>.</p>
+<p>Finalment, <strong>recordeu que heu d&rsquo;afegir aquest script com a un component més de l&rsquo;enemic!</strong>.</p>
+<p>Amb açò, ja tindrem l&rsquo;enemic <em>tipus</em> creat, a partir del qual podem crear el <em>prefab</em>. Per a això, creem una nova carpeta <em>Prefabs</em> dins d'<em>Assets</em> i l&rsquo;arrosseguem a dins. Observeu com canvien les icones de l&rsquo;objecte en estos moments.</p>
+<p><em><strong>Eliminant enemics</strong></em></p>
+<p>Tal i com ho tenim plantejat, quan els enemics <em>ixen</em> de l&rsquo;escena, aquests segueixen caient infinitament. Necessitem doncs d&rsquo;algun mecanisme que ens permeta <em>eliminar</em> els enemics que isquen de l&rsquo;escena. Per a això, fem ús d&rsquo;un GameObject, que situarem baix l&rsquo;escena, i que s&rsquo;encarregarà d&rsquo;eliminar tots els enemics que col·lissionen amb ell.</p>
+<p><img src="../img/2DDestructorEnemics.png" alt="Destructor d&rsquo;enemics"></p>
+<p>I li afegirem com a component un nou Script que anomenarem <em>DestructorEnemics.cs</em>. Fixeu-vos en el mètode <code>OnCollisionEnter</code>i els comentaris que hi apareixen:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> System.Collections;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> UnityEngine;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DestructorEnemics</span> : MonoBehaviour
+{
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Start()    {   }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()  {   }
+
+    <span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col)
+    {
+        <span style="color:#66d9ef">if</span> (_col.gameObject.tag == <span style="color:#e6db74">&#34;Enemic&#34;</span>)
+        {
+            <span style="color:#75715e">// Desactivem l&#39;enemic, per a que ja no tinga
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// cap interacció
+</span><span style="color:#75715e"></span>            _col.gameObject.SetActive(<span style="color:#66d9ef">false</span>);
+
+            <span style="color:#75715e">// I l&#39;eliminem, amb una xicoteta pausa, ja que
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// pot ser un procés costós
+</span><span style="color:#75715e"></span>            Destroy(_col.gameObject, <span style="color:#ae81ff">0.5f</span>);
+        }
+    }
+
+</code></pre></div><p><em><strong>Creant nous enemics</strong></em></p>
+<p>Fins ara hem creat un enemic i l&rsquo;hem convertit en un <em>prefab</em>, de manera que el <em>GameObjecte</em> que teníem a l&rsquo;escena ara és una instància d&rsquo;aquest <em>prefab</em>.</p>
+<p>El que ara volem és generar, mitjançant codi diferents enemics, tots amb el comportament d&rsquo;aquest primer que hem creat, o el que és el mateix, volem generar instàncies d&rsquo;aquest <em>prefab</em>.</p>
+<p>Per a això, creemm un GameObject buit que anomenarem <em>GeneradorEnemics</em>, i al que afegirem el següent Script:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> System.Collections;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> UnityEngine;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GeneradorEnemics</span> : MonoBehaviour
+{
+
+    <span style="color:#66d9ef">public</span> GameObject enemicOriginal;
+    
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> ixEnemic(){
+        <span style="color:#75715e">// Decideix ix o no un enemic
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (Random.Range(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">100.0f</span>)&lt;<span style="color:#ae81ff">1.0f</span>) {
+            GameObject.Instantiate(enemicOriginal, transform.position, transform.rotation);
+        }
+    }
+
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Start()
+    {
+        
+    }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()
+    {
+        ixEnemic();
+    }
+    
+}
+</code></pre></div><p>Fixem-nos en un parell de detalls importants:</p>
+<ul>
+<li>Hem definit, com a public un <em>GameObject</em> al que li hem dit enemicOriginal.</li>
+<li>El mètode Update, en cada iteració invoca el mètode <code>ixEnemic()</code>, que el que fa és amb un 1% de probabilitat (en cada frame!) instanciar un <em>GameObject</em>, a partir d'<code>enemicOriginal</code>, en la posició i transformacions de l&rsquo;objecte actual (GeneradorEnemics).</li>
+</ul>
+<p>Fixeu-vos que amb açò, no li diem que genere objectes de tipus enemic, sinò GameObject en general. Si tornem ara a la interfície, veurem com, en el component d&rsquo;aquest Script que hem afegit, ens apareix l&rsquo;opció d&rsquo;establir qui és aquest <em>Enemic Original</em>:</p>
+<p><img src="../img/2DGeneradorEnemics.png" alt="Component d&rsquo;script del Generador d&rsquo;enemics"></p>
+<p>Amb això, el que farem és arrossegar el prefab de l&rsquo;enemic que hem creat a aquest buit <em>None (Game Object)</em> per a que siga aquest tipus de prefab el que es genere. Comproveu ara també que el prefab té la posició a (0, 0), per tal que comence en la pròpia posició del generador.</p>
+<h3 id="41-atacant-als-enemics">4.1. Atacant als enemics</h3>
+<p>Anem a proporcionar al joc dos possibles formes d&rsquo;atacar els enemics: llançant-los algun tipus d&rsquo;objecte o botant-los a sobre. Per a això farem el següent:</p>
+<p><strong>Llançant objectes</strong></p>
+<p>Per tal d&rsquo;implementar els dispars, crearem un <em>Prefab</em>, a partir del qual instanciem els dispars cada vegada que l&rsquo;usuari polse la tecla d&rsquo;espai. En eixe moment, es llançarà un objecte que es destruirà bé en caure a terra o bé en col·lissionar amb un enemic. En eixe cas, l&rsquo;enemic també serà destruit.</p>
+<p>El primer que farem serà crar un <em>GameObjecte</em> de tipus <em>Sprite</em>, com hem fet fins ara, de color blau i dimensions 2x2. A aquest GameObjecte li afegirem un component <em>Rigibody 2d</em> i altre <em>Collider 2d</em>, li posarem per nom &ldquo;Dispar&rdquo;, i li afegim tant una etiqueta com una nova capa (Layer), anomenades les dues <em>Dispar</em>.</p>
+<p>Fet això, crearem un script <code>Dispar.cs</code> que haurem d&rsquo;afegfir també com a component. Una vegada ho tinguem, l&rsquo;arrosseguem a la carpeta de Prefabs i l&rsquo;eliminem de l&rsquo;escena. Farem amb el dispar igual que amb els enemics; així com amb els enemics els instanciàvem al generador d&rsquo;enemics de manera aleatòria, ara generarem un dispar quan l&rsquo;usuari pressione la tecla d&rsquo;espai.</p>
+<p>Per tal de possibilitar açò, anem a afegir algunes modificacions en l&rsquo;script del jugador:</p>
+<ul>
+<li>En primer lloc, afegirem un Gameobject públic, anomenat <strong>disparOriginal</strong>, i un altre valor enter (posicio) que indique si el personatge està mirant a un o altre costat, ja que això determinarà la direcció en què s&rsquo;ha de disparar:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Personatge</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">public</span> GameObject disparOriginal;
+    ...
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> direccio; 
+    
+    <span style="color:#66d9ef">void</span> Start()
+    {
+        ...
+        direccio=<span style="color:#ae81ff">1</span>;
+    }
+    ...
+}
+
+</code></pre></div><p>Amb açò, ja podrem associar en la interfície de Unity el <em>Prefab</em> del dispar amb el <em>dispar Original</em> de la mateixa manera que vam associar l'<em>enemic Original</em> al generador d&rsquo;enemics.</p>
+<p>La forma que tindrem de disparar serà instanciar un objecte de tipus <em>Dispar</em> i donar-li un impuls cap al costat on estiga mirant l&rsquo;usuari. També caldrà tindre en compte si el personatge està movent-se en un moment donat, ja que això afig un impuls <em>extra</em> al dispar (del contrari, el personatge podría <em>espentar</em> els dispars)</p>
+<p>També haurem d&rsquo;actualitzar el mètode Update amb el següent (afegim només les parts que caldrà incorporar):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">void</span> Update()
+    {
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
+            ...
+            direccio=-<span style="color:#ae81ff">1</span>;
+        }
+
+        <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
+            ...
+            direccio=<span style="color:#ae81ff">1</span>;
+        }
+
+        ...
+
+        <span style="color:#66d9ef">if</span> (Input.GetKeyDown(KeyCode.Space)){
+            <span style="color:#75715e">// Quan pressione espai, llançarem un dispar
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Aquest dispar serà una instanciació del GameObject que s&#39;associarà en la interfície (Dispar)
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// i que tindrà la mateixa posició i rotació que el personatge.
+</span><span style="color:#75715e"></span>            GameObject dispar=GameObject.Instantiate(disparOriginal, transform.position, transform.rotation);
+            
+            <span style="color:#75715e">// Si el personatge està caminant li afegirem un impuls al dispar
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">float</span> impuls=<span style="color:#ae81ff">0.0f</span>;
+            <span style="color:#66d9ef">if</span> (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || 
+                Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow )) <span style="color:#75715e">// Està caminant
+</span><span style="color:#75715e"></span>                impuls=<span style="color:#ae81ff">300.0f</span>;
+
+            <span style="color:#75715e">// I ara afegim una força al Rigibody2D del dispar, segons la direcció que porte i l&#39;impuls:
+</span><span style="color:#75715e"></span>            dispar.GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(direccio*(impuls+<span style="color:#ae81ff">200.0f</span>), <span style="color:#ae81ff">100.0f</span>));
+        }
+    }
+</code></pre></div><p>I completarem l&rsquo;script de la classe Dispar per detectar les col·lissions:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dispar</span> : MonoBehaviour
+{
+    
+    <span style="color:#66d9ef">void</span> Start() {}
+
+    <span style="color:#66d9ef">void</span> Update(){}
+
+    <span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col)
+    {
+        <span style="color:#66d9ef">if</span> (_col.gameObject.tag == <span style="color:#e6db74">&#34;Enemic&#34;</span>)
+        {
+            <span style="color:#75715e">// Desactivem l&#39;enemic, per a que ja no tinga
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// cap interacció
+</span><span style="color:#75715e"></span>            _col.gameObject.SetActive(<span style="color:#66d9ef">false</span>);
+
+            <span style="color:#75715e">// I l&#39;eliminem, amb una xicoteta pausa, ja que
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// pot ser un procés costós
+</span><span style="color:#75715e"></span>            Destroy(_col.gameObject, <span style="color:#ae81ff">0.5f</span>);
+        }
+
+        <span style="color:#75715e">// Quan el dispar col·lissione amb un enemic o amb una plataforma, es
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// destrueix també.
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Amb gameObject accedim directament al gameObject al què estiga
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// associat l&#39;script.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (_col.gameObject.tag == <span style="color:#e6db74">&#34;Enemic&#34;</span> || _col.gameObject.tag == <span style="color:#e6db74">&#34;plataforma&#34;</span>)
+            Destroy(gameObject, <span style="color:#ae81ff">0.1f</span>);
+        }
+    }
+}
+
+</code></pre></div><p>En aquest punt, cal tindre un xicotet detall en compte, i és que heu d&rsquo;evitar que els dispars col·lissionen amb el propi <em>Personatge</em>. Per a això utilitzarem capes, ubicant el Personatge en una capa (<em>Layer</em>) nova i ajustant la matriu de col·lissions de la configuració del projecte per a que aquestes dos capes no col·lisionen:</p>
+<p><img src="../img/2DMatriuColDispars.png" alt="Matriu de col·lissions per als dispars"></p>
+<p>Ara, anem a modificar l&rsquo;script del personatge per a que també puguem eliminar els enemics botant-los al damunt. Per a això, quan detectem una col·lissió amb un enemic, comprovarem el vector <em>normal</em> igual que hem fet per detectar si hem caigut sobre una superfície, de manera que si la component <code>y</code> d&rsquo;aquest vector és positiva, vol dir que hem botat a sobre i que per tant cal destruir l&rsquo;enemic:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">void</span> OnCollisionEnter2D(Collision2D _col)
+    {
+        ...
+
+        <span style="color:#75715e">// Col·lisió amb l&#39;enemic
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(_col.gameObject.tag == <span style="color:#e6db74">&#34;Enemic&#34;</span>){
+            <span style="color:#75715e">// Comprovem si li bota per dalt: Si botem sobre l&#39;enemic, ens el carreguem
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>( _col.contacts[<span style="color:#ae81ff">0</span>].normal.y==<span style="color:#ae81ff">1</span>){
+                _col.gameObject.SetActive(<span style="color:#66d9ef">false</span>);
+                Destroy(_col.gameObject, <span style="color:#ae81ff">0.5f</span>);
+            } <span style="color:#66d9ef">else</span> {
+                <span style="color:#75715e">// Xoc amb l&#39;enemic per llevar una vida
+</span><span style="color:#75715e"></span>                GetComponent&lt;Rigidbody2D&gt;().AddForce(<span style="color:#66d9ef">new</span> Vector2(<span style="color:#ae81ff">200.0f</span>*_col.contacts[<span style="color:#ae81ff">0</span>].normal.x, <span style="color:#ae81ff">200.0f</span>));
+                _col.gameObject.GetComponent&lt;Enemic&gt;().canviaDireccio();
+                vides--;
+                <span style="color:#66d9ef">if</span> (vides==<span style="color:#ae81ff">0</span>) UnityEngine.Debug.Log(<span style="color:#e6db74">&#34;GAME OVER&#34;</span>);
+            }
+        }
+    }
+</code></pre></div><h2 id="5-scroll">5. Scroll</h2>
+<p>Com a primera aproximació anem a fer que la càmera seguisca el nostre personatge.</p>
+<p>Per a això, creem creem un nou script per afegir-lo a la càmera principal, que li direm <em>ControlCamera.cs</em>. El codi d&rsquo;aquest Script serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ControlCamera</span> : MonoBehaviour
+{
+    <span style="color:#66d9ef">public</span> GameObject player;
+    <span style="color:#66d9ef">private</span> Vector3 position;
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Start()
+    {
+        position=transform.position - player.transform.position;
+    }
+
+    <span style="color:#75715e">// Update is called once per frame
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Update()
+    {
+        transform.position=player.transform.position + position;
+    }
+}
+</code></pre></div><p>Què hem fet? Ens creem dos atributs per a la classe, un GameObject amb el jugador i un <code>Vector3</code> que anomenarem <code>position</code>. Hem utilitzat <code>Vector3</code> en lloc de <code>Vector2</code> perquè així és més fàcil fer les transformacions de posicions.</p>
+<p>En la inicialització de l&rsquo;script el que fem és inicialitzar <code>position</code>, com la diferència entre la posició de la càmera i la del jugador. El resultat d&rsquo;aquesta operació és de tipus <em>Vector3</em> (encara que només guarde 2 dimensions).</p>
+<p><img src="../img/2DPosicioCamera.png" alt="Posicionament inicial de la càmera"></p>
+<p>Una vegada tenim aquest vector, el que farem serà a cada actualització, actualitzar la posició de la càmera segons la posició del personatge i aquest <em>position</em> que ens marcava la diferència inicial entre ambdós.</p>
+<p>Només ens queda associar l&rsquo;script a la càmera i indicar que l&rsquo;atribut <code>player</code> de l&rsquo;script és el <em>GameObject</em> <code>Player</code>, des de la interfície.</p>
+<p><img src="../img/2DControlCamera1.png" alt="Associació del control a la càmera"></p>
+<p>Si executem el joc, veurem que ara, la càmera segueix en tot moment al jugador, de manera que aquest sembla que esitga sempre immòbil i és tot el que es mou al seu voltant. Un efecte no desitjat, és que tal i com ho tenim, el generador d&rsquo;enemics no es mou amb la càmera, de manera que  si ens situem a les plataformes de més amunt, vorem com els enemics es generen del no res, en lloc de caure des de dalt. La solució a aquest problema passa per afegir el generador d&rsquo;enemics com a fill de la càmera, de manera que si es mou la primera, tamé es mou el generador d&rsquo;enemics, i queda sempre fora de la pantalla.</p>
+<blockquote>
+<p><strong>Una altra aproximació</strong></p>
+<p>Altres aproximacions al seguiment de l&rsquo;usuari per part de la càmera passen per definir un rectangle sobre el que el personatge es mou lliurement, però que quan sobrepassa, és quan es mou la càmera. Per a açò solen utilitzar-se diverses capes per tal de gestionar aquestes col·lissions.</p>
+</blockquote>
+<h2 id="6-afegint-grafisme">6. Afegint grafisme</h2>
+<p>Una vegada tenim el prototipus creat, on hem vist com funcionarà el joc, és moment d&rsquo;afegir-li gràfics. Si ens trobem en una empresa on tenim dissenyadors gràfics dedicats, seran aquests els encarregats de l&rsquo;aspecte visual. En cas contrari, podem bé realitzar nosaltres la part gràfica o fer ús de paquets d&rsquo;Assets creats per altres.</p>
+<p>Per a l&rsquo;exemple en què estem, anem a utilitzar l&rsquo;asset <a href="https://assetstore.unity.com/packages/2d/characters/simple-2d-platformer-assets-pack-188518"><em>Simple 2D Platformes Assets Pack</em></a>, que és molt lleuger però suficient per vore el què anem a fer.</p>
+<h3 id="61-plataformes">6.1. Plataformes</h3>
+<p>Per tal de crear noves plataformes, o transformar les que ja tenim, anem a crear un GameObject buit, al que anomenarem <em>NovaPlataforma</em>. Dins d&rsquo;aquest afegirem quatre <em>Sprites 2D</em>:</p>
+<p><img src="../img/2dMesPlataformes1.png" alt="Dissenyant noves plataformes"></p>
+<p>Ara modificarem el component <em>Sprite Renderer</em> de cada <em>Sprite</em>, fent ús de les imatges que hem importat de l&rsquo;Asset Store.</p>
+<p><img src="../img/2dMesPlataformes2.png" alt="Dissenyant noves plataformes"></p>
+<p><img src="../img/2dMesPlataformes3.png" alt="Dissenyant noves plataformes"></p>
+<p>Una vegada tenim la plataforma dissenyada, anem a afegir-li un nou efecte, més interessant per a jocs de plataformes que el <em>Box Collider 2D</em>: El <em>Platform Effector 2D</em>.</p>
+<p>Per a aixó, seleccionarem la plataforma que hem creat (l&rsquo;objece pare), i li afegirem dos components més: <em>Platform Effector</em> i <em>Box Collider 2D</em>, que configurarem de la següent forma:</p>
+<ul>
+<li>Afegirem el tag <em>plataforma</em>, per a que el jugador puga botar al damunt,</li>
+<li>Al component <em>Platform Effector 2D</em> marcarem l&rsquo;opció <em>Use One Way</em>, per a que el personatge només col·lisione per la part de dalt, però no per baix (típic efecte dels jocs de plataformes),</li>
+<li>Enllaçarem el <em>Box Collider 2D</em> amb el <em>Platform Effector</em>, marcant <em>Used By Effector</em>, i finalment</li>
+<li>Posicionarem el Collider per a que coincidisca en la plataforma que hem dissenyat.</li>
+</ul>
+<p><img src="../img/2DplatformEffector2.png" alt="Platform Effector"></p>
+<p><img src="../img/2DplatformEffector1.png" alt="Platform Effector"></p>
+<h3 id="62-animant-personatges">6.2. Animant personatges</h3>
+<p>L&rsquo;animació dels actors de l&rsquo;escena també és una tasca important en quant a l&rsquo;estètica dels videojocs. Unity fa aquesta tasca relativament senzilla, i proporciona eines per dissenyar animacions a partir de conjunts d&rsquo;imatges (sprites).</p>
+<p>Anem a veure una breu introducció a aquest procés en Unity per animar el nostre personatge principal.</p>
+<p>En primer lloc, obrim la carpeta d&rsquo;sprites dins els Assets que havíem descarregat, i busquem <em>Player</em>. Des de l&rsquo;Inspector, ara seleccionem <em>Sprite Editor</em>.</p>
+<p><img src="../img/2DSpliteEditor.png" alt="Ajustos dels Sprites Player"></p>
+<p>Si partim d&rsquo;una imatge plana com aquesta, cal fer un procés de <em>Slicing</em> per separar les diferents posicions del personatge. Per fer això, fem clic a la segona pestanya que apareix a la part superior de l&rsquo;Sprite Editor per veure la finestra de configuració de l&rsquo;Splice. Seleccionem en ella el Type <em>Automatic</em>, Pivot <em>Center</em> i Method <em>Delete Existing</em>:</p>
+<p><img src="../img/2dSPlicing.png" alt="Splicing"></p>
+<p><img src="../img/2DSplicing2.png" alt="Splicing"></p>
+<p>Una vegada seleeccionat, fem clic en <em>Slice</em>, i abans de tancar la finestra farem clic en l&rsquo;Apply, a la part superior.</p>
+<p>Ara només ens queda arrossegar l&rsquo;sprite a l'<em>Sprite</em> del personatge, i des de la finestra d&rsquo;animació (Window &gt; Animation &gt; Animation) podem seleccionar els diferents sprites i arrossegar-los a aquesta.</p>
+<p>L&rsquo;últim pas de l&rsquo;animació, que no hem vist, sería afegir transicions per tal d&rsquo;aplicar diferents animacions al personatge segons l&rsquo;estat en què aquest estiga.</p>
+<p><img src="../img/2DFinestraAnimacio.png" alt="Finestra d&rsquo;Animation"></p>
+<blockquote>
+<p><strong>Pròxims passos</strong></p>
+<p>Fins aci hem vist una breu introducció al desenvolupament de videojocs amb Unity. Si desitgeu ampliar coneixements, recordeu que teniu disponible el curs a OpenWebinars, i moltíssims recursos tant a Internet en general com al propi lloc web d&rsquo;Unity.</p>
+<p>Si voleu saber-ne més, podeu començar per millorar les animacions i aplicar-les a altres objectes, veure l&rsquo;efecte parallax, altres aproximacions al moviment de la càmera, i com gestionar el flux del què seria el joc i els diferents nivells.</p>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-introducció">1. Introducció</a></li>
+    <li><a href="#2-creant-lescena-i-el-personatge">2. Creant l&rsquo;escena i el personatge</a></li>
+    <li><a href="#3-movent-el-personatge">3. Movent el personatge</a>
+      <ul>
+        <li><a href="#31-moviment-a-esquerra-i-dreta">3.1. Moviment a esquerra i dreta</a></li>
+        <li><a href="#32-fent-que-bote-el-personatge">3.2. Fent que bote el personatge</a></li>
+        <li><a href="#33-evitant-els-bots-en-laire-amb-etiquetes">3.3. Evitant els bots en l&rsquo;aire amb etiquetes</a></li>
+        <li><a href="#34-algunes-variacions">3.4. Algunes variacions</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-afegint-enemics">4. Afegint enemics</a>
+      <ul>
+        <li><a href="#41-atacant-als-enemics">4.1. Atacant als enemics</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-scroll">5. Scroll</a></li>
+    <li><a href="#6-afegint-grafisme">6. Afegint grafisme</a>
+      <ul>
+        <li><a href="#61-plataformes">6.1. Plataformes</a></li>
+        <li><a href="#62-animant-personatges">6.2. Animant personatges</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

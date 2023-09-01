@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>5. Gestió d&#39;events als RecyclerView</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.html">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../1_androidstudio/index.html">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_arquitecturaapps/index.html">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_elemensui/index.html">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../4_recyclerview/index.html">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.html">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../6_menus/index.html">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.html">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.html">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>5. Gestió d&#39;events als RecyclerView</h1>
+        </header>
+        <h1 id="gestió-devents-als-recyclwerviews">Gestió d&rsquo;Events als RecyclwerViews</h1>
+<p>Fins ara hem vist com generar un <em>RecyclerView</em> per mostrar un conjunt d&rsquo;Items de forma ordenada. En aquest apartat, el que anem a fer és veure com podem interactuar amb aquesta llista, i respondre a esdeveniments que es produeixen sober ella.</p>
+<p>Per tal d&rsquo;abordar aquest problema, podem optar per dues aproximacions: Gestionar l&rsquo;event directament al component <em>ViewHolder</em>, o bé detectar-lo al <em>ViewHolder</em>, però fer ús de callbacks per gestionar-lo des de l&rsquo;activitat.</p>
+<h2 id="1-tractament-de-levent-al-viewholder">1. Tractament de l&rsquo;event al ViewHolder</h2>
+<p>Aquesta és l&rsquo;opció més senzilla, ja que només hem de realitzar el tractament de l&rsquo;event al ViewHolder.</p>
+<p>Seguirem amb l&rsquo;exemple de les Llistes, al qual només haurem de modificar la classe que implementa el ViewHolder <code>contacteViewHolder</code>. El que anem a fer és que quan es faça un click sobre cadascun dels elements de la llista, es mostre un Toast indicant que hem realitzat esta acció, junt amb el nom del contacte on hem fet clic.</p>
+<p>Per a això, primerament haurem d&rsquo;indicar que la nostra classe, a més de descendir de <code>RecyclerView.ViewHolder</code>, haurà de fer un <em>implements</em> de la interfície <code>View.onClickListener</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">contacteViewHolder</span>(itemView: View) : 
+        RecyclerView.ViewHolder(itemView), 
+        View.OnClickListener {
+            <span style="color:#f92672">..</span>.
+        }
+</code></pre></div><p>Recordem que la interfície <code>OnClicListener</code>, ens obligarà a implementar el mètode <code>onClick</code>, que farem després.</p>
+<p>Abans d&rsquo;això, al bloc <code>init</code> de la classe, haurem d&rsquo;associar la nostra pròpia classe com a gestor de l&rsquo;event de click sobre l&rsquo;element de la vista associat (<code>itemView</code>). En altres paraules, que quan l&rsquo;usuari faça clic sobre la vista del contacte, siga la pròpia classe qui gestione aquest clic:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">init</span> {
+        <span style="color:#75715e">// Indiquem que quan es faça click en la vista del contacte (la fila)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// serà aquesta classe qui gestione eixe event
+</span><span style="color:#75715e"></span>        itemView.setOnClickListener(<span style="color:#66d9ef">this</span>)
+    }
+</code></pre></div><p>I ara finalment, ja només ens quedarà implementar el mètode <code>onClick</code> per gestionar l&rsquo;event. Aquest mètode rebrà l&rsquo;element de tipus vista sobre el que s&rsquo;ha fet el clic, pel que podem obtindre a partir d&rsquo;ella els valors necessaris, en el nostre cas, només el nom:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onClick</span>(v: View?) {
+        <span style="color:#75715e">// Implementem el mètode onClick de la interfície OnClickListener
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Rebem la vista sobre la que s&#39;ha fet el clic, pel que a partir
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// d&#39;ella podem obtindre la informació que necessitem.
+</span><span style="color:#75715e"></span>        
+        <span style="color:#66d9ef">var</span> nom=v<span style="color:#f92672">?.</span>findViewById(R.id.nom) <span style="color:#66d9ef">as</span> TextView;
+        Toast.makeText(v<span style="color:#f92672">?.</span>context, <span style="color:#e6db74">&#34;Click sobre </span><span style="color:#e6db74">${nom.text}</span><span style="color:#e6db74">&#34;</span>, Toast.LENGTH_SHORT).show()
+    }
+</code></pre></div><blockquote>
+<p><img src="../img/projecteHdr.png" alt=""></p>
+<p>Al projecte <em><strong>Llistes2</strong></em> disposeu de la implementació d&rsquo;aquest exemple.</p>
+</blockquote>
+<p>Aquesta és una manera senzilla de respondre als events sobre els diferents elements de la llista, i pot ser útil quan la informació que necessitem es troba en aquesta. Per exemple, un contacte al que volem escriure, un enllaç que volem obrir&hellip; però què passa, per exemple quan volem eliminar també l&rsquo;element de la llista?</p>
+<p>Al següent exemple, veurem com fer la gestió d&rsquo;esdeveniments en <em>RecyclerViews</em> de manera que l&rsquo;event es detecte al <em>ViewHolder</em>, però siga l&rsquo;activitat principal qui indique la funcionalitat a realitzar (i tenint accés també als elements originals de la llista).</p>
+<h2 id="2-gestió-desdeveniments-mitjançant-callbacks">2. Gestió d&rsquo;esdeveniments mitjançant Callbacks</h2>
+<p>Al següent exemple, anem a veure com realitzar la gestió dels esdeveniments des de l&rsquo;activitat principal, fent ús de callbacks. A més, anem a veure també com interactuar amb la llista de contactes original. El que anem a fer ara és que quan es faça clic sobre un element de la llista, aquest s&rsquo;elimine.</p>
+<p>Aleshores, definirem el comportament del click en l&rsquo;activitat principal, però la detecció d&rsquo;aquest s&rsquo;ha de fer en la pròpia vista sober la que es fa el click -el viewHolder.- Per tant, hem de fer arribar aquesta resposta a l&rsquo;esdeveniment des de l&rsquo;activitat principal al viewHolder, i això es farà passant a través de l&rsquo;adaptador.</p>
+<h3 id="21-estenent-ladaptador">2.1. Estenent l&rsquo;Adaptador</h3>
+<p>En l&rsquo;exemple anterior el constructor primari de l&rsquo;adaptador tenia únicament un paràmetre que era el <em>DataSet</em> amb les dades dels contactes. Ara necessitarem un segon paràmetre que serà la funció (callback) que responga als events.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Estem en AdaptadorContactes.kt */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdaptadorContactes</span>(<span style="color:#66d9ef">var</span> llistaPersones: List&lt;Persona&gt;,
+                         <span style="color:#66d9ef">val</span> eventListener: (Persona, View) <span style="color:#f92672">-&gt;</span> Unit ):
+                            RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;(){
+                                <span style="color:#f92672">..</span>.
+                                }
+</code></pre></div><p>L&rsquo;argument immutable <code>eventListener</code> és una expressió lambda, que rebrà com a argument un objecte del tipus del <em>DataSet</em> (al nostre cas, de tipus <code>Persona</code>) i una vista, i que no retorna cap tipus de valor (<em>Unit</em>). Aquesta vista serà sobre la que s&rsquo;haurà fet click, i la persona la corresponent a aquesta vista.</p>
+<blockquote>
+<p><strong>Observació</strong></p>
+<p>Adoneu-se que necessitem tant la vista sobre la que s&rsquo;ha fet click com la persona que aquesta conté.</p>
+<p>Quan creem i fem el bind del ViewHolder, el que es fa és <em>unflar</em> la vista amb l&rsquo;XML, i posar com a valors de <em>Nom</em> i <em>Descripció</em> els de la pesona en qüestió, però realment, no teniem cap referència a aquesta persona. Per tant, per eliminar el contacte, hem d&rsquo;eliminar per una banda la persona de la llista de contactes (l'<em>ArrayList</em> de Persones), i la vista del <em>RecyclerView</em>, per tant, necessitem les dues coses.</p>
+</blockquote>
+<h3 id="22-gestionant-els-events-al-viewholder">2.2. Gestionant els events al ViewHolder</h3>
+<p>Volem que cada element al <em>RecyclerView</em> gestione els esdeveniments que s&rsquo;hi produeixen sobre ells. Estos elements s&rsquo;han de gestionar al <em>ViewHolder</em>, que al nostre cas es diu <code>contacteViewHolder</code>.</p>
+<p>Recordem que pel funcionament del <em>RecyclerView</em>, quan aquest assignava nous continguts a cada posició, l&rsquo;adaptador invocava el mètode <code>bind()</code> per a cada <em>ViewHolder</em> encarregat de la vista de l&rsquo;element.</p>
+<p>Així doncs, serà al <code>bind()</code> on hauerem de gestionar els events. Per a això, afegirem també un nou paràmetre al mètode <code>bind</code>, de manera que, a banda de l&rsquo;objecte amb les dades a enllaçar, s&rsquo;incloga la funció de callback que caldrà invocar quan es faça clic.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Estem en contacteViewHolder.kt */</span>
+<span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bind</span>(contacte: Persona, eventListener: (Persona, View) <span style="color:#f92672">-&gt;</span> Unit ) {
+        <span style="color:#75715e">// Enllaça el nom i la descripció amb la vista actual
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// A més, afig el setOnClickListener sobre la pròpia vista; aquest
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// receptor d&#39;events invocarà el callback que se&#39;ns ha passat com a
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// argument facilitant-li la persona que conté i la vista sobre
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// la que s&#39;ha fet el click (ella mateixa)
+</span><span style="color:#75715e"></span>        nom.text = contacte.nom
+        descripcio.text = contacte.descripcio
+        myView.setOnClickListener{ eventListener(contacte, myView) } <span style="color:#75715e">// Nou
+</span><span style="color:#75715e"></span>    }
+</code></pre></div><p>Dins del <code>bind</code>, associem el listener del <em>click</em> (<code>setOnClickListener</code>) a la vista mitjançant una lambda, dins la qual invoquem la funció que se&rsquo;ns passa com a argument, passant-li el contacte, i la pròpia vista.</p>
+<p>En ressum, quan la vista rep un click, Android invoca el <em>ClickListener</em>, dins el qual, amb una funció lambda invoquem el callback que se&rsquo;ns passa com a argument, passant-li el contacte i la vista actual.</p>
+<p>Amb açò, com que hem afegit un segon paràmetre al mètode <code>bind()</code> del <em>ViewHolder</em>, haurem d&rsquo;afegir aquest paràmeter en la seua invocació. És a dir, haurem de passar-li el mètode (<em>event handler</em>) que s&rsquo;encarregarà de gestionar el click a aquesta funció.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Estem en AdaptadorContactes.kt */</span>
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onBindViewHolder</span>(holder: RecyclerView.ViewHolder, position: Int) {
+        <span style="color:#75715e">// Omple el ViewHolder amb les dades corresponents a la posició indicada
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// dins la llista. Esta posició ens pa proporciona el RecyclerView
+</span><span style="color:#75715e"></span>
+        <span style="color:#75715e">// Per a això, fem un càsting del &#34;holder&#34; que se&#39;ns passa a contactViewHolder
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// per poder utilitzar el nostre mètode bind i associar les dades de la
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// posició concreta en la llista a la vista.
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// A més, també li passarem el callback que gestionarà els clics
+</span><span style="color:#75715e"></span>        (holder <span style="color:#66d9ef">as</span> contacteViewHolder).bind(llistaPersones[position], eventListener);
+    }
+</code></pre></div><p>Per a açò, només hem hagut d&rsquo;afegir a la invocació de <em>bind</em> del <code>onBindViewHolder</code> aquest gestor d&rsquo;events, i que és el que rebem al propi constructor primari de la classe <code>AdaptadorContacte</code>, pel que el tenim com a propietat de la classe.</p>
+<h3 id="23-gestió-de-clicks-al-mainactivity">2.3. Gestió de clicks al MainActivity</h3>
+<p>Ja tenim preparats l&rsquo;adaptador i el <em>ViewHolder</em> per respondre als esdeveniments de clics. Ara només queda gestionar-ho des de la classe principal.</p>
+<p>Per a això anem a crear una funció a banda en <em>mainActivity</em> que gestione els clicks. Aquesta funció, eliminarà l&rsquo;element i mostrarà un Toast indicant que s&rsquo;ha eliminat l&rsquo;element. Aquest callback podría realitzar altres accions molt diverses, com obrir diàlegs, altres activitats, iniciar peticions de xarxa&hellip;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Estem en MainActivity.kt */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">contacteClicked</span>(contacte:Persona, v: View) {
+        <span style="color:#75715e">// Eliminem el contacte de la vista
+</span><span style="color:#75715e"></span>        llistaContactes.remove(contacte)
+
+        <span style="color:#f92672">..</span>.
+
+        Toast.makeText(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#34;Deleted </span><span style="color:#e6db74">${contacte.nom}</span><span style="color:#e6db74">&#34;</span>, Toast.LENGTH_SHORT).show()
+
+    }
+</code></pre></div><p>Com veiem, rebem com a paràmetre el contacte (Persona) i la vista sobre la que s&rsquo;ha fet click.</p>
+<p>En aquest codi anterior, eliminem el contacte de l'<em>ArrayList</em> de Contactes, però encara ens queda eliminar-lo del RecyclerView. Per a això tenim dues aproximacions:</p>
+<ol>
+<li>
+<p>Com que ja s&rsquo;ha eliminat el contacte de la llista de contactes, podem <em>refrescar</em> directament tot l&rsquo;adaptador. Per a això només cal indicar que ha canviat el <em>DataSet</em> de manera que el RecyclerView es redibuixe de nou amb la següent línia:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">RecyclerViewContactes.adapter<span style="color:#f92672">?.</span>notifyDataSetChanged()
+</code></pre></div><p>En ella invoquem el mètode <code>notifyDataSetChanged</code> de l&rsquo;adaptador del <em>RecyclerView</em> per notificar-li que s&rsquo;han modificat les dades que conté, i que per tant l&rsquo;ha de redibuixar tot.</p>
+</li>
+<li>
+<p>L&rsquo;altra opció és notificat que s&rsquo;ha eliminat la posició en concret de la vista. Per a això, farem ús del mètode de l&rsquo;adaptador <code>NotifyItemRemoved</code>, al que caldrà passar-li la posició eliminada. Aquesta posició la trobarem mitjançant el mètode <code>getChildAdapterPosition</code> del <em>RecyclerView</em>, que ens retorna la posició d&rsquo;una vista dins seu.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">var</span> pos=RecyclerViewContactes.getChildAdapterPosition(v)
+RecyclerViewContactes.adapter<span style="color:#f92672">?.</span>notifyItemRemoved(pos)
+</code></pre></div></li>
+</ol>
+<p>Ara només ens queda, quan creem l&rsquo;adaptador, a més de passar-li la llista de contactes, passar-li la funció de callback. Això ho farem amb una lambda que rep el contacte que ha estat clicat (recordem que aquesta funció la invoca el <em>viewHolder</em> de l&rsquo;adaptador pasant-li aquest element), i el seu cos serà la invocació del gestor de l&rsquo;event passant-li el contacte i la vista com a paràmetres.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Estem al mètode onCreate de MainActivity.kt */</span>
+RecyclerViewContactes.adapter = AdaptadorContactes(llistaContactes,
+                {contacte:Persona, v: View <span style="color:#f92672">-&gt;</span> contacteClicked(contacte, v)} )
+</code></pre></div><blockquote>
+<p><img src="../img/projecteHdr.png" alt=""></p>
+<p>Al projecte <em><strong>RecyclerViewEvents</strong></em> disposeu de la implementació d&rsquo;aquest exemple.</p>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-tractament-de-levent-al-viewholder">1. Tractament de l&rsquo;event al ViewHolder</a></li>
+    <li><a href="#2-gestió-desdeveniments-mitjançant-callbacks">2. Gestió d&rsquo;esdeveniments mitjançant Callbacks</a>
+      <ul>
+        <li><a href="#21-estenent-ladaptador">2.1. Estenent l&rsquo;Adaptador</a></li>
+        <li><a href="#22-gestionant-els-events-al-viewholder">2.2. Gestionant els events al ViewHolder</a></li>
+        <li><a href="#23-gestió-de-clicks-al-mainactivity">2.3. Gestió de clicks al MainActivity</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

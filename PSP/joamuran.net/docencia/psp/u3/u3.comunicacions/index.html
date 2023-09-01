@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>Unitat 3. Comunicació entre processos.</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 3. Comunicacions</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="index.html">Unitat 3. Comunicació entre processos.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>Unitat 3. Comunicació entre processos.</h1>
+        </header>
+        <h2 id="1-introducció">1. Introducció</h2>
+<p>Fins ara hem vist com els processos poden comnicar-se mitjançant l&rsquo;eixida i l&rsquo;entrada estàndard (<code>System.in</code> i <code>System.out</code>) o bé mitjançant la lectura i escriptura de fitxers, mittjançant les classes File i derivades. En aquesta unitat veurem una altra forma de comunicació, consistent en l&rsquo;enviament i la recepció de dades entre diferents ordinadors a través d&rsquo;una xarxa.</p>
+<h3 id="11-clients-i-servidors-en-les-aplicacions-en-xarxa">1.1. Clients i servidors en les aplicacions en xarxa</h3>
+<p>Generalment, quan parlem de comunicacions en xarxa, assumim l&rsquo;existència de dos rols ben diferenciats:</p>
+<ul>
+<li>Els <strong>servidors</strong>, que generen respostes a peticions, i els</li>
+<li><strong>Clients</strong>, que generen peticions al servidor i esperen resposta.</li>
+</ul>
+<p>La forma d&rsquo;implementa un servidor és mitjançant la <strong>programació multifil</strong>, ja que han de ser capaços de processar diverses peticions de forma simultània. Per altra banda, altres entorns com nodejs, que són per naturalesa asíncrons, podran gestionar les peticions amb un únic fil fent ús del bucle d&rsquo;esdeveniments.</p>
+<p>L&rsquo;arquitectura d&rsquo;un servidor multifil serà semblant a aquesta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+    peticio<span style="color:#f92672">=</span>esperaPeticio<span style="color:#f92672">();</span>
+    filAssociat<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Fil<span style="color:#f92672">();</span>
+    filAssociat<span style="color:#f92672">.</span><span style="color:#a6e22e">aten</span><span style="color:#f92672">(</span>peticio<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Básicament, el servidor està a l&rsquo;espera de l&rsquo;arribada d&rsquo;una petició. Quan una petició arriba, aquest crea un nou fil, i aquest fil és qui atén la petició, mentre que el fil principal segueix escoltant peticions.</p>
+<h3 id="12-conceptes-de-tcpip">1.2. Conceptes de TCP/IP</h3>
+<p>Existeixen dos models principals que organitzen les xarxes d&rsquo;ordinadors en capes: el model OSI (més teòric), compost per set capes, i el model TCP/IP (el que s&rsquo;usa en la pràctica), que divideix les comunicacions en cinc nivells. Les xarxes en general, i Internet en particular estan compostos per sistemes molt diferents entre ells, tant hosts com tecnologies d&rsquo;interconnexió, i necessitem d&rsquo;estàndards que puguen entendre tots per tal de possibilitar la comunicació entre ells. D&rsquo;açò és del que s&rsquo;encarreguen aquests protocols de comunicació: de possibilitar la comunicació entre ordinadors, de manera independent a les tecnologíes concretes de cadascun.</p>
+<p>El protocol TCP/IP, és compatible doncs en qualsevol sistema operatiu i tipus de maquinari, i divideix les comunicacions en cinc grans nivells:</p>
+<ul>
+<li>
+<p>El <strong>nivell físic</strong>, que s&rsquo;encarrega de la comunicació física entre dos dispositius interconnectats directament. Els protocols de nivell físic estableixen les característiques del maquinari que utilitzarà la xarxa. En aquesta capa es defineixen estàndards com el IEEE 802.3 (ethernet) o el RS-232 o els tipus de connectors.</p>
+</li>
+<li>
+<p>El  nivell d'<strong>enllaç de dades</strong> es recolza en el nivell físic per enviar blocs de dades dins un enllaç (comunicació punt a punt entre dos extrems a nivell físic). Alguns dels protocols que defineix són el 802.2 (LLC-Link Layer Control) o el protocol punt a punt (PPP). Dins el protocol LLC es troba el MAC (Media Access Control), que s&rsquo;encarrega de controlar l&rsquo;accés a un mitjà compartit.</p>
+</li>
+<li>
+<p>El nivell d'<strong>Internet</strong>, o capa IP, s&rsquo;encarrega d&rsquo;acceptar i transferir <strong>paquets</strong> de dades per una xarxa. Dins d&rsquo;ella definim el protocol IP, el protocol ARP (Address Resolution PRotocol) i ICMP (Internet Control Messages Protocol). El <strong>protocol IP</strong> té dues funcions principals:</p>
+<ul>
+<li><strong>Establir un sistema d&rsquo;adreces universal: les adreces IP</strong>. Dins una xarxa o diverses xarxes interconnectades, necessitem identificar els hosts implicats en la comunicació. Tot host connectat a una xarxa tindrà una adreça IP. També podem identificar un host per seu nom DNS, sempre que algun servidor DNS ens l&rsquo;oferisca. A nivell de programació ens serà totalment indiferent utilitzar un o altre, ja que el propi sistema operatiu serà qui s&rsquo;encarregue de traduïr el nom DNS en la seua IP.</li>
+<li><strong>Comunicació host a host</strong>, establint mecanismes d&rsquo;enrutat entre les diferents xarxes interconnectades, de manera que un paquet <em>sàpiga</em> anar d&rsquo;un origen a un destí a través de diferents xarxes.</li>
+</ul>
+<p>A més, aquest nivell s&rsquo;encarrega d&rsquo;establir el format del paquet i de dividir la informació (fragmentació i reconstrucció) de les capes superior en paquets que puguen ser gestionats per la xarxa.</p>
+</li>
+<li>
+<p>El <strong>nivell de transport</strong>, s&rsquo;encarrega de la transmissió punt a punt entre els hosts. Aquests punts s&rsquo;identificaran amb una adreça IP i un número, que anomenarem <strong>port</strong>. Defineix dos protocols principals:</p>
+<ul>
+<li><strong>TCP</strong> (Transmission Control Protocol), orientat a la conexió, i que proporciona una servei complet i fiable de transmissió caràcter a caràcter. Com que es tracta d&rsquo;un protocol orientat a la connexió, necessitarà un punt de partida que obriga la connexió, una transmissió ordenada de bytes, i un punt de finalització que tanque la connexió. El protocol garanteix que els paquets arriben ordenats i sense errors, mitjançant la confirmació de les dades i la retransmissió dels paquets perduts.</li>
+<li><strong>UDP</strong> (User Datagram Protocol), que proporciona un servei de datagrames poc fiable, però més ràpid.</li>
+</ul>
+<p>Quan programem aplicacions que es comuniquen per xarxa, haurem d&rsquo;assignar un port a les nostres comunicacions. Els ports inferiors al 1024 es coneixen com &ldquo;ports ben coneguts&rdquo;, i estan reservats per a aplicacions estàndard. Entre ells tenim el port 80, per al protocol HTTP, el 443 per a HTTPS, o el 20 i el 21 per als serveis FTP. A les nostres aplicacions haurem d&rsquo;utilitzar ports que estiguen entre el 1024 i el 49151, assegurant-nos prèviament que el port no estiga sent utilitzat.</p>
+</li>
+<li>
+<p><strong>El nivell d&rsquo;aplicació</strong>, que defineix la forma en què es comuniquen les aplicacions més habituals (servidors web, de correu, FTP,etc.). Una vegada les dades d&rsquo;una aplicació estan formatades de la manera que especifique un protocol de nivell d&rsquo;aplicació, es passen al nivell de transport.</p>
+</li>
+</ul>
+<h2 id="2-llibreríes-per-a-la-programació-daplicacions-en-xarxa-sockets">2. Llibreríes per a la programació d&rsquo;aplicacions en xarxa. Sockets.</h2>
+<p>La llibrería Java per a la programació d&rsquo;aplicacions en xarxa és <a href="https://docs.oracle.com/javase/10/docs/api/java/net/package-summary.html">java.net</a>.</p>
+<h3 id="21-un-xicotet-exemple-la-classe-url">2.1. Un xicotet exemple: La classe URL</h3>
+<p>Com a un primer exemple a l&rsquo;API de java.net, anem a veure la classe URL, que permet gestionar accessos a adreces web, i descarregar fitxers de manera senzilla.</p>
+<p>El següent exemple, la classe <code>DownloadMan</code>, serà un gestor de descàrregues que exemplifiquen l&rsquo;ús de les classes URL i URLConnection per descarregar fitxers des d&rsquo;una URL.</p>
+<p>Fixeu-vos en que la lectura dels recursos a través de la xarxa es realitza també mitjançant <em>streams</em>, tal i com si foren fitxers locals. A més, a l&rsquo;exemple, anem a distingir si es tracta d&rsquo;un fitxer de tipus text o no, per utilitzar un objecte <code>InputStreamReader</code> per a la lectura o directament l'<code>InputStream</code>. Aquesta distinció la fem per exemplificar com es faria en un o altre cas, però en la pràctica, podriem utilitzar l'<code>InputStream</code> de forma genèrica per a tot tipus de fitxer i simplificar el codi.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.FileWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.FileOutputStream<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.net.*<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DownloadMan</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">download</span><span style="color:#f92672">(</span>String url<span style="color:#f92672">,</span> String filename<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            URL myURL<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> URL<span style="color:#f92672">(</span>url<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Determinem el tipus de fitxer
+</span><span style="color:#75715e"></span>            URLConnection uc <span style="color:#f92672">=</span> myURL<span style="color:#f92672">.</span><span style="color:#a6e22e">openConnection</span><span style="color:#f92672">();</span>
+            String type <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>uc<span style="color:#f92672">.</span><span style="color:#a6e22e">getContentType</span><span style="color:#f92672">().</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">))[</span>0<span style="color:#f92672">];</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;type:&#34;</span><span style="color:#f92672">+</span>type<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Obrim el flux:
+</span><span style="color:#75715e"></span>            InputStream is<span style="color:#f92672">=</span>myURL<span style="color:#f92672">.</span><span style="color:#a6e22e">openStream</span><span style="color:#f92672">();</span>
+
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;text&#34;</span><span style="color:#f92672">)){</span>
+                <span style="color:#75715e">// Descarreguem el fitxer com a text
+</span><span style="color:#75715e"></span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>url<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; és un text. Descarregant... &#34;</span><span style="color:#f92672">);</span>
+
+                InputStreamReader reader<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+                BufferedReader bReader<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>reader<span style="color:#f92672">);</span>
+                FileWriter fWriter<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> FileWriter<span style="color:#f92672">(</span>filename<span style="color:#f92672">);</span>
+                String line<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+                    fWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+                fWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+                bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+                reader<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// Si no és un text, descarreguem el fitxer com a stream
+</span><span style="color:#75715e"></span>                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>url<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; és un fitxer. Descarregant... &#34;</span><span style="color:#f92672">);</span>
+
+                <span style="color:#66d9ef">int</span> bytes<span style="color:#f92672">,</span> bytesCopied<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+                FileOutputStream fout<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span>filename<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">do</span> <span style="color:#f92672">{</span>
+                    bytes<span style="color:#f92672">=</span>is<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+                    <span style="color:#75715e">// Escrivim el byte al fitxer d&#39;eixida
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">!=-</span>1<span style="color:#f92672">)</span> fout<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>bytes<span style="color:#f92672">);</span>
+                    <span style="color:#75715e">// Actualitzem el nº de bytes copiats
+</span><span style="color:#75715e"></span>                    bytesCopied<span style="color:#f92672">++;</span>
+                <span style="color:#f92672">}</span><span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>bytes<span style="color:#f92672">!=-</span>1<span style="color:#f92672">);</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Descarregats &#34;</span><span style="color:#f92672">+</span>bytesCopied<span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;bytes&#34;</span><span style="color:#f92672">);</span>
+                fout<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#75715e">// Tanquem l&#39;stream de lectura
+</span><span style="color:#75715e"></span>            is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>MalformedURLException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Excepció: URL mal formatada!&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Excepció no controlada: &#34;</span><span style="color:#f92672">+</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span> <span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> arguments<span style="color:#f92672">){</span>
+        DownloadMan dMan<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> DownloadMan<span style="color:#f92672">();</span>
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>arguments<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>2<span style="color:#f92672">)</span> 
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Sintaxi incorrecta. Heu d&#39;indicar una URL i un nom de fitxer&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">else</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Exemles d&#39;urls:
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//String url=&#34;https://www.todojs.com/&#34;;
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//String url2=&#34;https://www.todojs.com/lib/uploads/todojs.png&#34;;
+</span><span style="color:#75715e"></span>            dMan<span style="color:#f92672">.</span><span style="color:#a6e22e">download</span><span style="color:#f92672">(</span>arguments<span style="color:#f92672">[</span>0<span style="color:#f92672">],</span> arguments<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Fixeu-se també que necessitem capturar l&rsquo;excepció <code>MalformedURLException</code> que es produeix quan introdumm algun error en la URL.</p>
+<p>Com veiem, la classe <code>URL</code> ens ofereix el mètode <code>openStream</code>, que ens retorna un <code>InputStream</code> amb flux de bytes del fitxer. A més, amb el mètode <code>getContentType</code> de la classe <code>URLConnection</code>, podem saber de quin tipus és el fitxer, i d&rsquo;aquesta manera llegir-lo com a línies de text o com a bytes.</p>
+<p>Aquestes classes ens proporcionen un mecanisme senzill però lligat al protocol de les URL. Si volem tenir un major control sobre les dades que rebem i enviem, i una major versatilitat, hem de recórrer als <strong>sockets</strong>.</p>
+<h3 id="22-programació-amb-sockets">2.2. Programació amb Sockets</h3>
+<p>Un <em>socket</em> és un concepte abstracte que permet a dos programes (possiblement a ordinadors diferents) intercanviar fluxos de dades, generalment de forma fiable i ordenada. Els sockets es defineixen per una adreça de socket, formada per una adreça IP, un protocol de tranaport (TCP/UDP) i un número de port.</p>
+<p>A nivell d&rsquo;implementació en Java, els <strong>sockets</strong> són objectes Java que permeten comunicar programes i servidors remots. Aquests objectes ens proporcionaran fluxos d&rsquo;entrada i/o eixida per poder comunicar els processos.</p>
+<p>Un altre tipus de sockets en Java són els <strong>ServerSockets</strong>, que s&rsquo;utilitzen per crear programes que accepten connexions o peticions. A mesura que anem avançant la unitat veurem la diferència entre ambdos.</p>
+<p>Com hem comentat, ambdues classes es troben en la llibrería que gestiona les comunicacions en xarxa <code>java.net</code>.</p>
+<h4 id="221-creació-de-sockets">2.2.1. Creació de sockets</h4>
+<p>Quan hem parlat sobre la pila TCP/IP, hem comentat que per tal de comunicar dues aplicacions necessitem una connexió <em>punt a punt</em> entre aquestes. Aquests <em>punts</em> es componien d&rsquo;una adreça IP o un nom DNS (que es traduïrà en una IP), i un número de port, TCP o UDP. Doncs bé, aquesta és la informació que necessitarem per tal de crear un socket.</p>
+<p>Veiem-ho amb un exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.net.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Connect</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Has d&#39;indicar una adreça web i un port&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(-</span>1<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        String dst<span style="color:#f92672">=</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">int</span> portDst<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+
+        Socket socket<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Socket<span style="color:#f92672">();</span>
+        InetSocketAddress socketAddr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span>dst<span style="color:#f92672">,</span> portDst<span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span>socketAddr<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// Connexió realitzada amb èxit
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha realitzat la connexió exitosament a &#34;</span><span style="color:#f92672">+</span>socketAddr<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;. Ara procedirem a tancar-la.&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#75715e">// Tancament d ela connexió
+</span><span style="color:#75715e"></span>            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Excepció en la connexió: &#34;</span><span style="color:#f92672">+</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>  
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>El codi és bastant senzill d&rsquo;interpretar. Capturem dos arguments des de la línia d&rsquo;ordres, una URL (o IP) i un port, i amb aquests creem un objecte de tipus <code>InetSocketAddress</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">InetSocketAddress socketAddr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span>dst<span style="color:#f92672">,</span> portDst<span style="color:#f92672">);</span>
+</code></pre></div><p>Abans d&rsquo;això, hem creat un objecte de tipus <code>Socket</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Socket socket<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Socket<span style="color:#f92672">();</span>
+</code></pre></div><p>Amb ambdos objetes de tipus socket (<code>Socket</code>) i Adreça d&rsquo;Internet (<code>InetSocketAddress</code>), realitzarem la connexió de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">socket<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span>socketAddr<span style="color:#f92672">);</span>
+</code></pre></div><p>Si l&rsquo;ordre <code>connect</code> no llança cap excepció, aquesta s&rsquo;haurà realitzat de forma exitosa, pel que ja podem utilitzar el socket per comunicar-nos amb l&rsquo;altre extrem. Finalment, si la connexió s&rsquo;ha realitzat (i després d&rsquo;haver realitzat les operacions pertinents), la tancarem amb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</code></pre></div><p>L&rsquo;ordre <code>connect</code> pot llançar una excepció de tipus <code>IOException</code>, que pot significar que:</p>
+<ul>
+<li>La connexió no s&rsquo;ha pogut realitzar, o bé que</li>
+<li>Tot i que la connexió s&rsquo;ha establert, no s&rsquo;han pogut llegir o escriure dades.</li>
+</ul>
+<p>Amb el mètode <code>getMessage</code> de l&rsquo;excepció, podrem consultar quin ha estat l&rsquo;error concret.</p>
+<p>Veiem alguns exemples de funcionament:</p>
+<ul>
+<li>Connexió a un port ben definit a una adreça DNS d&rsquo;Internet:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ java Connect www.google.com <span style="color:#ae81ff">443</span>
+S<span style="color:#960050;background-color:#1e0010">&#39;</span>ha realitzat la connexió exitosament a www.google.com/216.58.201.132:443. Ara procedirem a tancar-la.
+</code></pre></div><ul>
+<li>Connexió a un port ben definit a una adreça IP:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ java Connect 127.0.0.1 <span style="color:#ae81ff">80</span>
+S<span style="color:#960050;background-color:#1e0010">&#39;</span>ha realitzat la connexió exitosament a /127.0.0.1:80. Ara procedirem a tancar-la.
+</code></pre></div><ul>
+<li>Connexió a un port no definit en una adreça IP:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ java Connect 127.0.0.1 <span style="color:#ae81ff">81</span>
+Excepció en la connexió: S’ha refusat la connexió <span style="color:#f92672">(</span>Connection refused<span style="color:#f92672">)</span>
+</code></pre></div><h4 id="222-ús-de-sockets-per-enviar-i-rebre-informació">2.2.2. Ús de sockets per enviar i rebre informació</h4>
+<p>La classe <code>Socket</code> ens ofereix els mètodes <code>getInputStream</code> i <code>getOutputStream</code> que ens ofereixen <em>fluxos orientats a bytes</em> per tal de llegir i escriure del i al socket, respectivament.</p>
+<p>Anem a modificar l&rsquo;exemple anterior per tal de llegir el contingut d&rsquo;un document indicat per la línia d&rsquo;ordres, de la següent manera:</p>
+<pre><code class="language-console" data-lang="console">$ java ConnectAndShow 127.0.0.1 80 prova.html
+</code></pre><pre><code class="language-console" data-lang="console">java ConnectAndShow www.google.es 80 &quot;&quot;
+</code></pre><p>El codi complet sería:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.net.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStreamWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.PrintWriter<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConnectAndShow</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>3<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Has d&#39;indicar una adreça web, un port i un recurs&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(-</span>1<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        String dst<span style="color:#f92672">=</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+        <span style="color:#66d9ef">int</span> portDst<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+
+        Socket socket<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Socket<span style="color:#f92672">();</span>
+        InetSocketAddress socketAddr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span>dst<span style="color:#f92672">,</span> portDst<span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span>socketAddr<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// Connexió realitzada amb èxit
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha realitzat la connexió exitosament a &#34;</span><span style="color:#f92672">+</span>socketAddr<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">()+</span><span style="color:#e6db74">&#34;. Ara procedirem a tancar-la.&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Obtenció dels streams d&#39;entrada i eixida
+</span><span style="color:#75715e"></span>            InputStream is<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+            OutputStream os<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+
+
+            <span style="color:#75715e">// Creem fluxos per a la lectura i escriptura de caràcters
+</span><span style="color:#75715e"></span>            InputStreamReader isr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+            OutputStreamWriter osw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> OutputStreamWriter<span style="color:#f92672">(</span>os<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Creem fluxos per a la lectura i escriptura de línies
+</span><span style="color:#75715e"></span>            BufferedReader bReader<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>isr<span style="color:#f92672">);</span>
+            PrintWriter pWriter<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>osw<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Escrivim al socket l&#39;ordre GET del protocol HTTP per obtenir el document demanat
+</span><span style="color:#75715e"></span>            String command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GET /&#34;</span><span style="color:#f92672">+</span>args<span style="color:#f92672">[</span>2<span style="color:#f92672">]+</span> <span style="color:#e6db74">&#34;\r\n\r\n&#34;</span><span style="color:#f92672">;</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HTTP Request: &#34;</span><span style="color:#f92672">+</span>command<span style="color:#f92672">);</span>
+            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>command<span style="color:#f92672">);</span>
+            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+
+
+            String linia<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>linia<span style="color:#f92672">=</span>bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">){</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>linia<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+            
+            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            isr<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            osw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Excepció en la connexió: &#34;</span><span style="color:#f92672">+</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>  
+        
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, una vegada tenim disponible el socket, creem dos fluxos de dades per llegir i escriure del socket:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">InputStream is<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+OutputStream os<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+</code></pre></div><p>A partir dels fluxos, creem dos fluxos més per a la lectura i escriptura de caràcters:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">InputStreamReader isr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+OutputStreamWriter osw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> OutputStreamWriter<span style="color:#f92672">(</span>os<span style="color:#f92672">);</span>
+</code></pre></div><p>I a partir d&rsquo;ells per a la lectura i escriptura de línies:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">BufferedReader bReader<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>isr<span style="color:#f92672">);</span>
+PrintWriter pWriter<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>osw<span style="color:#f92672">);</span>
+</code></pre></div><p>Ara, per tal de demanar al servidor (suposant que es tracta d&rsquo;un servidor web) un recurs, caldrà escriure en el socket l&rsquo;ordre corresponent. El protocol HTTP estableix l&rsquo;ordre <code>GET</code> per tal d&rsquo;obtenir un recurs. Així doncs, farem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GET /&#34;</span><span style="color:#f92672">+</span>args<span style="color:#f92672">[</span>2<span style="color:#f92672">]+</span> <span style="color:#e6db74">&#34;\r\n\r\n&#34;</span><span style="color:#f92672">;</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;HTTP Request: &#34;</span><span style="color:#f92672">+</span>command<span style="color:#f92672">);</span>
+pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>command<span style="color:#f92672">);</span>
+pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+</code></pre></div><p>Hem creat una ordre HTTP (<code>command</code>), que demana al servidor el document indicat com a tercer argument per la línia d&rsquo;ordres. Fixeu-se que el protocol espera dos retorn de línia (de la forma <code>\n\r</code>) en finalitzar la instrucció.
+Aquesta ordre, l&rsquo;enviem a través de l&rsquo;objecte de tipus <code>PrintWriter</code> per escriure la línia completa, i hem fet el <code>flush</code> per assegurar-nos d&rsquo;enviar el búffer complet.</p>
+<p>Un vegada hem enviat la petició, llegirem la resposta a través del lector de línies de tipus <code>BufferedReader</code> que ens hem definit a partir de l&rsquo;stream oferit pel socket, i anem mostrant-les per pantalla.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String linia<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>linia<span style="color:#f92672">=</span>bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">){</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>linia<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>I finalment, només ens quedarà tancar tots els streams oberts, així com el socket:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+isr<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+osw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+</code></pre></div><h3 id="23-aplicacions-client-servidor">2.3. Aplicacions client-servidor</h3>
+<p>En el desenvolupament d&rsquo;aplicacions client-servidor, hem de tindre en compte els protocols que s&rsquo;utilitzaran a nivell d&rsquo;aplicació. Per exemple, en el cas anterior, tot i que permetem la connexió a un port qualsevol, estem implementant un client del protocol HTTP, per consultar documents web que &ldquo;demanem&rdquo; al servidor a través de l&rsquo;ordre <code>GET</code>.</p>
+<p>Aleshores, quan desenvolupem aplicacions client-servidor. podem trobar-nos un d&rsquo;aquesta casos:</p>
+<ul>
+<li>Si només hem de programar el <strong>servidor</strong>, hem de definir un protocol d&rsquo;accés al servei; és a dir, hem de definir la forma en què els clients es van a connectar a nosaltres.</li>
+<li>Si hem de programar només la part <strong>client</strong>, haurem de conéixer quin és el protocol que implementa el servidor al que ens volem connectar, i</li>
+<li>Si hem de programar les dues parts, haurem de definir un protocol de comunicació entre la part client i servidor.</li>
+</ul>
+<h4 id="231-creació-dun-servidor-deco">2.3.1. Creació d&rsquo;un servidor d&rsquo;eco</h4>
+<p>Com a primer exemple, anem a crear un servidor d&rsquo;eco, que estarà escoltant per un port concret, i emetrà un missatge en resposta a un altre missatge.</p>
+<p>El primer que hem de pensar és quin port anem a utilitzar per oferir el servei. Com hem comentat abans, ha de ser un port que no siga ben conegut (a partir del 1024), i que no estiga sent utilitzat. Podem saber quins ports estan en ús al nostre ordinador amb l&rsquo;ordre <code>netstat -atunp</code>, que ens diu els ports utilitzats localment, les aplicacions que l&rsquo;utilitzen i el seu estat.</p>
+<p>El codi complet és el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.net.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStreamWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.PrintWriter<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ecoServer</span> <span style="color:#f92672">{</span>
+    
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">listen</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Iniciant el servidor...&#34;</span><span style="color:#f92672">);</span>
+
+        ServerSocket listener<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> srvPort<span style="color:#f92672">=</span>9999<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            listener<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ServerSocket<span style="color:#f92672">(</span>srvPort<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El port &#34;</span><span style="color:#f92672">+</span>srvPort<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; està ocupato és inaccessible.&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Iniciem un bucle infinit a l&#39;espera de rebre connexions
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            Socket socket<span style="color:#f92672">=</span>listener<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// L&#39;ordre anterior és bloquejant, quan arriba aci, ha rebut una connexio
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha rebut la connexió&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Ara hem de llegir què ens envíen
+</span><span style="color:#75715e"></span>            InputStream is<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+            InputStreamReader isr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+            BufferedReader bf<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>isr<span style="color:#f92672">);</span>
+            String linia<span style="color:#f92672">=</span>bf<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">();</span>
+
+            String resposta<span style="color:#f92672">;</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;log&gt; Received... &#34;</span><span style="color:#f92672">+</span>linia<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// Analitzem la línia, i en funció d&#39;aquesta retornem un resultat
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>linia<span style="color:#f92672">){</span>
+                <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Hola don Pepito&#34;</span><span style="color:#f92672">:</span>
+                    resposta<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Hola don José&#34;</span><span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+
+                <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Pasó usted por mi casa?&#34;</span><span style="color:#f92672">:</span>
+                    resposta<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Por su casa yo pasé&#34;</span><span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Y vio usted a mi abuela?&#34;</span><span style="color:#f92672">:</span>
+                    resposta<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;A su abuela yo la vi&#34;</span><span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Adiós don Pepito&#34;</span><span style="color:#f92672">:</span>
+                    resposta<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Adiós don José&#34;</span><span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+                    resposta<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;No es reconeix el misstge...&#34;</span><span style="color:#f92672">;</span>
+                    <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+
+            <span style="color:#75715e">// Escrivim el resultat a l&#39;stream d&#39;eixida
+</span><span style="color:#75715e"></span>            OutputStream os<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+            PrintWriter pw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>os<span style="color:#f92672">);</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>resposta<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        ecoServer es<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ecoServer<span style="color:#f92672">();</span>
+        es<span style="color:#f92672">.</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, la funció principal només fa que instanciar un objecte de la classe <code>ecoServer</code> i invocar el seu mètode <code>listen</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ecoServer es<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ecoServer<span style="color:#f92672">();</span>
+es<span style="color:#f92672">.</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">();</span>
+</code></pre></div><p>Aquest mètode <code>listen</code> crea un objecte de la classe <code>ServerSocket</code>, que proporciona el mètode <code>accept</code>, el qual ens informa de quan es rep una connexió en aquest <em>socket de servidor</em>. L&rsquo;estructura general és la següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ServerSocket listener<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+<span style="color:#66d9ef">int</span> srvPort<span style="color:#f92672">=</span>9999<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+    listener<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ServerSocket<span style="color:#f92672">(</span>srvPort<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{...}</span>
+
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+    Socket socket<span style="color:#f92672">=</span>listener<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, el mètode <code>accept</code> ha d&rsquo;estar dins el bucle infinit a l&rsquo;espera sempre de peticions. Una vegada es rep una petició, podem accedir a través del socket als seus respectius streams d&rsquo;entrada per tal d&rsquo;obteir el missatge:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">InputStream is<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+InputStreamReader isr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+BufferedReader bf<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>isr<span style="color:#f92672">);</span>
+String linia<span style="color:#f92672">=</span>bf<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">();</span>
+</code></pre></div><p>I al seu stream d&rsquo;eixida per escriure la resposta:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">OutputStream os<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+PrintWriter pw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>os<span style="color:#f92672">);</span>
+pw<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>resposta<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+pw<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+</code></pre></div><h4 id="232-creació-del-client-deco">2.3.2. Creació del client d&rsquo;eco</h4>
+<p>El client del nostre servei d&rsquo;eco serà molt semblant a l&rsquo;exemple de <em>ConnectAndShow</em> vist anteriorment, amb la diferència que ara sabem el port pel que escolta el nostre servidor, i no caldrà indicar-lo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.net.*<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.OutputStreamWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.PrintWriter<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ecoClient</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Has d&#39;indicar una adreça web i un misstge&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(-</span>1<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+
+        String dst<span style="color:#f92672">=</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+        
+        <span style="color:#75715e">// El port està definit pel protocol
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> portDst<span style="color:#f92672">=</span>9999<span style="color:#f92672">;</span>
+
+        Socket socket<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Socket<span style="color:#f92672">();</span>
+        InetSocketAddress socketAddr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span>dst<span style="color:#f92672">,</span> portDst<span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span>socketAddr<span style="color:#f92672">);</span>
+            <span style="color:#75715e">// Connexió realitzada amb èxit
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Obtenció dels streams d&#39;entrada i eixida
+</span><span style="color:#75715e"></span>            InputStream is<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+            OutputStream os<span style="color:#f92672">=</span>socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+
+
+            <span style="color:#75715e">// Creem fluxos per a la lectura i escriptura de caràcters
+</span><span style="color:#75715e"></span>            InputStreamReader isr<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">);</span>
+            OutputStreamWriter osw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> OutputStreamWriter<span style="color:#f92672">(</span>os<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Creem fluxos per a la lectura i escriptura de línies
+</span><span style="color:#75715e"></span>            BufferedReader bReader<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>isr<span style="color:#f92672">);</span>
+            PrintWriter pWriter<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PrintWriter<span style="color:#f92672">(</span>osw<span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Escrivim al socket el missatge
+</span><span style="color:#75715e"></span>            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+
+
+            String linia<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>linia<span style="color:#f92672">=</span>bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">){</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>linia<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+            
+            pWriter<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            bReader<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            isr<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            osw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Excepció en la connexió: &#34;</span><span style="color:#f92672">+</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>  
+
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Per tal d&rsquo;utilitzar aquest client amb el servidor d&rsquo;eco, procedirem de la següent forma:</p>
+<ol>
+<li>Una vegada compilats els fitxers <code>ecoServer.java</code> i <code>ecoClient.java</code>, en una terminal obrirem el servidor, amb <code>java ecoServer</code>, i el deixarem funcionant en aquesta terminal.</li>
+<li>En altra terminal, i en el mateix directori, invoquem el client, passant-li una missatge que el servidor estiga preparat per respondre. Per exemple: <code>java ecoClient &quot;Hola Don Pepito&quot;</code>.</li>
+<li>Veurem com el servidor ens respon al missatge, i com mostra a la primer terminal el <em>log</em> del què ha anat fent.</li>
+</ol>
+<h2 id="3-comunicacions-i-programació-multifil">3. Comunicacions i programació multifil</h2>
+<p>Com ja hem avançat, la forma d&rsquo;implementa la part servidor en la comunicació d&rsquo;aplicacions és mitjançant la <strong>programació multifil</strong>, ja que han de ser capaços de processar diverses peticions de forma simultània.</p>
+<h3 id="31-necessitat-de-la-programació-multifil-en-les-comunicacions">3.1. Necessitat de la programació multifil en les comunicacions</h3>
+<p>Anem a veure un xicotet exemple sobre per què necessitem utilitzar programació multifil per tal de processar diverses peticions. Per a això, en l&rsquo;exemple de <em>echo</em> anterior, anem a fer una xicoteta modificació.</p>
+<p>Modifiquem el següent codi en la implementació del servidor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">listen</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">{</span>
+        <span style="color:#f92672">[...]</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+                <span style="color:#f92672">[...]</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#f92672">[...]</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>resposta<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>Per:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">listen</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">{</span>
+        <span style="color:#f92672">[...]</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+                <span style="color:#f92672">[...]</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#f92672">[...]</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>resposta<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// Pausa abans de tancar la connexió
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Esperant 10 segons...&#34;</span><span style="color:#f92672">);</span>
+                Thread<span style="color:#f92672">.</span><span style="color:#a6e22e">sleep</span><span style="color:#f92672">(</span>10000<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>InterruptedException ie<span style="color:#f92672">){</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha inerromput la pausa...&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">};</span>
+
+            pw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+</code></pre></div><p>Amb aquest canvi, la única cosa que fem és afegir una pausa al fil d&rsquo;execució principal de 10 segons abans de tancar la connexió. Si executem en un parell de terminals dos clients:</p>
+<table>
+<thead>
+<tr>
+<th>Terminal 1(Servidor)</th>
+<th>Terminal 2 (Client 1)</th>
+<th>Terminal 3 (Client 2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$ java ecoServer</code>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>$ java ecoClient 127.0.0.1 &quot;Hola don Pepito&quot;</code> 
+<td></td>
+</tr>
+<tr>
+<td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>Hola don José</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Esperant 10 segons...</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>$ java ecoClient 127.0.0.1 &quot;Pasó usted por mi casa?&quot;</code> 
+</tr>
+<tr>
+<td><em>Espera bloquejant&hellip;</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><code>Por su casa yo pasé</code></td>
+</tr>
+<tr>
+<td><code>Esperant 10 segons...</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><em>Espera bloquejant&hellip;</em></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Com veiem, la pausa que hem afegit després d&rsquo;enviar una resposta ha fet que es tardara en atendre la segona petició realitzada sobre el servidor. Aquesta pausa ha estat intencionada, però penseu en servidors que reben moltes peticions: encara que els servidor tarde poc en atendre les peticions, a mesura que arriben més peticions, els retards van acumulant-se, ja que se serveixen una a una, fent que si es connecten molts clients, el temps d&rsquo;espera siga inassumible per a aquests.</p>
+<p>Així doncs com hem comentat, quan una aplicació necessite acceptar diverses connexions, caldrà fer ús d&rsquo;una classe de tipus <strong>Thread</strong> o que implementa la interfície <strong>Runnable</strong> que ja coneixem, de manera que cada per connexió llancem un fil.</p>
+<p>Així doncs, anem a modificar el codi del nostre servidor d&rsquo;eco per a que siga multifil.</p>
+<h3 id="32-implementació-dun-servidor-deco-multifil">3.2. Implementació d&rsquo;un servidor d&rsquo;eco multifil</h3>
+<p>Per tal de realitzar el nostre servidor multifil, necessitarem una classe que genere les respostes i que implemente <em>Runnable</em>. Aquesta nova classe, li direm <code>generadorEco</code>, i tindrà el següent aspecte:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">generadorEco</span> <span style="color:#66d9ef">implements</span> Runnable<span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> Socket MySocket<span style="color:#f92672">;</span>
+
+    generadorEco<span style="color:#f92672">(</span>Socket socket<span style="color:#f92672">){</span>
+        MySocket<span style="color:#f92672">=</span>socket<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Aci implementarem tot el codi 
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// per generar una resposta en funció 
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// del missatge rebut a través del socket.
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// (El codi serà idèntic al que feia aquesta
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// functionalitat al servidor d&#39;eco monofil)
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>i la classe que implemente el servidor, que anomenarem <code>multiEcoServer</code>, tindrà el següent aspecte:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">multiEcoServer</span> <span style="color:#f92672">{</span>
+    
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">listen</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException<span style="color:#f92672">{</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Iniciant el servidor...&#34;</span><span style="color:#f92672">);</span>
+
+        ServerSocket listener<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">int</span> srvPort<span style="color:#f92672">=</span>9999<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            listener<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ServerSocket<span style="color:#f92672">(</span>srvPort<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El port &#34;</span><span style="color:#f92672">+</span>srvPort<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; està ocupato és inaccessible.&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Iniciem un bucle infinit a l&#39;espera de rebre connexions
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">){</span>
+            Socket socket<span style="color:#f92672">=</span>listener<span style="color:#f92672">.</span><span style="color:#a6e22e">accept</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// L&#39;ordre anterior és bloquejant, quan arriba aci, ha rebut una connexio
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha rebut la connexió. Generant resposta.&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Creem un objecte de tipus generadorEco i el llancem en un thread
+</span><span style="color:#75715e"></span>            generadorEco generador<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> generadorEco<span style="color:#f92672">(</span>socket<span style="color:#f92672">);</span>
+            Thread generadorThread<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>generador<span style="color:#f92672">);</span>
+            generadorThread<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+
+        multiEcoServer es<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> multiEcoServer<span style="color:#f92672">();</span>
+        es<span style="color:#f92672">.</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">();</span>
+
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, la principal novetat es troba en les línies;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// Creem un objecte de tipus generadorEco i el llancem en un thread
+</span><span style="color:#75715e"></span>generadorEco generador<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> generadorEco<span style="color:#f92672">(</span>socket<span style="color:#f92672">);</span>
+Thread generadorThread<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>generador<span style="color:#f92672">);</span>
+generadorThread<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><p>Que ens creen un objecte nou, de tipus <code>generadorEco</code>, al que li passem el socket pel qual es comunicarà amb el client; aquest objecte el convertirem en fil, i executarem (fent ús de <code>start</code>) el seu mètode <code>run</code> que s&rsquo;encarregarà de realitzar aquests comunicació.</p>
+<h2 id="4-comunicacions-amb-nodejs">4. Comunicacions amb nodejs</h2>
+<p>El nucli de nodejs també ofereix una llibreria <code>net</code>per crear servidors i clients TCP.</p>
+<p>Per tal de carregar la llibrería en una aplicació nodejs, només caldria fer:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">net</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;net&#39;</span>);
+</code></pre></div><p>I ja tindríem en la constant <code>net</code> les propietats i mètodes necessaris per treballar les comunicacions. Els mètodes principals que la llibrería ofereix són:</p>
+<table>
+<thead>
+<tr>
+<th>Métode</th>
+<th>Descripció</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>connect()</code>
+<td>Crea una nova connexió al servidor i retorna un socket nou</td>
+</tr>
+<tr>
+<td><code>createServer()</code></td>
+<td>Crea un nou servidor</td>
+</tr>
+<tr>
+<td><code>isIP</code></td>
+<td>Comprova si l&rsquo;adreça IP és vàlida</td>
+</tr>
+<tr>
+<td><code>isIPv4</code></td>
+<td>Comprova si l&rsquo;adreça és una IPv4 vàlida</td>
+</tr>
+<tr>
+<td><code>isIPv6</code></td>
+<td>Comprova si l&rsquo;adreça és una IPv6 vàlida</td>
+</tr>
+</tbody>
+</table>
+<p>A més, el <strong>core</strong> de nodejs també ofereix la llibrería <code>dgram</code> per treballar amb datagrames UDP, i tenim disponible, com a mòdul extern la llibrería <code>socket.io</code> que ens aporta un marc de treball per crear aplicacions de comunicació en temps real.</p>
+<h3 id="41-creació-de-connexions-amb-net">4.1. Creació de connexions amb net</h3>
+<h4 id="411-exemple-de-servidor">4.1.1. Exemple de servidor</h4>
+<p>Veiem un xicotet exemple per tal de crear un servidor, que escolte pel port 9999 i retorne &ldquo;<em>Hola món!</em>&rdquo; quan reba una connexió:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">net</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;net&#39;</span>);
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">server</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">createServer</span>(<span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">socket</span>) {
+   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Connexió rebuda.&#34;</span>);
+
+   <span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;end&#34;</span>, <span style="color:#66d9ef">function</span>() {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;El client ha tancat la connexió&#34;</span>);
+   });
+
+   <span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;data&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>){
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Rebut: &#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">data</span>);
+      <span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">data</span>);
+      <span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">socket</span>);
+      <span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">end</span>();
+   })
+
+});
+<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">listen</span>(<span style="color:#ae81ff">9999</span>, <span style="color:#66d9ef">function</span>() { 
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;El servidor està escoltant&#39;</span>);
+});
+</code></pre></div><p>Veiem el què hem estat utilitzant:</p>
+<ul>
+<li><code>var server = net.createServer( callback )</code>:  Hem creat un servidor amb <code>net.createServer</code>, que té com a paràmetre una funció de <code>callback</code> que espera rebre un objecte de tipus <code>Socket</code>.</li>
+<li><code>socket.on(&quot;end&quot;, function(){...})</code>: Dins el codi que serveix la petició, hem inclòs aquesta línia que s&rsquo;encarrega de capturar l&rsquo;event de finalització de la connexió o tancament del socket per pert del client, (<code>on(end)</code>), i executa una funció, que mostra un missatge com a resposta (<em><code>El client ha tancat la connexió</code></em>).</li>
+<li><code>socket.on(&quot;data&quot;, function(){...})</code>: Associa a l&rsquo;event <code>data</code>una funció de callback. Aquest event es dispara quan es reben dades pel socket (concretament, el missatge que li enviarem des del client). Dins aquesta funció que es dispararà com a resposta quan es reben ddes fem:
+<ul>
+<li><code>socket.write(data);</code>: Escriu un missatge a través de la connexió. Concretament, el mateix missatge que li hem passat com a dades.</li>
+<li><code>socket.pipe(socket);</code>: S&rsquo;assegura de buidar el búffer d&rsquo;escriptura del socket (com el <code>flush</code> en java)</li>
+<li><code>socket.end()</code>: Tanca la connexió amb el client.</li>
+</ul>
+</li>
+<li><code>server.listen(9999, callback);</code>: Una vegada definit l&rsquo;objecte <code>server</code>, fem ús del mètode <code>listen</code> per tal d&rsquo;escoltar peticions pel port que indiquem.</li>
+</ul>
+<p>Si guardem aquest fitxer com a <code>server.js</code>, el podem executar amb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">nodejs server.js
+El servidor està escoltant
+</code></pre></div><p>I llançar-li peticions des del nostre client d&rsquo;eco realitzat en java:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ java ecoClient 127.0.0.1 <span style="color:#e6db74">&#34;Hola don Pepito&#34;</span>
+Connexió a: Socket<span style="color:#f92672">[</span>addr<span style="color:#f92672">=</span>/127.0.0.1,port<span style="color:#f92672">=</span>9999,localport<span style="color:#f92672">=</span>41912<span style="color:#f92672">]</span>
+Hola don Pepito
+</code></pre></div><h4 id="412-exemple-de-client">4.1.2. Exemple de client</h4>
+<p>El codi per implementar la part client seria el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">net</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;net&#39;</span>);
+
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">argv</span>.<span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span><span style="color:#ae81ff">4</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;Has d&#39;indicar una adreça web i un misstge&#34;</span>);
+    <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">connect</span>({<span style="color:#a6e22e">host</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">argv</span>[<span style="color:#ae81ff">2</span>],<span style="color:#a6e22e">port</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9999</span>}, <span style="color:#66d9ef">function</span>() {
+   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;Connectat al servidor&#39;</span>);  
+   <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">argv</span>[<span style="color:#ae81ff">3</span>]);
+});
+<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;data&#39;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">toString</span>());
+   <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">end</span>();
+});
+<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#39;end&#39;</span>, <span style="color:#66d9ef">function</span>() { 
+   <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;El servidor ha tancat la connexió&#39;</span>); 
+});
+</code></pre></div><p>La principal novetat respecta al servidor és l&rsquo;ús del mètode <code>net.connect</code>, al que li passem els paràmetres <em>host</em>, amb l&rsquo;adreça del servidor i <em>port</em> amb el port pel que aquest escolta. Una vegada feta la connexió podem escriure amb el mètode <code>write</code>.</p>
+<p>Com hem comentat, el principal avantatge de nodejs és que al tractar-se d&rsquo;una tecnologia asíncrona, no és necessari crear fils que atenguen a les diverses peticions, resultant un codi més compacte.</p>
+<p>Si us interessa, teniu més informació sobre la llibreria net de <em>nodejs</em> en:</p>
+<ul>
+<li>[https://nodejs.org/api/net.html]https://nodejs.org/api/net.html)</li>
+<li><a href="http://www.w3big.com/nodejs/nodejs-net-module.html">http://www.w3big.com/nodejs/nodejs-net-module.html</a></li>
+</ul>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-introducció">1. Introducció</a>
+      <ul>
+        <li><a href="#11-clients-i-servidors-en-les-aplicacions-en-xarxa">1.1. Clients i servidors en les aplicacions en xarxa</a></li>
+        <li><a href="#12-conceptes-de-tcpip">1.2. Conceptes de TCP/IP</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-llibreríes-per-a-la-programació-daplicacions-en-xarxa-sockets">2. Llibreríes per a la programació d&rsquo;aplicacions en xarxa. Sockets.</a>
+      <ul>
+        <li><a href="#21-un-xicotet-exemple-la-classe-url">2.1. Un xicotet exemple: La classe URL</a></li>
+        <li><a href="#22-programació-amb-sockets">2.2. Programació amb Sockets</a></li>
+        <li><a href="#23-aplicacions-client-servidor">2.3. Aplicacions client-servidor</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-comunicacions-i-programació-multifil">3. Comunicacions i programació multifil</a>
+      <ul>
+        <li><a href="#31-necessitat-de-la-programació-multifil-en-les-comunicacions">3.1. Necessitat de la programació multifil en les comunicacions</a></li>
+        <li><a href="#32-implementació-dun-servidor-deco-multifil">3.2. Implementació d&rsquo;un servidor d&rsquo;eco multifil</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-comunicacions-amb-nodejs">4. Comunicacions amb nodejs</a>
+      <ul>
+        <li><a href="#41-creació-de-connexions-amb-net">4.1. Creació de connexions amb net</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>

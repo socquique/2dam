@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>2. Desenvolupamentamb Flutter. Widgets i Futures.</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PSP" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="https://socquique.github.io/2dam/PMDM" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.html">
+        Unitat 3. Flutter</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../1_flutter/index.html">1. Introducció a Flutter</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.html">2. Desenvolupamentamb Flutter. Widgets i Futures.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_flutter_i_firebase/index.html">3. Desenvolupamentamb Flutter. Pràctica amb Firebase.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>2. Desenvolupamentamb Flutter. Widgets i Futures.</h1>
+        </header>
+        <hr>
+<h2 id="1-widgets">1. Widgets</h2>
+<p>En aquest primer apartat, anem a fer una breu introducció als principals widgets de Flutter, seguint la documentació que trobareu disponible a la pàgina de <a href="https://esflutter.dev/docs/development/ui/widgets-intro">esflutter.dev</a>.</p>
+<h3 id="11-introducció-als-widgets">1.1. Introducció als widgets</h3>
+<p>La interfície d&rsquo;usuari en Flutter es construeix mitjançant un tipus d&rsquo;objectes que coneixem com a Widgets, i que poden anidar-se per tal de crear una estructura en forma d&rsquo;arbre que represente la interfície. Recordem que els widgets poden ser sense estat (<em>Stateless</em>) o amb estat (<em>Stateful</em>). En estos últims, quan l&rsquo;estat associat canvia, el widget reconstrueix l&rsquo;arbre i el propi framework determina quins són els canvis mínims que cal fer en l&rsquo;arbre de renderitzat per fer possible la transició entre els estats.</p>
+<p>Recordem breument l&rsquo;estructura d&rsquo;una aplicació amb Flutter típica d&rsquo;Hola Món:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+
+<span style="color:#66d9ef">void</span> main() {
+  runApp(
+    Center(
+      child: Text(
+        <span style="color:#e6db74">&#39;Hello, world!&#39;</span>,
+        textDirection: TextDirection.ltr,
+      ),
+    ),
+  );
+}
+</code></pre></div><p>Repassem el codi:</p>
+<ul>
+<li>La funció <code>runApp()</code> dins el <em>main</em> rep el widget <code>Center(...)</code> que farà d&rsquo;arrel de l&rsquo;arbre.</li>
+<li>El widget arrel <code>Center</code> té un widget fill <code>child: Text(...)</code>.</li>
+<li>L&rsquo;element arrel cobreix la pantalla del dispositiu, pel que el text apareixerà centrat en la pantalla.</li>
+<li>Quan utilitzem un widget <code>Text</code> fora d&rsquo;una aplicació Material, com és aquest cas, hem d&rsquo;indicar la direcció d&rsquo;aquest mitjançant el paràmetre <code>TextDirection</code>, que en aquest cas hem establert d&rsquo;esquerra a dreta (<em>ltr</em> o <em>left-to-right</em>).</li>
+</ul>
+<p>En cas que volguérem que l&rsquo;aplicació fora una aplicació Material, el widget arrel sería un <em>MaterialApp</em>, amb el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() {
+  runApp(MaterialApp(
+    title: <span style="color:#e6db74">&#39;Exemple Hola Món&#39;</span>,
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text(<span style="color:#e6db74">&#39;Exemple Hola Mon&#39;</span>),
+      ),
+      body: Center(
+        child: Text(<span style="color:#e6db74">&#39;Hello World!&#39;</span>),
+      ),
+    ),
+  ));
+}
+</code></pre></div><p>Recordeu que per tal d&rsquo;utilitzar <em>Material</em>, ho hem d&rsquo;indicar al fitxer <em>pubspec.yaml</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">flutter</span>:
+  <span style="color:#f92672">uses-material-design</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>Tot i que podem anar creant els widgets dins d&rsquo;altres, potser ens siga més còmode definir els nostres widgets a banda:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() <span style="color:#f92672">=&gt;</span> runApp(MyApp());
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(...),
+    }
+}
+</code></pre></div><p>En aquest últim cas, hem definit un Widget sense estat, anomenay <em>MyApp</em>, per al que hem definit el contingut amb <em>build</em> i l&rsquo;hem utilitzat com a arrel de l&rsquo;aplicació.</p>
+<p>El nostre treball a l&rsquo;hora de programar aplicacions en Flutter serà crear nous widgets a partir dels existents. Aquests nous widgets, seran subclasses bé de <em>StatelessWidget</em> o de <em>StatefulWidget</em>, segons tinguen o no estat. Quan creem un widget, haurem d&rsquo;implementar la seua funció de construcció <code>build</code> que ens descriurà el widget, en termes d&rsquo;altres widgets.</p>
+<p>Aquesta separació de widgets en diferents classes, podría fer-se a molts nivells, fins i tot, creant al nostr exemple un Widget específic per al text (<code>MyText</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      <span style="color:#75715e">// Aquest títol és utilitzat pel 
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// commutador de tasque del SO
+</span><span style="color:#75715e"></span>      title: <span style="color:#e6db74">&#39;Exemple Hola Món&#39;</span>,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(<span style="color:#e6db74">&#39;Exemple Hola Món&#39;</span>),
+        ),
+        body: MyText(),
+      ),
+    );
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyText</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Center(
+          child: Text(<span style="color:#e6db74">&#39;Hello World!&#39;</span>),
+        );
+  }
+}
+</code></pre></div><p>El dividir un widget en diversos subwidgets ens vindrà determinat per la funcionalitat que volguem donar-li, i sobretot, la possibilitat de reutilització de cadascuna de les parts, de manera semblant a com podem fer la separació de codi en funcions.</p>
+<p><img src="../img/hello.png" alt="Execucions de l&rsquo;exemple, sense TextDirection, amb TextDirection i com a aplicació Material"></p>
+<h3 id="12-widgets-bàsics">1.2. Widgets bàsics</h3>
+<p>D&rsquo;entre els widgets de Flutter, els més bàsics seríen:</p>
+<ul>
+<li><strong>Text</strong>: Per crear una cadena de text amb estil,</li>
+<li><strong>Row</strong> i <strong>Column</strong>: Per crear dissenys flexibles tant en horitzontal (<em>row</em>) com en vertical (<em>Column</em>). El seu disseny es basa en el model de layout <em>flexbox</em> de CSS per a la web.</li>
+<li><strong>Stack</strong>: Permet apilar els widgets, un damunt d&rsquo;altre, en l&rsquo;ordre en què aquests es renderitzen. Per tal de posicionar els widgets en relació a les vores de l'<em>Stack</em>, podem utilitzar el widget <em>Positioned</em>. Aquests widgets es basen en el model de <em>layout</em> de posicionament absolut del CSS per a la web.</li>
+<li><strong>Container</strong>: Crea un element visual rectangular, que pot ser decorat amb un BoxDecoration, amb un fons, una vora o una ombra, així com tindre marges, fons o restriccions aplicades a la grandària.</li>
+</ul>
+<p>Veiem un exemple d&rsquo;ús d&rsquo;alguns d&rsquo;aquests widgets extret de la <a href="https://esflutter.dev/docs/development/ui/widgets-intro">documentació de Flutter</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+
+<span style="color:#75715e">// Definim el widget per a la barra superior com
+</span><span style="color:#75715e">// un widget sense estat:
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyAppBar</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  MyAppBar({<span style="color:#66d9ef">this</span>.title}); <span style="color:#75715e">// Constructor
+</span><span style="color:#75715e"></span>  
+  <span style="color:#75715e">// Els atributs d&#39;un widget es marquen com a Finals
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> Widget title;
+
+  <span style="color:#75715e">// Mètode build per crer el widget
+</span><span style="color:#75715e"></span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Container(
+      height: <span style="color:#ae81ff">56.0</span>, <span style="color:#75715e">// Altura del contenidor, en píxels lògics
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// (independents del dispositiu)
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// Afig un padding
+</span><span style="color:#75715e"></span>      padding: <span style="color:#66d9ef">const</span> EdgeInsets.symmetric(horizontal: <span style="color:#ae81ff">8.0</span>),
+      <span style="color:#75715e">// Afegim un color de fons al contenidor
+</span><span style="color:#75715e"></span>      decoration: BoxDecoration(color: Colors.blue[<span style="color:#ae81ff">500</span>]),
+      <span style="color:#75715e">// Com a fill del contenidor afegim un widget Row (distribució linial i horitzontal)
+</span><span style="color:#75715e"></span>      child: Row(
+        <span style="color:#75715e">// Row contindrà diversos fills (children), que seran de tipus genèroc &lt;Widget&gt;
+</span><span style="color:#75715e"></span>        children: <span style="color:#f92672">&lt;</span>Widget<span style="color:#f92672">&gt;</span>[
+          <span style="color:#75715e">// El primer widget és un botó d&#39;icona
+</span><span style="color:#75715e"></span>          IconButton(
+            icon: Icon(Icons.menu),
+            tooltip: <span style="color:#e6db74">&#39;Navigation menu&#39;</span>,
+            onPressed: <span style="color:#66d9ef">null</span>, <span style="color:#75715e">// Aci afegiriem la funcionalitat que volem per al click
+</span><span style="color:#75715e"></span>          ),
+          <span style="color:#75715e">// El widget Expanded expandeix el títol a tot l&#39;espai disponible.
+</span><span style="color:#75715e"></span>          Expanded(
+            child: title, <span style="color:#75715e">// Afegim dins el títol
+</span><span style="color:#75715e"></span>          ),
+          IconButton( <span style="color:#75715e">// Widget per afegir una icona de cerca
+</span><span style="color:#75715e"></span>            icon: Icon(Icons.search),
+            tooltip: <span style="color:#e6db74">&#39;Search&#39;</span>,
+            onPressed: <span style="color:#66d9ef">null</span>, <span style="color:#75715e">// No té cap funcionalitat
+</span><span style="color:#75715e"></span>          ),
+        ],
+      ),
+    );
+  }
+}
+
+<span style="color:#75715e">// Aquesta classe crea el nostre Scaffold de l&#39;aplicació
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyScaffold</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// Espai de treball en blanc per a les aplicacions Material
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Material(
+      <span style="color:#75715e">// Utilitzrem un disseny en forma de columna
+</span><span style="color:#75715e"></span>      child: Column(
+        <span style="color:#75715e">// Com a fills tindrem una llista de widgets
+</span><span style="color:#75715e"></span>        children: <span style="color:#f92672">&lt;</span>Widget<span style="color:#f92672">&gt;</span>[
+          <span style="color:#75715e">// El primer serà la barra personalitzada de l&#39;aplicació
+</span><span style="color:#75715e"></span>          MyAppBar(
+            title: Text(
+              <span style="color:#e6db74">&#39;Example title&#39;</span>,
+              style: Theme.of(context).primaryTextTheme.headline6,
+            ),
+          ),
+          <span style="color:#75715e">// I amb la resta de &#34;fulla&#34; de Material, 
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// utilitzem un widget Expanded per ocuper tot l&#39;espai
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// disponible amb el Text Hello, Wold centrat.
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// (recodeu que el Center ara no és l&#39;element arrel, i 
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">//  per tant, no ocupa per defecte tot l&#39;espai disponible)
+</span><span style="color:#75715e"></span>          Expanded(
+            child: Center(
+              child: Text(<span style="color:#e6db74">&#39;Hello, world!&#39;</span>),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+<span style="color:#66d9ef">void</span> main() {
+  runApp(MaterialApp(
+    <span style="color:#75715e">// Amb aquest opció eliminem l&#39;etiqueta de &#34;Debug&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// que apareix al cantó superior dret
+</span><span style="color:#75715e"></span>    debugShowCheckedModeBanner: <span style="color:#66d9ef">false</span>,
+    title: <span style="color:#e6db74">&#39;My app&#39;</span>, <span style="color:#75715e">// Títol de l&#39;App per al SO
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Element principal, el Scaffold personalitzat
+</span><span style="color:#75715e"></span>    home: MyScaffold(),
+  ));
+}
+
+</code></pre></div><p>Cal tindre en compte que executem el nostre component principal <em>MyScaffold()</em> dins el <em>home</em> d&rsquo;una <em>MaterialApp</em>. Això ho fem aixó, perquè molts widgets necessiten d&rsquo;ella per tal de mostrar-se correctament i heretar la informació del Tema de Material utilitzat. Si executàrem directament:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">runApp(MyScaffold());
+</code></pre></div><p>No ens mostraria cap error de codi, però molts elements de la interfície no sabrien com dibuixar-se, de manera que a banda d&rsquo;alguns errors per la terminal, ens mostraria la pantalla en negre de l&rsquo;aplicació.</p>
+<h3 id="13-components-de-material">1.3. Components de Material</h3>
+<p>Flutter ens ofereix altres widgets per tal de crear aplicacions d&rsquo;acord amb <em>Material Design</em>. Com hem vist, les aplicacions Material comencen amb el widget MaterialApp. Aquest construeix una sèrie de widgets en l&rsquo;arrel de l&rsquo;aplicació, que inclouen per exemple el <em>Navigator</em> que vam veure per treballar amb diverses <em>pantalles</em> de l&rsquo;aplicació, identificades amb rutes (<em>routes</em>).</p>
+<p>Si seguim l&rsquo;exemple de la documentació, ara modificarem el codi anterior per donar un aspecte més <em>Material</em> a l&rsquo;aplicació, tal i com hem fet als exemples de la primera sessió de Flutter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() {
+  <span style="color:#75715e">// Executem l&#39;aplicació com a Material
+</span><span style="color:#75715e"></span>  runApp(MaterialApp(
+    debugShowCheckedModeBanner: <span style="color:#66d9ef">false</span>,
+    title: <span style="color:#e6db74">&#39;Flutter Tutorial&#39;</span>,
+    home: TutorialHome(),
+  ));
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TutorialHome</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// Utilitzem l&#39;esquelet d&#39;aplicació Material, 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// que ja incorpora la barra superior (appBar) 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// i el contingut (body)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          tooltip: <span style="color:#e6db74">&#39;Navigation menu&#39;</span>,
+          onPressed: <span style="color:#66d9ef">null</span>,
+        ),
+        title: Text(<span style="color:#e6db74">&#34;Aplicació d&#39;exemple&#34;</span>,),
+        actions: <span style="color:#f92672">&lt;</span>Widget<span style="color:#f92672">&gt;</span>[
+          IconButton(
+            icon: Icon(Icons.search),
+            tooltip: <span style="color:#e6db74">&#39;Search&#39;</span>,
+            onPressed: <span style="color:#66d9ef">null</span>,
+          ),
+        ],
+      ),
+      <span style="color:#75715e">// el body ja ocupa la major part de pantalla, 
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// no cal utilitzr l&#39;Expand.
+</span><span style="color:#75715e"></span>      body: Center(
+        child: Text(<span style="color:#e6db74">&#39;Hello, world!&#39;</span>),
+      ),
+      <span style="color:#75715e">// Finalment, també afegim un botó flotant
+</span><span style="color:#75715e"></span>      floatingActionButton: FloatingActionButton(
+        tooltip: <span style="color:#e6db74">&#39;Add&#39;</span>, <span style="color:#75715e">// Per a l&#39;accessibilitat
+</span><span style="color:#75715e"></span>        child: Icon(Icons.add),
+        onPressed: <span style="color:#66d9ef">null</span>,
+      ),
+    );
+  }
+}
+</code></pre></div><p>Tornem a remarcar que els widgets es passen com a arguments a altres widgets. Per exemple <em>Scaffold</em> pren diversos widgets com a <strong>arguments amb nom</strong> (<code>appBar</code>, <code>body</code>, <code>floatingActionButtion</code>), o el widget <em>AppBar</em> permet passar-li widgets per al l&rsquo;element inicial (leading), el títol o les accions. etc. Aquest patró de creació d&rsquo;elements es repeteix al llarg de tot el Framework, i que haurem de tindre present a l&rsquo;hora de crear els nostres widgets.</p>
+<h3 id="14-gestos">1.4. Gestos</h3>
+<p>Els gestos recullen les accions de l&rsquo;usuari amb la interfície i proporcionen interactivitat amb les aplicacions.</p>
+<p>Anem a modificar el codi anterior, i afegir un nou Widget <code>TextInteractiu</code>, en forma de botó:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TextInteractiu</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#66d9ef">var</span> myText<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>; <span style="color:#75715e">// Atribut de la classe
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// Constructor per inicialitzar myText
+</span><span style="color:#75715e"></span>  TextInteractiu(text){myText<span style="color:#f92672">=</span>text;}
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// El widget contindrà un GestureDetector
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Aquest widget és capaç de detectar gestos com
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// taps, drags i scales.
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">return</span> GestureDetector(
+      onTap: () {
+        print(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">${</span>myText<span style="color:#e6db74">}</span><span style="color:#e6db74"> ha estat tocat!&#39;</span>);
+      },
+      <span style="color:#75715e">// El fill serà un contenidor per donar 
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// forma al botó.
+</span><span style="color:#75715e"></span>      child: Container(
+        height: <span style="color:#ae81ff">36.0</span>,
+        padding: <span style="color:#66d9ef">const</span> EdgeInsets.all(<span style="color:#ae81ff">8.0</span>),
+        margin: <span style="color:#66d9ef">const</span> EdgeInsets.symmetric(horizontal: <span style="color:#ae81ff">8.0</span>),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(<span style="color:#ae81ff">5.0</span>),
+          color: Colors.lightGreen[<span style="color:#ae81ff">500</span>],
+        ),
+        child: Center(
+          child: Text(myText),
+        ),
+      ),
+    );
+  }
+}
+</code></pre></div><p>I a més, modificarem el codi anterior, de manera que en lloc de</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TutorialHome</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// Scaffold es un layout para la mayoría de los Material Components.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Scaffold(
+      ...
+      body: Center(
+        <span style="color:#75715e">// Eliminem el text
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//child: Text(&#39;Hello, world!&#39;),
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// I afegim el que hem creat
+</span><span style="color:#75715e"></span>        child: TextInteractiu(<span style="color:#e6db74">&#34;Hello, world!&#34;</span>)
+      ),...
+    );
+  }
+}
+</code></pre></div><p>Amb això, ens apareixerà el <em>Hello world!</em> central dins un botó verd, i mostrarà el mateix missatge cada vegada que el toquem.</p>
+<p>Com podem vore, el <em>GesdtureDetector</em> és un detector de gestos genèric, que ens proporciona <em>callbacks</em> opcionals per a altres widgets. Elements com l'<em>IconButton</em>, <em>RaisedButton</em> i <em>FloatingAtionButton</em> utilitzen el callback <em>onPressed()</em> d&rsquo;aqest detector, que s&rsquo;activen quan l&rsquo;usuari els toca.</p>
+<h3 id="15-widgets-amb-estat">1.5. Widgets amb estat</h3>
+<p>Recordem que els widgets amb estat són aquells que tenen un estat associat, i que per crear la plantilla, podem escriure al VSCode <em>stful</em> per a que ens mostre la <em>recepta</em>.</p>
+<p>Un exemple senzill d&rsquo;aquesta plantilla amb nom <em>Exemple</em> seria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Exemple</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  _ExempleState createState() <span style="color:#f92672">=&gt;</span> _ExempleState();
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_ExempleState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>Exemple<span style="color:#f92672">&gt;</span> {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Container(
+      
+    );
+  }
+}
+</code></pre></div><p>Com a exemple bàsic de Widgets amb estat i com modificar aquest, disposem del comptador de clics que ens apareix com a aplicació d&rsquo;exemple quan creem un projecte Flutter nou. Veiem una xicoteta simplifacació:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">
+<span style="color:#66d9ef">void</span> main() {
+  runApp(MyApp());
+}
+
+<span style="color:#75715e">// L&#39;aplicació segueix sent un widget sense estat
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;Comptador&#39;</span>,
+      <span style="color:#75715e">// Però la pàgina principal sí que tindrà estat
+</span><span style="color:#75715e"></span>      home: MyHomePage(title: <span style="color:#e6db74">&#39;Provant clicks&#39;</span>),
+    );
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHomePage</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+  <span style="color:#75715e">// Constructor
+</span><span style="color:#75715e"></span>  MyHomePage({Key key, <span style="color:#66d9ef">this</span>.title}) <span style="color:#f92672">:</span> <span style="color:#66d9ef">super</span>(key: key);
+
+  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> title;
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  _MyHomePageState createState() <span style="color:#f92672">=&gt;</span> _MyHomePageState();
+}
+
+<span style="color:#75715e">// Classe d&#39;estat
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_MyHomePageState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>MyHomePage<span style="color:#f92672">&gt;</span> {
+  <span style="color:#66d9ef">int</span> _counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+  <span style="color:#66d9ef">void</span> _incrementCounter() {
+    setState(() {
+      <span style="color:#75715e">// Indica un canvi d&#39;estat, per a que
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// torne a executar el mètode build
+</span><span style="color:#75715e"></span>      _counter<span style="color:#f92672">++</span>;
+    });
+  }
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// Aquest  mètode s&#39;invoca quan s&#39;actualitza l&#39;estat, i redibuixa
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// els elements de la interfície
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column( <span style="color:#75715e">// Mostrem els textos en forma de columna
+</span><span style="color:#75715e"></span>          mainAxisAlignment: MainAxisAlignment.center,
+          children: <span style="color:#f92672">&lt;</span>Widget<span style="color:#f92672">&gt;</span>[
+            Text(
+              <span style="color:#e6db74">&#39;Clicks al botó:&#39;</span>,
+            ),
+            Text(
+              <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">$</span>_counter<span style="color:#e6db74">&#39;</span>,
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      <span style="color:#75715e">// Botó flotant
+</span><span style="color:#75715e"></span>      floatingActionButton: FloatingActionButton(
+        <span style="color:#75715e">// Associem a l&#39;event onPressed la funció _incrementCounter
+</span><span style="color:#75715e"></span>        onPressed: _incrementCounter,
+        tooltip: <span style="color:#e6db74">&#39;Increment&#39;</span>,
+        child: Icon(Icons.add),
+      ), 
+    );
+  }
+}
+</code></pre></div><p>Recordeu també que la idea de separar el Widget amb estat del seu estat ens serveix per <em>recordar</em> la informació de l&rsquo;estat cada vegada que s&rsquo;ha de redibuixar el widget, per exemple, quan girem la pantalla o canviem d&rsquo;aplicació.</p>
+<h2 id="2-asincronisme-en-dart">2. Asincronisme en Dart</h2>
+<p>L&rsquo;asincronisme fa referència a un model de programació on és possible que determinades operacions tornen el control de l&rsquo;execució al programa que les ha invocades abans d&rsquo;haver acabat.</p>
+<p>Aquest comportament es pot apreciar en aplicacions on els continguts són carregats de forma dinàmica, i van apareien a la interfície a mesura que es van rebent, en lloc d&rsquo;esperar-se a tindre&rsquo;ls tots per mostrar els resultats.</p>
+<p>Al llarg del cicle, heu vist diferents formes de tractar l&rsquo;asincronisme: callbacks, promeses i la interfície async/await en Javascript, les variables Future i els threads en Java/Kotlin. Anem a veure ara com treballem amb funciona asíncrones en Dart, i per extensió amb Flutter.</p>
+<p>Flutter treballa l&rsquo;asincronisme mitjançant <em>Futures</em> i funcions asíncrones. Anem a veure què és cada cosa.</p>
+<h3 id="21-futures">2.1. Futures</h3>
+<p>Els Futures defineixen tipus de dades associades a funcions asíncrones que no es resolen de forma immediate. Per exemple, informació que es demana a un servidor, que sabem que es resoldrà en algun moment, però no sabem quan.</p>
+<p>Veiem un exemple sezill que anirem ampliant. Definim la següent funció <code>syncFun()</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:io&#39;</span>;
+
+<span style="color:#66d9ef">String</span> syncFunc(){
+      sleep(<span style="color:#66d9ef">new</span> Duration( seconds: <span style="color:#ae81ff">1</span>));
+      print(<span style="color:#e6db74">&#34;Estem en syncFun&#34;</span>);
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Valor de retorn&#39;</span>;    
+  }
+</code></pre></div><p>Aquesta funció fa una pausa d&rsquo;un segon (<code>sleep (new Duration(seconds:1))</code>), i després escriu el missatge <em>Estem en syncFun</em> i retorna <em>Valor de retorn</em>.</p>
+<p>Ara definim el <em>main</em> de la següent manera:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() {
+  print (<span style="color:#e6db74">&#34;Hola&#34;</span>);
+  <span style="color:#66d9ef">var</span> ret<span style="color:#f92672">=</span>syncFunc();
+  print (ret);
+  print(<span style="color:#e6db74">&#34;Adéu&#34;</span>);
+}
+</code></pre></div><p>En aquesta funció, escrivim <em>Hola</em>, invoqem la funció <code>syncFunc</code> i ens guardem el valor per imprimir-lo, i després escrivim <em>Adéu</em>.</p>
+<p>El resultat de l&rsquo;execució és el que s&rsquo;espera d&rsquo;una programació seqüencial:</p>
+<pre><code>$ dart future.dart 
+Hola
+&lt;Aci fa una pausa d'un segon...&gt;
+Estem en syncFun
+Valor de retorn
+Adéu
+</code></pre><p>Ara, anem a reemplaçar la funció <code>SyncFun</code> per la següent <code>FutureFunc</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> futureFunc(){
+    <span style="color:#66d9ef">return</span> Future.delayed(<span style="color:#66d9ef">new</span> Duration( seconds: <span style="color:#ae81ff">1</span>), (){
+      print(<span style="color:#e6db74">&#34;Estem en futureFunc&#34;</span>);
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Valor de retorn&#39;</span>;
+    
+  });
+}
+</code></pre></div><p>Com veiem, ara aquesta funció <code>futureFunc</code> retorna un tipus <code>Future&lt;String&gt;</code>, és a dir, un String, però que no el retornarà de forma immediata.</p>
+<p>Dins la funció, en lloc de <code>sleep</code>, fem ús de <code>Future.delayed</code>, per fer una pausa d&rsquo;un segon, però de forma asíncrona.Aquesta funció té  la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Future.delayed( durada , funció_anònima);
+</code></pre></div><p>És a dir, fa una pausa de la durada indicada (igual que <code>sleep</code>) i desprésd&rsquo;aquesta pausa, invoca la funció anònima que li s&rsquo;ha definit (<code>(){...}</code>).</p>
+<p>Si ara utilitzem el mateix codi que abans, però utilitzant aquesta funcó:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() {
+  print (<span style="color:#e6db74">&#34;Hola&#34;</span>);
+  <span style="color:#66d9ef">var</span> ret<span style="color:#f92672">=</span>futureFunc();
+  print (ret);
+  print(<span style="color:#e6db74">&#34;Adéu&#34;</span>);
+}
+</code></pre></div><p>Obtindrem:</p>
+<pre><code>$ dart future.dart 
+Hola
+Instance of 'Future&lt;String&gt;'
+Adéu
+&lt;Aci fa una pausa d'un segon...&gt;
+Estem en futureFunc
+</code></pre><p>D&rsquo;aquesta execució podem fer les segúents observacions:</p>
+<ul>
+<li>La segona cosa que imprimeix és <code>Instance of Future&lt;String&gt;'</code>, com a resultat del <code>print (ret);</code>.</li>
+<li>La tercera línia que s&rsquo;imprimeix és <em>Adéu</em>, que és la última línia del codi principal.</li>
+<li>La pausa d&rsquo;un segon la fa després d&rsquo;escriure la última línia, i depsrés imprimeix la línia <em>Estem en futureFunc</em>.</li>
+</ul>
+<p>El que podem apreciar és que quan es fa la invocació de <code>futureFunc</code>, el programa principal segueix funcionant. Mentre es fa la pausa s&rsquo;intenta imprimir el valor de retorn i com que aquest encara no ha estat assignat ens diu que és una instància de <em>Future
+<p>Quina és la solució a aquest problema?</p>
+<p><strong>Calbaks</strong></p>
+<p>Una possible solució, passaría per utilitzar callbacks, de forma semblant a com fem amb Javascript. Definiríem la funció com a:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">
+Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> futureFunc2([callback<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>]){
+    <span style="color:#66d9ef">return</span> Future.delayed(<span style="color:#66d9ef">new</span> Duration( seconds: <span style="color:#ae81ff">1</span>), (){
+      print(<span style="color:#e6db74">&#34;Estem en futureFunc&#34;</span>);
+      <span style="color:#66d9ef">if</span> (callback<span style="color:#f92672">!=</span><span style="color:#66d9ef">null</span>) callback(<span style="color:#e6db74">&#34;Valor de retorn&#34;</span>);    
+  });
+}
+<span style="color:#66d9ef">void</span> main() { 
+  print (<span style="color:#e6db74">&#34;Hola&#34;</span>);<span style="color:#75715e">// Amb await si que s&#39;espera a l
+</span><span style="color:#75715e"></span>  futureFunc2((valor) <span style="color:#f92672">=&gt;</span> { print(valor) });
+  print(<span style="color:#e6db74">&#34;Adéu&#34;</span>);
+}
+</code></pre></div><p>Com veiem, li passaríem una funció de callback a futureFunc2, que hem definit com a <em>Future</em>, però que realment, no retorna res, ja que el valor de retorn és passat com a argument a la funció de callback que se&rsquo;ns proporciona des del <em>main</em>. El resultat de l&rsquo;execució d&rsquo;aquesta programa quedaria:</p>
+<pre><code>$ dart future.dart 
+Hola
+Adéu
+&lt;Aci fa una pausa d'un segon...&gt;
+Estem en futureFunc
+Valor de retorn
+</code></pre><p>Com podem veure, hem arribat al final del programa (on escrivim <em>Adéu</em>) abans que es complisca el <em>delayed</em> d&rsquo;un segon, però una vegada es compleix, apareixen la resta de missatges correctament. Aquest comportament és habitual amb programció asíncrona, que el programa principal segueix executant-se, i quan finalitzen els processos asíncrons, es processen les respostes. No ens importa tant l&rsquo;ordre en què obtenim resultats com la sensació que <em>l&rsquo;aplicació no es quede penjada</em> pe a l&rsquo;usuari.</p>
+<p><strong>Future</strong></p>
+<p>La forma habitual de treballar l&rsquo;asincronisme amb Dart, més que amb callbacks, és fent ús dels tipus Future i les funcions asíncrones. Tornem a l&rsquo;exemple amb <code>futureFunc</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> futureFunc(){
+    <span style="color:#66d9ef">return</span> Future.delayed(<span style="color:#66d9ef">new</span> Duration( seconds: <span style="color:#ae81ff">1</span>), (){
+      print(<span style="color:#e6db74">&#34;Estem en futureFunc&#34;</span>);
+      <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Valor de retorn&#39;</span>;
+  });
+}
+</code></pre></div><p>Anem a veure dues formes d&rsquo;invocar aquesta funció, tant si volem que totes les ordres s&rsquo;executen de forma ordenada (com si es tractara de programació seqüencial), i com ho faríem de forma asíncrona.</p>
+<p><em><strong>async/await</strong></em></p>
+<p>De forma semblant a com faríem amb javascript podem utilitzar async/await de la següent forma:</p>
+<ul>
+<li>Quan anem a utilitzar una funció asíncrona, però volem esperar a tindre el resulttat, fem ús d<code>await</code> abans d&rsquo;invocar a la funció.</li>
+<li>Si anem a utilitzar <code>await</code> dins d&rsquo;alguna funció, aquesta funció s&rsquo;haurà de definir amb <code>async</code> abans de les claus del cos de la funció.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() <span style="color:#66d9ef">async</span> { 
+  print (<span style="color:#e6db74">&#34;Hola&#34;</span>);<span style="color:#75715e">// Amb await si que s&#39;espera a l
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> ret<span style="color:#f92672">=</span><span style="color:#66d9ef">await</span> futureFunc();
+  print (ret);
+  print(<span style="color:#e6db74">&#34;Adéu&#34;</span>);
+}
+</code></pre></div><p>Amb açò obtindrem el mateix resultat que si la funció <code>futureFunc</code> fos síncrona:</p>
+<pre><code>$ dart future.dart 
+Hola
+&lt;Pausa d'un segon...&gt;
+Estem en futureFunc
+Valor de retorn
+Adéu
+</code></pre><p>Per altra banda, quan ens interessa més donar una sensació de fluidesa, sense que importe tant l&rsquo;ordre en què apareguen els missatges, podem fer ús de <em>Future</em> per definir el valor de retorn com a <em>Futur</em>, i fer ís del mètode <code>then</code> d&rsquo;aquest <em>Future</em> per definir una funció (anònima/fletxa) que s&rsquo;exeutarà quan es tinga un valor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() { 
+  print (<span style="color:#e6db74">&#34;Hola&#34;</span>);
+  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> ret<span style="color:#f92672">=</span>futureFunc();
+  ret.then((value) <span style="color:#f92672">=&gt;</span> print(value));
+  print(<span style="color:#e6db74">&#34;Adéu&#34;</span>);
+}
+</code></pre></div><p>En aquest cas, els resultats seran desordenats, però no es bloquejarà el programa principal.</p>
+<pre><code>$ dart future.dart 
+Hola
+Adéu
+&lt;Pausa d'un segon...&gt;
+Estem en futureFunc
+Valor de retorn
+</code></pre><h3 id="22-un-exemple-pràctic-dasincronisme">2.2. Un exemple pràctic d&rsquo;asincronisme</h3>
+<p>Anem a fer un exemple pràctic per tal d&rsquo;obtenir dades d&rsquo;Internet mitjançant la llibrería <em>http</em> de Dart, que ofereix mètodes per utilitzar aquest protocol. Per a això, anem a fer ús de l&rsquo;API de <a href="https://mmediagroup.fr/covid-19">Mediagroup.fr</a> amb dades de la Covid 19. El codi font i l&rsquo;especificació de l&rsquo;API es troben al repositori de Github <a href="https://github.com/M-Media-Group/Covid-19-API">https://github.com/M-Media-Group/Covid-19-API</a>.</p>
+<p>De tota l&rsquo;API, bàsicament anem a utilitzar crides HTTP de tipus GET amb el format <code>https://covid-api.mmediagroup.fr/v1/history?country=Spain&amp;status=confirmed</code>. Podeu apegar aquesta URL al navegador per tal de veure el JSON que us retorna aquesta crida.</p>
+<p>Per tal de treballar amb peticions HTTP necessitem la llibrería corresponent, no inclosa de base en Dart, pel que haurem de descarregar-la des de <code>pub.dev</code>. Per a això anem a necessitar tot un projecte amb Dart, amb el seu <code>pubspec.yaml</code>, on indiquem, entre d&rsquo;altres coses les dependències.</p>
+<p><em><strong>Creació d&rsquo;un projecte amb Dart</strong></em></p>
+<p>Fins ara hem vist com crear projectes amb tot el framework Flutter, però no projectes directament amb Dart. Per a això, hem d&rsquo;utilitzar l&rsquo;ordre <code>dart create</code>. Si podem aquesta ordre directament, podrem veure les diferents opcions que té. Al nostre cas, anem a crear un projecte senzill de consola que anomenarem <em>httpget</em>.</p>
+<p>Per crear el projecte <em>httpget</em> farem:</p>
+<pre><code>$ dart create -t console-simple httpget
+</code></pre><p>Açò ens crea l&rsquo;estructura següent:</p>
+<pre><code>.
+|-- analysis_options.yaml
+|-- bin
+|   `-- httpget.dart
+|-- CHANGELOG.md
+|-- .dart_tool
+|   `-- package_config.json
+|-- .gitignore
+|-- .packages
+|-- pubspec.lock
+|-- pubspec.yaml
+`-- README.md
+</code></pre><p>Com veiem, ens crea diversos fitxers, incloent un README, un .gitignore&hellip; però el que més ens interessa són els fitxers <strong><code>bin/httpget.dart</code></strong> amb el codi font, i <strong><code>pubspec.yaml</code></strong>, amb les propietats del projecte.</p>
+<p>Afegim ara dependència de la <a href="https://pub.dev/packages/http">llibreria http</a> al fitxer <code>pubspec.yaml</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">dependencies</span>:
+  <span style="color:#f92672">http</span>: <span style="color:#ae81ff">^0.12.2</span>
+</code></pre></div><p>I la instal·lem, fent ús de <code>dart pub get</code> tal i com utilitzàvem <code>flutter pub get</code>:</p>
+<pre><code>$ dart pub get
+Resolving dependencies... 
+Got dependencies!
+</code></pre><p>Ara ja només ens queda implementar el nostre codi al fitxer <code>bin/httpget.dart</code>.</p>
+<ul>
+<li>En primer lloc, fem l&rsquo;import de les llibreríes <em>http</em> i <em>dart:convert</em>, per proporcionar les funcionalitats per fer peticions http i fer la conversió entre formats JSON, que és com ens retorna l&rsquo;API la resposta:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:http/http.dart&#39;</span> <span style="color:#66d9ef">as</span> http;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:convert&#39;</span>;
+</code></pre></div><ul>
+<li>En segon lloc, definim la funció principal <em>main</em> com a <em>async</em>, ja que internament anem a fer ús d&rsquo;una funcionalitat asíncrona a la que ens haurem d&rsquo;esperar:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() <span style="color:#66d9ef">async</span> {  ... }
+</code></pre></div><ul>
+<li>Dins el main, definim l&rsquo;URL que representarà l'<em>endpoint</em> per consultar l&rsquo;API, i fem ús del mètode <em>get</em> de la llibrería <em>http</em> per obtindre els resultats. En aquest cas, haurem d&rsquo;esperar explícitament a obtindre la resposta amb un <em>await</em>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">var</span> url <span style="color:#f92672">=</span>
+      <span style="color:#e6db74">&#39;https://covid-api.mmediagroup.fr/v1/history?country=Spain&amp;status=confirmed&#39;</span>;
+  <span style="color:#66d9ef">var</span> response <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> http.<span style="color:#66d9ef">get</span>(url);
+</code></pre></div><ul>
+<li>Una vegada tenim la resposta, comprovem si l&rsquo;estat d&rsquo;aquesta és correcte, i si ho hés, mostrem els resultats. L&rsquo;estat de la resposta és correcte quan el seu codi és <em>&ldquo;200&rdquo;</em> (OK). Altes codis d&rsquo;estat poden ser el clàssic <em>404 Not Found</em>, o <em>50x Internal Server Error</em>.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">print(<span style="color:#e6db74">&#39;Estat de la resposta: </span><span style="color:#e6db74">${</span>response.statusCode<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>);
+
+  <span style="color:#66d9ef">if</span> (response.statusCode <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>) {
+    <span style="color:#75715e">//.. Aci processem la resposta
+</span><span style="color:#75715e"></span>  }
+</code></pre></div><ul>
+<li>Si la resposta conté dades, en <code>response.body</code> tindrem el cos d&rsquo;aquesta, en Format JSON. Podem fer la petició i veure el format que té en un navegador, però simplificant, la resposta tindrà una estructura com aquesta:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+   <span style="color:#f92672">&#34;All&#34;</span>:{
+      <span style="color:#f92672">&#34;country&#34;</span>:<span style="color:#e6db74">&#34;Spain&#34;</span>,
+      <span style="color:#f92672">&#34;population&#34;</span>:<span style="color:#ae81ff">46354321</span>,
+      <span style="color:#f92672">&#34;sq_km_area&#34;</span>:<span style="color:#ae81ff">505992</span>,
+      <span style="color:#960050;background-color:#1e0010">...</span>
+      <span style="color:#f92672">&#34;dates&#34;</span>:{
+         <span style="color:#f92672">&#34;2021-01-19&#34;</span>:<span style="color:#ae81ff">2370742</span>,
+         <span style="color:#f92672">&#34;2021-01-18&#34;</span>:<span style="color:#ae81ff">2336451</span>,
+          <span style="color:#960050;background-color:#1e0010">...</span>
+      }
+   }
+}
+</code></pre></div><p>Aquest objecte el tindrem en <code>response.body</code> en format <em>String</em>, pel que caldrà convertir-lo a objecte amb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">var</span> body <span style="color:#f92672">=</span> json.decode(response.body);
+</code></pre></div><p>Per tal de mostrar una data concreta, anem a obtenir, per exemple la data del dia anterio al que estem. Per fer això, utilitzarem la següent ordre:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">var</span> ahir <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DateTime.now().subtract(Duration(days: <span style="color:#ae81ff">1</span>));
+</code></pre></div><p>Amb <code>DateTime.now()</code> obtenim la data actual, i amb <code>.substract(Duration(days:1))</code>, li llevem un dia. Si convertim a <em>String</em> aquest resultat, obtindrem una cadena amb el format:</p>
+<pre><code>2021-01-19 16:17:18.750144
+</code></pre><p>D&rsquo;aquest format ens interessarà només la primer part, que és amb la que estan indexades les dades dins el component <code>dates</code> del JSON. Així doncs, farem ús d&rsquo;un <em>split</em> per tal d&rsquo;obtindre-ho com necessitem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">var</span> ahir <span style="color:#f92672">=</span>
+        <span style="color:#66d9ef">new</span> DateTime.now().subtract(Duration(days: <span style="color:#ae81ff">1</span>)).toString().split(<span style="color:#e6db74">&#39; &#39;</span>)[<span style="color:#ae81ff">0</span>];
+</code></pre></div><ul>
+<li>Finalment, només ens quedarà accedir a la dada indexada en el Component <em>All -&gt; dates -&gt; ahir</em>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">print(<span style="color:#e6db74">&#34;Contagis fins el </span><span style="color:#e6db74">${</span>ahir<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${</span>body[<span style="color:#e6db74">&#39;All&#39;</span>][<span style="color:#e6db74">&#39;dates&#39;</span>][<span style="color:#e6db74">&#39;${ahir</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;]}&#34;</span>);
+</code></pre></div><p>El codi complet de l&rsquo;aplicació quedarà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:http/http.dart&#39;</span> <span style="color:#66d9ef">as</span> http;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:convert&#39;</span>;
+
+<span style="color:#66d9ef">void</span> main() <span style="color:#66d9ef">async</span> {
+  <span style="color:#66d9ef">var</span> url <span style="color:#f92672">=</span>
+      <span style="color:#e6db74">&#39;https://covid-api.mmediagroup.fr/v1/history?country=Spain&amp;status=confirmed&#39;</span>;
+  <span style="color:#66d9ef">var</span> response <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> http.<span style="color:#66d9ef">get</span>(url);
+
+  print(<span style="color:#e6db74">&#39;Estat de la resposta: </span><span style="color:#e6db74">${</span>response.statusCode<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>);
+
+  <span style="color:#66d9ef">if</span> (response.statusCode <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>) {
+    <span style="color:#66d9ef">var</span> body <span style="color:#f92672">=</span> json.decode(response.body);
+    <span style="color:#66d9ef">var</span> ahir <span style="color:#f92672">=</span>
+        <span style="color:#66d9ef">new</span> DateTime.now().subtract(Duration(days: <span style="color:#ae81ff">1</span>)).toString().split(<span style="color:#e6db74">&#39; &#39;</span>)[<span style="color:#ae81ff">0</span>];
+  print(<span style="color:#e6db74">&#34;Contagis fins el </span><span style="color:#e6db74">${</span>ahir<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${</span>body[<span style="color:#e6db74">&#39;All&#39;</span>][<span style="color:#e6db74">&#39;dates&#39;</span>][<span style="color:#e6db74">&#39;${ahir</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;]}&#34;</span>);
+  }
+}
+</code></pre></div><p>I el resultat serà:</p>
+<pre><code>$ dart bin/httpget.dart 
+Estat de la resposta: 200
+Contagis fins el 2021-01-19: 2370742
+</code></pre><h2 id="3-futurebuilder">3. FutureBuilder</h2>
+<p>Quan treballem amb funcions asíncrones dins una interfície d&rsquo;usuari, és possible que necessitem que en algun moment, l&rsquo;aplicació s&rsquo;haja d&rsquo;esperar a obteindre el resultat d&rsquo;alguna d&rsquo;aquestes funcions.</p>
+<p>Per tal de gestionar aquestes situacions, disposem del widget <em>FutureBuilder</em>. Aquest és un widget amb estat que rep tres paràmetres:</p>
+<ul>
+<li><strong>Future</strong>: Representa al resultat asíncron, ja siga una funció async-await, preferències, accés a una base de dades o petició web.</li>
+<li><strong>Builder</strong>: Rep el context i un <em>snapshot</em>, que retorna el valor Future.</li>
+<li><strong>InitialData</strong>: Valor inicial fins que es rep el valor Future.</li>
+</ul>
+<p>Anem a veure com a exemple, una versió gràfica del l&rsquo;exemple sobre dades del Covid anterior.</p>
+<p>Abans que res, creem una nova aplicació Flutter:</p>
+<pre><code>flutter create --ios-language swift --android-language kotlin --org com.ieschabas.pmdm infocovid
+</code></pre><p>Una vegada tenim l&rsquo;esquelet de l&rsquo;aplicació, crearem, al directori arrel del projecte una carpeta que anomenarem <em>assets</em>, i dins la qual guardarem la imatge de portada de l&rsquo;aplicació (<em>assets/covid.png</em>).</p>
+<p>I modificarem el fitxer <code>pubspec.yaml</code> amb el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">name</span>: <span style="color:#ae81ff">infocovid</span>
+<span style="color:#f92672">description</span>: <span style="color:#ae81ff">A new Flutter project.</span>
+...
+<span style="color:#75715e"># Afegim la dependència de la llibreria HTTP</span>
+<span style="color:#f92672">dependencies</span>:
+...
+  <span style="color:#f92672">http</span>: <span style="color:#ae81ff">^0.12.2</span>
+
+...
+<span style="color:#75715e"># I configurem la carpeta assets per a que </span>
+<span style="color:#75715e"># puguem utilitzar el seu contingut a l&#39;aplicació</span>
+<span style="color:#f92672">flutter</span>:
+...
+  <span style="color:#f92672">assets</span>:
+    - <span style="color:#ae81ff">assets/ </span>
+...
+</code></pre></div><p>Crearem un fitxer <code>lib/covidDataProvider.dart</code>, que implentarà la classe <code>codivDataProvider</code> amb els mètodes necessaris per tal d&rsquo;obtenir la data d&rsquo;ahir i consultar l&rsquo;API através d&rsquo;HTTP. El codi d&rsquo;aquest fitxer serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:http/http.dart&#39;</span> <span style="color:#66d9ef">as</span> http;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:convert&#39;</span>;
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">covidDataProvider</span> {
+  <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">String</span> getYesterday() {
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> DateTime.now()
+        .subtract(Duration(days: <span style="color:#ae81ff">1</span>))
+        .toString()
+        .split(<span style="color:#e6db74">&#39; &#39;</span>)[<span style="color:#ae81ff">0</span>];
+  }
+
+  <span style="color:#66d9ef">static</span> Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> getData(<span style="color:#66d9ef">String</span> data) <span style="color:#66d9ef">async</span> {
+    <span style="color:#66d9ef">var</span> url <span style="color:#f92672">=</span>
+        <span style="color:#e6db74">&#39;https://covid-api.mmediagroup.fr/v1/history?country=Spain&amp;status=confirmed&#39;</span>;
+    <span style="color:#66d9ef">var</span> response <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> http.<span style="color:#66d9ef">get</span>(url);
+    print(<span style="color:#e6db74">&#39;[Debug] Estat de la resposta: </span><span style="color:#e6db74">${</span>response.statusCode<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>);
+    <span style="color:#66d9ef">if</span> (response.statusCode <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>) {
+      <span style="color:#66d9ef">var</span> body <span style="color:#f92672">=</span> json.decode(response.body);
+      print(<span style="color:#e6db74">&#34;Contagis fins el </span><span style="color:#e6db74">${</span>data<span style="color:#e6db74">}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">${</span>body[<span style="color:#e6db74">&#39;All&#39;</span>][<span style="color:#e6db74">&#39;dates&#39;</span>][<span style="color:#e6db74">&#39;${data</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;]}&#34;</span>);
+      <span style="color:#66d9ef">return</span> (<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>body[<span style="color:#e6db74">&#39;All&#39;</span>][<span style="color:#e6db74">&#39;dates&#39;</span>][<span style="color:#e6db74">&#39;${data</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;]}&#34;</span>);
+    }
+  }
+}
+</code></pre></div><p>Com veiem, implementa dos mètode estàtics, per poder utilitzar-los sense necessitat de crear un objecte de la classe.</p>
+<p>El mètode getData, que obté la informació de l&rsquo;API s&rsquo;ha definit amb <code>async</code>, i a més, amb un tipus de retorn <code>Future&lt;String&gt;</code>. La resta de codi és exactament igual que el que hem vist a l&rsquo;exemple de Dart.</p>
+<p>Veiem ara com implementariem l&rsquo;aplicació Flutter per mostrar estos resultats (fitxer <code>lib/main.dart</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;covidDataProvider.dart&#39;</span>;
+
+<span style="color:#66d9ef">void</span> main() {
+  runApp(MyApp());
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;Info Covid&#39;</span>,
+      home: infoCovidHome(title: <span style="color:#e6db74">&#39;InfoCovid&#39;</span>),
+    );
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">infoCovidHome</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+<span style="color:#75715e">// Constructor
+</span><span style="color:#75715e"></span>  infoCovidHome({Key key, <span style="color:#66d9ef">this</span>.title}) <span style="color:#f92672">:</span> <span style="color:#66d9ef">super</span>(key: key);
+  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> title;
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Scaffold(
+      appBar: AppBar(
+        title: Text(<span style="color:#66d9ef">this</span>.title),
+      ),
+      body: infocovid(),
+    );
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">infocovid</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  _infocovidState createState() <span style="color:#f92672">=&gt;</span> _infocovidState();
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_infocovidState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>infocovid<span style="color:#f92672">&gt;</span> {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Column(
+      children: <span style="color:#f92672">&lt;</span>Widget<span style="color:#f92672">&gt;</span>[
+        Image(image: AssetImage(<span style="color:#e6db74">&#34;assets/covid.png&#34;</span>), height: <span style="color:#ae81ff">220.0</span>),
+        Divider(
+          color: Colors.blueGrey,
+          height: <span style="color:#ae81ff">100</span>,
+          thickness: <span style="color:#ae81ff">1</span>,
+          indent: <span style="color:#ae81ff">20</span>,
+          endIndent: <span style="color:#ae81ff">20</span>,
+        ),
+        Center(
+          child: Text(
+            <span style="color:#e6db74">&#39;Contagis a </span><span style="color:#e6db74">${</span>covidDataProvider.getYesterday()<span style="color:#e6db74">}</span><span style="color:#e6db74">: &#39;</span>,
+            style: Theme.of(context).textTheme.headline4,
+          ),
+        ),
+        FutureBuilder(
+          future: covidDataProvider.getData(covidDataProvider.getYesterday()),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            <span style="color:#66d9ef">if</span> (snapshot.hasData) {
+              <span style="color:#66d9ef">return</span> Center(
+                child: Text(
+                  snapshot.data,
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              );
+            } <span style="color:#66d9ef">else</span> {
+              <span style="color:#66d9ef">return</span> Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+}
+
+</code></pre></div><p>Com podem veure, s&rsquo;implementen quatre classes/widgets:</p>
+<ul>
+<li>
+<p><strong>MyApp</strong>, com a un Widget sense estat que llança l&rsquo;aplicació com a una aplicació Material amb <em>home</em> <code>InfoCovidHome</code>.</p>
+</li>
+<li>
+<p><strong>InfoCovidHome</strong>, Widget sense estat, que implementa l&rsquo;esquelet de l&rsquo;aplicació, amb l'<em>AppBar</em> i com a cos un widget de tipus <code>infocovid</code>,</p>
+</li>
+<li>
+<p><strong>infocovid</strong>: Widget amb estat, que dibuixarà el contingut de l&rsquo;aplicació,</p>
+</li>
+<li>
+<p><strong>_infocovidState</strong>, Widget amb l&rsquo;estat del widget <code>infocovid</code>, i que s&rsquo;implementa com una Columna, amb la imatge de l&rsquo;aplicació a la part superior, un espaiador (<em>Divider</em>), un text centrat amb el text <em>Contagiats a &hellip;</em>, i finalment, el component <em>FutureBuilder</em>. Anem a analitzar millor el seu contingut:</p>
+<ul>
+<li>
+<p><code>future: covidDataProvider.getData(covidDataProvider.getYesterday()),</code>: Invoca a la funció asíncrona <em>getData</em> de la classe <em>covidDataProvider</em>, que si recordeu, l&rsquo;havíem definit amb un tipus de retorn <em>Future
+</li>
+<li>
+<p><code>builder: (BuildContext context, AsyncSnapshot snapshot) {...}</code>: Quan el mètode getData anterior retorne alguna cosa, s&rsquo;invocarà aquesta funció, rebent en <em>snapshot</em> la informació rebuda. El flag <em>snapshot.hasData</em> ens informarà que hi ha dades de retorn, i les recuperarem amb <em>snapshot.data</em>. Mentre no es reben dades, es retornarà un indicador de progrés circular.</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>Referències i enllaços</strong></p>
+<ul>
+<li>
+<p><a href="https://www.youtube.com/watch?app=desktop&amp;v=WOvj84xq_fc">Beginning Flutter - Intermediate - Using Common Widgets</a></p>
+</li>
+<li>
+<p><a href="https://flutter.dev/docs/development/ui/widgets">Documentació sobre Widgets en Flutter</a></p>
+</li>
+<li>
+<p><a href="https://esflutter.dev/docs/development/ui/widgets-intro">Documentació sobre Widgets en ESFlutter</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/flutter-community/a-guide-to-using-futures-in-flutter-for-beginners-ebeddfbfb967">A Guide to Using Futures in Flutter for Beginners</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/comunidad-flutter/decodificando-futurebuilder-b2248b4a5207">Decodificando FutureBuilder</a></p>
+</li>
+<li>
+<p><a href="https://www.appwithflutter.com/flutter-futurebuilder-example/">Flutter FutureBuilder Example in 2 min – Flutter Widgets</a></p>
+</li>
+</ul>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-widgets">1. Widgets</a>
+      <ul>
+        <li><a href="#11-introducció-als-widgets">1.1. Introducció als widgets</a></li>
+        <li><a href="#12-widgets-bàsics">1.2. Widgets bàsics</a></li>
+        <li><a href="#13-components-de-material">1.3. Components de Material</a></li>
+        <li><a href="#14-gestos">1.4. Gestos</a></li>
+        <li><a href="#15-widgets-amb-estat">1.5. Widgets amb estat</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-asincronisme-en-dart">2. Asincronisme en Dart</a>
+      <ul>
+        <li><a href="#21-futures">2.1. Futures</a></li>
+        <li><a href="#22-un-exemple-pràctic-dasincronisme">2.2. Un exemple pràctic d&rsquo;asincronisme</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-futurebuilder">3. FutureBuilder</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="https://socquique.github.io/2dam/"><h3>Docencia</h3></a>
+</div>
+</body>
+
+
+
+</html>
