@@ -1,0 +1,1125 @@
+﻿
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
+    
+    
+      
+        <title>UT03 CSS - Aplicaciones Web</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3b61ea93.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="../../css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#css" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../index.htm" title="Aplicaciones Web" class="md-header-nav__button md-logo" aria-label="Aplicaciones Web">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Aplicaciones Web
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              UT03 CSS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../index.htm" class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut01-conceptos-generales/index.htm" class="md-tabs__link">
+      UT01 Conceptos Generales
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut02-html/index.htm" class="md-tabs__link">
+      UT02 HTML
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="index.htm" class="md-tabs__link md-tabs__link--active">
+      UT03 CSS
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut03-02-css-layout/index.htm" class="md-tabs__link">
+      UT03 CSS - Layout
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut03-03-css-bootstrap/index.htm" class="md-tabs__link">
+      UT03 CSS - Bootstrap
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ut04-wordpress/01-introducci%C3%B3n/index.htm" class="md-tabs__link">
+        UT04 Wordpress
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut05-moodle/index.htm" class="md-tabs__link">
+      UT05 Moodle
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut06-programaci%C3%B3n/index.htm" class="md-tabs__link">
+      UT06 Programación
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.htm" title="Aplicaciones Web" class="md-nav__button md-logo" aria-label="Aplicaciones Web">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+
+    </a>
+    Aplicaciones Web
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.htm" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut01-conceptos-generales/index.htm" class="md-nav__link">
+      UT01 Conceptos Generales
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut02-html/index.htm" class="md-nav__link">
+      UT02 HTML
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        UT03 CSS
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="index.htm" class="md-nav__link md-nav__link--active">
+      UT03 CSS
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#estilos-en-cascada" class="md-nav__link">
+    Estilos en cascada
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lugares-donde-situar-reglas-de-estilo" class="md-nav__link">
+    Lugares donde situar reglas de estilo
+  </a>
+  
+    <nav class="md-nav" aria-label="Lugares donde situar reglas de estilo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elemento-con-estilo" class="md-nav__link">
+    Elemento con estilo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etiqueta-style-dentro-de-la-misma-pagina" class="md-nav__link">
+    Etiqueta style dentro de la misma página
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reglas-en-una-hoja-a-parte" class="md-nav__link">
+    Reglas en una hoja a parte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-y-ejercicios" class="md-nav__link">
+    Tareas y ejercicios
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectores-css21" class="md-nav__link">
+    Selectores CSS2.1
+  </a>
+  
+    <nav class="md-nav" aria-label="Selectores CSS2.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tareas-y-ejercicios_1" class="md-nav__link">
+    Tareas y ejercicios
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectores-css3" class="md-nav__link">
+    Selectores CSS3
+  </a>
+  
+    <nav class="md-nav" aria-label="Selectores CSS3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tareas-y-ejercicios_2" class="md-nav__link">
+    Tareas y ejercicios
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css-juegos-selectores" class="md-nav__link">
+    CSS Juegos: Selectores
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuentes" class="md-nav__link">
+    Fuentes
+  </a>
+  
+    <nav class="md-nav" aria-label="Fuentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuentes-extra" class="md-nav__link">
+    Fuentes extra
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-y-ejercicios_3" class="md-nav__link">
+    Tareas y ejercicios
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#box-model-y-posicionamiento" class="md-nav__link">
+    Box model y posicionamiento
+  </a>
+  
+    <nav class="md-nav" aria-label="Box model y posicionamiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tareas-y-ejercicios_4" class="md-nav__link">
+    Tareas y ejercicios
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#menus-web" class="md-nav__link">
+    Menús web
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tareas" class="md-nav__link">
+    Tareas
+  </a>
+  
+    <nav class="md-nav" aria-label="Tareas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tarea-0" class="md-nav__link">
+    Tarea 0
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-1" class="md-nav__link">
+    Tarea 1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-2" class="md-nav__link">
+    Tarea 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-3" class="md-nav__link">
+    Tarea 3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-4" class="md-nav__link">
+    Tarea 4
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-5" class="md-nav__link">
+    Tarea 5
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut03-02-css-layout/index.htm" class="md-nav__link">
+      UT03 CSS - Layout
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut03-03-css-bootstrap/index.htm" class="md-nav__link">
+      UT03 CSS - Bootstrap
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      UT04 Wordpress
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="UT04 Wordpress" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        UT04 Wordpress
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix="">
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/01-introducci%C3%B3n/index.htm" class="md-nav__link">
+      Introducción
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/02-servidor/index.htm" class="md-nav__link">
+      Preparación server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/03-instalaci%C3%B3n-wp/index.htm" class="md-nav__link">
+      Instalación
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/04-wordpress-b%C3%A1sico/index.htm" class="md-nav__link">
+      Wordpress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/05-bridge/index.htm" class="md-nav__link">
+      Bridge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut05-moodle/index.htm" class="md-nav__link">
+      UT05 Moodle
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut06-programaci%C3%B3n/index.htm" class="md-nav__link">
+      UT06 Programación
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="css">CSS<a class="headerlink" href="#css" title="Permanent link">&para;</a></h1>
+<p>El CSS significa <strong>Cascading Style Sheets</strong>. Su traducción sería <strong>Hojas de estilo en cascada</strong>. Al referir a hoja de estilo queremos decir que es una sección a parte que sirve para dar estilo (Color, forma, tamaños, posición, etc.). La referencia a Casacada significa que existen muchas formas de que los elementos obtengan sus propiedades de elementos superiores.</p>
+<p><img alt="Cascada Ban Gioc" src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Ban_Gioc_-_Detian_Falls2.jpg" title="Cascada"></p>
+<p><a class=".target_blank" href="https://es.wikipedia.org/wiki/Cataratas_Ban_Gioc_Detian">Lugar de la foto</a></p>
+<p>Los recursos web que usaremos como apuntes son estos:</p>
+<ul>
+<li><a class=".target_blank" href="https://www.arkaitzgarro.com/css2/">https://www.arkaitzgarro.com/css2/</a></li>
+<li><a class=".target_blank" href="https://www.arkaitzgarro.com/css3/">https://www.arkaitzgarro.com/css3/</a></li>
+<li><a class=".target_blank" href="https://uniwebsidad.com/libros/referencia-css2?from=librosweb">https://uniwebsidad.com/libros/referencia-css2?from=librosweb</a></li>
+<li><a class=".target_blank" href="https://www.w3schools.com/css/">https://www.w3schools.com/css/</a></li>
+</ul>
+<h2 id="estilos-en-cascada">Estilos en cascada<a class="headerlink" href="#estilos-en-cascada" title="Permanent link">&para;</a></h2>
+<p>Imagina que has elegido un color para tu página web y quieres que todos los textos están en un tono específico de naranja. No tiene sentido tener que poner texto color naranja a <strong>todas las etiquetas</strong>. Tiene más sentido decir que de forma general todos los elementos de texto tienen color naranja y después si queremos cambiar algunos en concreto cambiar ese.</p>
+<h2 id="lugares-donde-situar-reglas-de-estilo">Lugares donde situar reglas de estilo<a class="headerlink" href="#lugares-donde-situar-reglas-de-estilo" title="Permanent link">&para;</a></h2>
+<p>Existen diferentes sitios donde podemos colocar las reglase de estilo:</p>
+<ul>
+<li>Incrustado en el elemento</li>
+<li>Incrustado en la página</li>
+<li>Incrustado en otra página</li>
+</ul>
+<h3 id="elemento-con-estilo">Elemento con estilo<a class="headerlink" href="#elemento-con-estilo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">p</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;color:red; background-color:lightblue&quot;</span><span class="p">&gt;</span>Hola<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Es rápido de poner pero no tiene herencia (propiedades en cascada), además está incrustado en el propio HTML. No se debe usar.</p>
+<p>OJO! No confundir atricutos de los elementos HTML con estilo incrustado</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://upload.wikimedia.org/wikipedia/commons/9/9b/Ban_Gioc_-_Detian_Falls2.jpg &quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;300&quot;</span><span class="p">/&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://upload.wikimedia.org/wikipedia/commons/9/9b/Ban_Gioc_-_Detian_Falls2.jpg &quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;width: 300px&quot;</span><span class="p">/&gt;</span>
+</code></pre></div>
+<h3 id="etiqueta-style-dentro-de-la-misma-pagina">Etiqueta style dentro de la misma página<a class="headerlink" href="#etiqueta-style-dentro-de-la-misma-pagina" title="Permanent link">&para;</a></h3>
+<p>Para poner reglas de estilo dentro de la misma página pero tener el estilo separado del HTML tenemos la etiqueta <code>style</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="p">&gt;</span>
+  <span class="nt">p</span> <span class="p">{</span>
+    <span class="k">color</span><span class="p">:</span><span class="kc">red</span><span class="p">;</span>
+    <span class="k">background-color</span><span class="p">:</span><span class="kc">lightblue</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+
+<span class="c">&lt;!-- Más HTML --&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Hola<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Los estilo tienen el formato:</p>
+<ul>
+<li>selector {<ul>
+<li>Listado de estilos acabado con ';'  </li>
+<li>Listado de estilos acabado con ';'</li>
+<li>Listado de estilos acabado con ';'</li>
+</ul>
+</li>
+<li>}</li>
+</ul>
+<p>Puede haber muchas reglas de estilo</p>
+<h3 id="reglas-en-una-hoja-a-parte">Reglas en una hoja a parte<a class="headerlink" href="#reglas-en-una-hoja-a-parte" title="Permanent link">&para;</a></h3>
+<p>Se pueden definir en un fichero a parte (o en varios para páginas complejas). Estos documentos tienen la extensión <code>css</code> y suelen estar bajo la carpeta <code>/css</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">link</span> <span class="na">rel</span><span class="o">=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;css/estilo.css&quot;</span><span class="p">&gt;</span>
+
+
+Dentro del fichero: css/estilo.css
+p {
+  color:red;
+  background-color:lightblue;
+}
+</code></pre></div>
+<h3 id="tareas-y-ejercicios">Tareas y ejercicios<a class="headerlink" href="#tareas-y-ejercicios" title="Permanent link">&para;</a></h3>
+<p>Realiza:</p>
+<ul>
+<li><a href="#tarea-0">tarea 0</a></li>
+<li><a href="#tarea-1">tarea 1</a></li>
+</ul>
+<h2 id="selectores-css21">Selectores CSS2.1<a class="headerlink" href="#selectores-css21" title="Permanent link">&para;</a></h2>
+<p>Mira la documentación y atiende a la explicación de clase. <a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-2.html">https://www.arkaitzgarro.com/css2/capitulo-2.html</a></p>
+<p>Selectores avanzados. Mira la documentación y atiende a la explicación de clase. <a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-13.html#selectores-2">https://www.arkaitzgarro.com/css2/capitulo-13.html#selectores-2</a></p>
+<h3 id="tareas-y-ejercicios_1">Tareas y ejercicios<a class="headerlink" href="#tareas-y-ejercicios_1" title="Permanent link">&para;</a></h3>
+<p>Tras la explicación de clase descarga del aula virtual <code>Ejercicios CSS 2.1</code></p>
+<p>Realiza los ejercicios 1 y 2</p>
+<h2 id="selectores-css3">Selectores CSS3<a class="headerlink" href="#selectores-css3" title="Permanent link">&para;</a></h2>
+<p>Mira la documentación y atiende a la explicación de clase. <a class="target_blank" href="https://www.arkaitzgarro.com/css3/capitulo-2.html">https://www.arkaitzgarro.com/css3/capitulo-2.html</a></p>
+<h3 id="tareas-y-ejercicios_2">Tareas y ejercicios<a class="headerlink" href="#tareas-y-ejercicios_2" title="Permanent link">&para;</a></h3>
+<p>Realiza la <a href="#tarea-2">tarea 2</a> de esta página.</p>
+<p>Realiza los ejercicios 3, 4 y 5. Guarda cada versión de la web en distintos ficheros para poder ver la evolución.</p>
+<h3 id="css-juegos-selectores">CSS Juegos: Selectores<a class="headerlink" href="#css-juegos-selectores" title="Permanent link">&para;</a></h3>
+<p>Juegos! :)</p>
+<p>Haz hasta el 14 del juego de la cena y también el 22 y 23</p>
+<ul>
+<li><a class="target_blank" href="https://laboratoria.github.io/css-diner/">https://laboratoria.github.io/css-diner/</a></li>
+<li><a class="target_blank" href="http://toolness.github.io/css-selector-game/">http://toolness.github.io/css-selector-game/</a></li>
+</ul>
+<h2 id="fuentes">Fuentes<a class="headerlink" href="#fuentes" title="Permanent link">&para;</a></h2>
+<p>Tamaños y colores. Mira la documentación y atiende a la explicación:</p>
+<ul>
+<li>Unidades y colores. <a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-3.html">https://www.arkaitzgarro.com/css2/capitulo-3.html</a></li>
+<li>Textos. <a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-6.html">https://www.arkaitzgarro.com/css2/capitulo-6.html</a></li>
+</ul>
+<p>Fuentes de texto donde la imagen y el texto se juntan</p>
+<p><img alt="Fuentes" src="../imgs/gatito-fuentes.jpg"></p>
+<p>Hablar de Serif y san serfif
+<img alt="Serif y SanSerif" src="../imgs/sanserif_serif.jpg"></p>
+<p>Hablar de monospace
+<img alt="Monospace" src="../imgs/02css/CL_FuenteMonospace.png"></p>
+<h3 id="fuentes-extra">Fuentes extra<a class="headerlink" href="#fuentes-extra" title="Permanent link">&para;</a></h3>
+<p>Los sitemas operativos vienen con muchas fuentes precargadas pero hay muchas más. Cómo poner fuentes externas en nuestras páginas CSS. <a class="target_blank" href="https://css-tricks.com/snippets/css/using-font-face/">https://css-tricks.com/snippets/css/using-font-face/</a></p>
+<h3 id="tareas-y-ejercicios_3">Tareas y ejercicios<a class="headerlink" href="#tareas-y-ejercicios_3" title="Permanent link">&para;</a></h3>
+<p>Haz el ejercicio 6 (Fuente y tamaño) y la <a href="#tarea-3">tarea 3</a> (Fuente propia).</p>
+<p>Descarga el código del ejercicio 6 del siguiente <a href="../../css2/snippets/cap14/ej07.zip">enlace</a>
+<img alt="https://www.arkaitzgarro.com/css2/images/cap14/ej07.png" src="../../css2/images/cap14/ej07.png"></p>
+<h2 id="box-model-y-posicionamiento">Box model y posicionamiento<a class="headerlink" href="#box-model-y-posicionamiento" title="Permanent link">&para;</a></h2>
+<p>Enlaces con explicación:</p>
+<ul>
+<li><a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-4.html">Box model</a></li>
+<li><a class="target_blank" href="https://www.arkaitzgarro.com/css2/capitulo-5.html">Posicionamiento</a></li>
+</ul>
+<h3 id="tareas-y-ejercicios_4">Tareas y ejercicios<a class="headerlink" href="#tareas-y-ejercicios_4" title="Permanent link">&para;</a></h3>
+<p>Realiza el ejericio 7</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span> <span class="na">dir</span><span class="o">=</span><span class="s">&quot;ltr&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;text/html; charset=iso-8859-1&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Ejercicio posicionamiento float<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;anterior&quot;</span><span class="p">&gt;</span><span class="ni">&amp;laquo;</span> Anterior<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">span</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;siguiente&quot;</span><span class="p">&gt;</span><span class="ni">&amp;nbsp;</span> Siguiente <span class="ni">&amp;raquo;</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Realiza la <a href="#tarea-4">tarea 4</a> y <a href="#tarea-5">tarea 5</a></p>
+<h2 id="menus-web">Menús web<a class="headerlink" href="#menus-web" title="Permanent link">&para;</a></h2>
+<p>Los menús son importantes en todas las páginas web, para implementar los menús podemos utilizar el posicionamiento que hemos visto junto con las listas.</p>
+<p><img alt="Menú" src="../imgs/02css/ejemplo1.png"></p>
+<p>En el siguiente enlace podemos ver cómo hacer menús
+<a class="target_blank" href="https://www.w3schools.com/css/css_navbar.asp">https://www.w3schools.com/css/css_navbar.asp</a></p>
+<h2 id="tareas">Tareas<a class="headerlink" href="#tareas" title="Permanent link">&para;</a></h2>
+<h3 id="tarea-0">Tarea 0<a class="headerlink" href="#tarea-0" title="Permanent link">&para;</a></h3>
+<p>Crea la nueva estructura para los archivos css en tus prácticas y modifica tu archivo <code>index.html</code> de la raíz de tu repositorio para que tenga una tabla con las prácticas:</p>
+<div class="highlight"><pre><span></span><code>Estructura CSS
+/
+└── index.html
+├── html
+│   └── ...
+├── css
+│   ├── index.html
+│   ├── ejercicio1.html
+│   ├── ejercicio2.html
+│   ├── ...
+│   ├── css
+│   │   ├── theme.css
+│   │   └── theme_extra.css
+│   ├── images
+│   │   ├── algo.png
+│   │   └── ...
+│   ├── js
+│   ├── fonts
+│   ├── video
+│   └── audio
+├── bootstrap
+│   └── ...
+└── js
+    └── ...
+</code></pre></div>
+<p>Tabla para la página principal:</p>
+<table>
+<thead>
+<tr>
+<th>HTML</th>
+<th>CSS</th>
+<th>Bootstrap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ejercicio1</td>
+<td>ejercicio1</td>
+<td></td>
+</tr>
+<tr>
+<td>ejercicio2</td>
+<td>ejercicio2</td>
+<td></td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>tarea1</td>
+<td>tarea1</td>
+<td></td>
+</tr>
+<tr>
+<td>tarea2</td>
+<td>tarea2</td>
+<td></td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tarea-1">Tarea 1<a class="headerlink" href="#tarea-1" title="Permanent link">&para;</a></h3>
+<p>Crea una página web con un h1, h2, y un h3. El h1 tendrá el color de fondo verde, el h2 color de fondo amarillo y el h3 tendrá el color de fondo rojo. Todos tendrán las letras de color blanco:</p>
+<p>Debes usar las propiedades</p>
+<ul>
+<li>color</li>
+<li>background-color</li>
+</ul>
+<p>Para este ejercicio tienes que crear 3 versiones:</p>
+<ul>
+<li>versión a: estilo incrustados en elementos</li>
+<li>versión b: estilo en etiqueta style</li>
+<li>versión c: estilo en hoja a parte</li>
+</ul>
+<h3 id="tarea-2">Tarea 2<a class="headerlink" href="#tarea-2" title="Permanent link">&para;</a></h3>
+<p>Usando los selectores CSS3 y CSS2 avanzados crea una página con un h1 y tres párrafos con texto.</p>
+<p>Luego aplica los siguientes estilo:</p>
+<ul>
+<li>Todos los p tienen un ancho de 300px;</li>
+<li>La primera letra de los párrafos es más grande y está en negrita</li>
+<li>La primera línea tienen un fondo gris claro</li>
+<li>Los párrafos impares tienen un fondo verde</li>
+<li>Los párrafos pares tiene un fondo azul</li>
+<li>Cuando se selecciona texto, este pone fondo rosa y texto blanco</li>
+</ul>
+<p>Como aparece en la siguiente imagen:</p>
+<p><img alt="Tarea 2" src="../imgs/02css/t2.png" title="Tarea 2"></p>
+<h3 id="tarea-3">Tarea 3<a class="headerlink" href="#tarea-3" title="Permanent link">&para;</a></h3>
+<p>Haz una página web con un texto, una imagen y una tipografía que descargues de la web, algunas ideas:</p>
+<ul>
+<li>Web de terror</li>
+<li>Web del oeste</li>
+<li>Web de juegos arcade retro</li>
+</ul>
+<h3 id="tarea-4">Tarea 4<a class="headerlink" href="#tarea-4" title="Permanent link">&para;</a></h3>
+<p>Crea una página web con 3 imágenes repetidas. Por defecto son elementos en bloque, dales un width y un heigth de 300px. ¿Qué ocurre? ¿Cambia de tamaño?</p>
+<p>Ahora cambia con css el display de las imágenes a inline ¿Qué ocurre?</p>
+<p>Ahora cambia el display de las imágenes a inline-block ¿Qué ocurre?</p>
+<p>Realiza la misma tarea con etiquetas span ¿Qué diferencia hay?</p>
+<h3 id="tarea-5">Tarea 5<a class="headerlink" href="#tarea-5" title="Permanent link">&para;</a></h3>
+<p>A partir del código HTML crea una página como la que se ve en la imagen</p>
+<p>Las características son:</p>
+<ul>
+<li>La cabecera y el pie siempre se ven y están en  posición fija</li>
+<li>La imágenes dentro de los párrafos flotan a la izquierda</li>
+<li>El texto y la imagen de publicidad están flotando a la derecha</li>
+</ul>
+<p><img alt="Tarea 5" src="../imgs/02css/t5.png" title="Tarea 5"></p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span> <span class="na">dir</span><span class="o">=</span><span class="s">&quot;ltr&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="o">*</span> <span class="p">{</span>
+  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="kt">px</span><span class="p">;</span>
+  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+    <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;cabecera&quot;</span><span class="p">&gt;</span>
+      Cabecera
+    <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;publicidad&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://picsum.photos/200/50&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+        Esto es un texto publicitario
+      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;contenido&quot;</span><span class="p">&gt;</span>
+
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://picsum.photos/200/100&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span> Lorem fistrum va usté muy cargadoo llevame al sircoo va usté muy cargadoo ese hombree diodeno me cago en tus muelas a wan pupita. Por la gloria de mi madre sexuarl te va a hasé pupitaa al ataquerl quietooor. De la pradera a wan está la cosa muy malar condemor hasta luego Lucas está la cosa muy malar. Ese que llega va usté muy cargadoo benemeritaar pecador. Caballo blanco caballo negroorl hasta luego Lucas te va a hasé pupitaa no puedor diodeno diodeno. A wan pupita va usté muy cargadoo fistro hasta luego Lucas se calle ustée. Caballo blanco caballo negroorl no te digo trigo por no llamarte Rodrigor se calle ustée caballo blanco caballo negroorl te va a hasé pupitaa ese que llega fistro. Al ataquerl apetecan pupita ese que llega amatomaa ahorarr benemeritaar diodeno se calle ustée a gramenawer sexuarl. Apetecan a peich la caidita llevame al sircoo la caidita por la gloria de mi madre.
+      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://picsum.photos/200/100&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span> Me cago en tus muelas pecador va usté muy cargadoo a gramenawer a gramenawer ese pedazo de condemor a gramenawer jarl. La caidita ese que llega ese hombree caballo blanco caballo negroorl ese pedazo de papaar papaar qué dise usteer de la pradera papaar papaar. Fistro te voy a borrar el cerito ese pedazo de ese pedazo de ese que llega. Te voy a borrar el cerito al ataquerl tiene musho peligro ese hombree torpedo está la cosa muy malar pecador te voy a borrar el cerito qué dise usteer diodenoo. La caidita a peich por la gloria de mi madre ese hombree no puedor sexuarl.
+      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://picsum.photos/200/100&quot;</span> <span class="na">alt</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span> Ese pedazo de va usté muy cargadoo diodeno pecador amatomaa pecador te va a hasé pupitaa pupita sexuarl. De la pradera ahorarr quietooor apetecan diodenoo mamaar. Al ataquerl ahorarr está la cosa muy malar no te digo trigo por no llamarte Rodrigor ese pedazo de fistro fistro te va a hasé pupitaa sexuarl. Al ataquerl amatomaa apetecan sexuarl quietooor a peich. Por la gloria de mi madre ese pedazo de jarl tiene musho peligro hasta luego Lucas se calle ustée. Llevame al sircoo por la gloria de mi madre hasta luego Lucas por la gloria de mi madre qué dise usteer me cago en tus muelas. Amatomaa te voy a borrar el cerito no puedor papaar papaar fistro te voy a borrar el cerito no puedor condemor está la cosa muy malar ese que llega. La caidita al ataquerl por la gloria de mi madre no te digo trigo por no llamarte Rodrigor sexuarl a wan papaar papaar hasta luego Lucas.
+      <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;pie&quot;</span><span class="p">&gt;</span>
+      Pie
+    <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../ut02-html/index.htm" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                UT02 HTML
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../ut03-02-css-layout/index.htm" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                UT03 CSS - Layout
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <span class="md-footer-copyright__highlight">
+            
+          </span>
+        
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+        Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: ['navigation.tabs', 'navigation.instant', 'toc.integrate'],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../extra.js"></script>
+      
+    
+  </body>
+</html>

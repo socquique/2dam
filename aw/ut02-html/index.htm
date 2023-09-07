@@ -1,0 +1,1086 @@
+﻿
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
+    
+    
+      
+        <title>UT02 HTML - Aplicaciones Web</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3b61ea93.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="../../css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#html" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="../index.htm" title="Aplicaciones Web" class="md-header-nav__button md-logo" aria-label="Aplicaciones Web">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Aplicaciones Web
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              UT02 HTML
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../index.htm" class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut01-conceptos-generales/index.htm" class="md-tabs__link">
+      UT01 Conceptos Generales
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="index.htm" class="md-tabs__link md-tabs__link--active">
+      UT02 HTML
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut03-01-css/index.htm" class="md-tabs__link">
+      UT03 CSS
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut03-02-css-layout/index.htm" class="md-tabs__link">
+      UT03 CSS - Layout
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut03-03-css-bootstrap/index.htm" class="md-tabs__link">
+      UT03 CSS - Bootstrap
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ut04-wordpress/01-introducci%C3%B3n/index.htm" class="md-tabs__link">
+        UT04 Wordpress
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut05-moodle/index.htm" class="md-tabs__link">
+      UT05 Moodle
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../ut06-programaci%C3%B3n/index.htm" class="md-tabs__link">
+      UT06 Programación
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.htm" title="Aplicaciones Web" class="md-nav__button md-logo" aria-label="Aplicaciones Web">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+
+    </a>
+    Aplicaciones Web
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../index.htm" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut01-conceptos-generales/index.htm" class="md-nav__link">
+      UT01 Conceptos Generales
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        UT02 HTML
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="index.htm" class="md-nav__link md-nav__link--active">
+      UT02 HTML
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#teoria" class="md-nav__link">
+    Teoría
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normas-para-las-practicas" class="md-nav__link">
+    Normas para las prácticas
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-1" class="md-nav__link">
+    Ejercicio 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-2" class="md-nav__link">
+    Ejercicio 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-3" class="md-nav__link">
+    Ejercicio 3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-4" class="md-nav__link">
+    Ejercicio 4
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-5" class="md-nav__link">
+    Ejercicio 5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-6" class="md-nav__link">
+    Ejercicio 6
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-7" class="md-nav__link">
+    Ejercicio 7
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-8" class="md-nav__link">
+    Ejercicio 8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-9" class="md-nav__link">
+    Ejercicio 9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-10" class="md-nav__link">
+    Ejercicio 10
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-11" class="md-nav__link">
+    Ejercicio 11
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-12" class="md-nav__link">
+    Ejercicio 12
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-13" class="md-nav__link">
+    Ejercicio 13
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-14" class="md-nav__link">
+    Ejercicio 14
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#formularios" class="md-nav__link">
+    Formularios
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-15" class="md-nav__link">
+    Ejercicio 15
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-16" class="md-nav__link">
+    Ejercicio 16
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-17" class="md-nav__link">
+    Ejercicio 17
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-18" class="md-nav__link">
+    Ejercicio 18
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-19" class="md-nav__link">
+    Ejercicio 19
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-20" class="md-nav__link">
+    Ejercicio 20
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut03-01-css/index.htm" class="md-nav__link">
+      UT03 CSS
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut03-02-css-layout/index.htm" class="md-nav__link">
+      UT03 CSS - Layout
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut03-03-css-bootstrap/index.htm" class="md-nav__link">
+      UT03 CSS - Bootstrap
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      UT04 Wordpress
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="UT04 Wordpress" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        UT04 Wordpress
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix="">
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/01-introducci%C3%B3n/index.htm" class="md-nav__link">
+      Introducción
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/02-servidor/index.htm" class="md-nav__link">
+      Preparación server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/03-instalaci%C3%B3n-wp/index.htm" class="md-nav__link">
+      Instalación
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/04-wordpress-b%C3%A1sico/index.htm" class="md-nav__link">
+      Wordpress
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut04-wordpress/05-bridge/index.htm" class="md-nav__link">
+      Bridge
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut05-moodle/index.htm" class="md-nav__link">
+      UT05 Moodle
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+
+  <li class="md-nav__item">
+    <a href="../ut06-programaci%C3%B3n/index.htm" class="md-nav__link">
+      UT06 Programación
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="html">HTML<a class="headerlink" href="#html" title="Permanent link">&para;</a></h1>
+<p>Comenzamos trabajando con la parte de contenido HTML</p>
+<p>Los recursos web que usaremos como apuntes son estos:</p>
+<ul>
+<li><a class="target_blank" href="https://www.arkaitzgarro.com/xhtml/">https://www.arkaitzgarro.com/xhtml/</a></li>
+<li><a class="target_blank" href="https://developer.mozilla.org/es/docs/HTML/HTML5/HTML5_lista_elementos">https://developer.mozilla.org/es/docs/HTML/HTML5/HTML5_lista_elementos</a></li>
+<li><a class="target_blank" href="https://www.arkaitzgarro.com/html5/index.html">https://www.arkaitzgarro.com/html5/index.html</a></li>
+<li><a class="target_blank" href="https://www.w3schools.com/html/">https://www.w3schools.com/html/</a></li>
+</ul>
+<p>Los ejercicios de esta página son una ampliación de los ejercicios de Fernando Rodríguez Morón</p>
+<h2 id="teoria">Teoría<a class="headerlink" href="#teoria" title="Permanent link">&para;</a></h2>
+<p>Explicación de:</p>
+<ul>
+<li>etiquetas, cierre y autocierre</li>
+<li>atributos</li>
+<li>estructura de html</li>
+</ul>
+<p>Referencia de html:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&quot;en&quot;</span> <span class="na">dir</span><span class="o">=</span><span class="s">&quot;ltr&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+
+  <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="normas-para-las-practicas">Normas para las prácticas<a class="headerlink" href="#normas-para-las-practicas" title="Permanent link">&para;</a></h2>
+<p>Para la realización de todas las prácticas se deben cumplir las siguientes normas:</p>
+<ul>
+<li>Los nombres de directorios y archivos no tendrán espacios en blanco</li>
+<li>Nombre de directorios y ficheros en minúsculas</li>
+<li>Los archivos deben tener siempre su extensión: .html .css .js</li>
+<li>La estructura de directorios del sitio web tendrá la siguiente forma:</li>
+<li>Se deben utilizar las etiquetas html5: main, figure, section, article, nav, header, footer, aside...</li>
+<li>Las rutas deben ser siempre relativas.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>/
+└── index.html
+└── html
+│   ├── index.html
+│   ├── ejercicio1.html
+│   ├── ejercicio2.html
+│   ├── ...
+│   ├── css
+│   │   ├── theme.css
+│   │   └── theme_extra.css
+│   ├── images
+│   │   ├── algo.png
+│   │   └── ...
+│   ├── js
+│   ├── fonts
+│   ├── video
+│   └── audio
+├── css
+│   └── ...
+├── bootstrap
+│   └── ...
+└── js
+    └── ...
+</code></pre></div>
+<h2 id="ejercicio-1">Ejercicio 1<a class="headerlink" href="#ejercicio-1" title="Permanent link">&para;</a></h2>
+<p>Hola mundo</p>
+<p>Etiquetas:</p>
+<ul>
+<li>html, head, meta, title, body</li>
+<li>br, img</li>
+</ul>
+<p><img alt="ejercicio 1" src="../imgs/01html/e1.png" title="Ejercicio 1"></p>
+<h2 id="ejercicio-2">Ejercicio 2<a class="headerlink" href="#ejercicio-2" title="Permanent link">&para;</a></h2>
+<p>Los tags meta son etiquetas que no se muestran pero sirven para el control de la página o dan información extra para los motores de búsqueda.</p>
+<p>Investiga en internet sobre el tag meta con información de <code>Refresh</code></p>
+<p>Haz una página que escriba "Va a ser redirigido a la web del instituto" y que tras 5 segundo enlace a la web del IES</p>
+<h2 id="ejercicio-3">Ejercicio 3<a class="headerlink" href="#ejercicio-3" title="Permanent link">&para;</a></h2>
+<p>Continuación de los campos meta</p>
+<p>Visita esta página <a href="https://www.ionos.es/digitalguide/paginas-web/desarrollo-web/los-meta-tags-mas-importantes-y-su-funcion/" target_blank="target_blank">https://www.ionos.es/digitalguide/paginas-web/desarrollo-web/los-meta-tags-mas-importantes-y-su-funcion/</a></p>
+<p>Realiza la siguiente web y añade los meta para:</p>
+<ul>
+<li>Poner que esa página la has hecho tú</li>
+<li>Poner una descripción</li>
+<li>Poner como palabra clave "html, mi primera web"</li>
+<li>Que se elimine de la cache el 1 de enero del año que viene</li>
+</ul>
+<p>Utiliza los tags:</p>
+<ul>
+<li>h1, abbr, b, i, s, p</li>
+</ul>
+<p><img alt="ejercicio 3" src="../imgs/01html/e3.png" title="Ejercicio 3"></p>
+<h2 id="ejercicio-4">Ejercicio 4<a class="headerlink" href="#ejercicio-4" title="Permanent link">&para;</a></h2>
+<p>Utiliza las etiquetas:</p>
+<ul>
+<li>h1, ol, ul, li, dl, dt, dd</li>
+</ul>
+<p>Texto: <a class="target_blank" href="../contents/textolist.html">descargar</a></p>
+<p><img alt="ejercicio 4" src="../imgs/01html/e4.png" title="Ejercicio 4"></p>
+<h2 id="ejercicio-5">Ejercicio 5<a class="headerlink" href="#ejercicio-5" title="Permanent link">&para;</a></h2>
+<p>Crea una página web con:</p>
+<ul>
+<li>Una lista ordenada de tus 3 cosas favoritas en orden</li>
+<li>Una lista sin orden de 3 cosas que no te gusten</li>
+<li>Una lista de definiciones que te interesen</li>
+</ul>
+<p><img alt="ejercicio 5" src="../imgs/01html/e5.png" title="Ejercicio 5"></p>
+<h2 id="ejercicio-6">Ejercicio 6<a class="headerlink" href="#ejercicio-6" title="Permanent link">&para;</a></h2>
+<p>Utiliza listas anidadas des ordenadas para hacer un racimo de uvas</p>
+<p><img alt="ejercicio 6" src="../imgs/01html/e6.png" title="Ejercicio 6"></p>
+<h2 id="ejercicio-7">Ejercicio 7<a class="headerlink" href="#ejercicio-7" title="Permanent link">&para;</a></h2>
+<p>Utiliza las etiquetas:</p>
+<ul>
+<li>table, thead, tbody, tr y td</li>
+</ul>
+<p>Ejemplo de elementos:
+<div class="highlight"><pre><span></span><code>&lt;table&gt;
+    &lt;caption&gt;Presupuestos del 2023&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope=&quot;col&quot;&gt;Elementos&lt;/th&gt;
+            &lt;th scope=&quot;col&quot;&gt;Gastos&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Donuts&lt;/td&gt;
+            &lt;td&gt;3000€&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Aguacates&lt;/td&gt;
+            &lt;td&gt;18000€&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre></div>
+<p>Crea la siguiente tabla básica</p>
+<p><img alt="ejercicio 7" src="../imgs/01html/e7.png" title="Ejercicio 7"></p>
+<h2 id="ejercicio-8">Ejercicio 8<a class="headerlink" href="#ejercicio-8" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 8" src="../imgs/01html/e8.png" title="Ejercicio 8"></p>
+<h2 id="ejercicio-9">Ejercicio 9<a class="headerlink" href="#ejercicio-9" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 9" src="../imgs/01html/e9.png" title="Ejercicio 9"></p>
+<h2 id="ejercicio-10">Ejercicio 10<a class="headerlink" href="#ejercicio-10" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 10" src="../imgs/01html/e10.png" title="Ejercicio 10"></p>
+<h2 id="ejercicio-11">Ejercicio 11<a class="headerlink" href="#ejercicio-11" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 11" src="../imgs/01html/e11.png" title="Ejercicio 11"></p>
+<h2 id="ejercicio-12">Ejercicio 12<a class="headerlink" href="#ejercicio-12" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 12" src="../imgs/01html/e12.png" title="Ejercicio 12"></p>
+<h2 id="ejercicio-13">Ejercicio 13<a class="headerlink" href="#ejercicio-13" title="Permanent link">&para;</a></h2>
+<p><img alt="ejercicio 13" src="../imgs/01html/e13.png" title="Ejercicio 13"></p>
+<h2 id="ejercicio-14">Ejercicio 14<a class="headerlink" href="#ejercicio-14" title="Permanent link">&para;</a></h2>
+<p>Crea una página web con tu horario</p>
+<h2 id="formularios">Formularios<a class="headerlink" href="#formularios" title="Permanent link">&para;</a></h2>
+<p>Los formularios son la forma que tenemos en las páginas web para que los usuarios nos manden información. Los utilizamos muchas veces...</p>
+<ul>
+<li>Al publicar un comentario en una página de Facebook o Instagram a através de la web</li>
+<li>Al pedir comida a alguna empresa que tenga web</li>
+<li>Al realizar pagos</li>
+</ul>
+<p>La estructura general de los formularios es la siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">form</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">legend</span><span class="p">&gt;</span>Nombre completo<span class="p">&lt;/</span><span class="nt">legend</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span><span class="p">&gt;</span>Dinos tu nombre<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;nombre&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Nombre completo...&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">legend</span><span class="p">&gt;</span>¿Cómo quieres el batido?<span class="p">&lt;/</span><span class="nt">legend</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;radio&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;size&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;size_1&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;small&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;size_1&quot;</span><span class="p">&gt;</span>Pequeño<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;radio&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;size&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;size_2&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;medium&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;size_2&quot;</span><span class="p">&gt;</span>Mediano<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;radio&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;size&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;size_3&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;large&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;size_3&quot;</span><span class="p">&gt;</span>Grande<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">legend</span><span class="p">&gt;</span>Finalizar<span class="p">&lt;/</span><span class="nt">legend</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;enviar&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Hacer pedido&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><img alt="Ejemplo form" src="../imgs/01html/eform.png" title="Ejemplo form"></p>
+<p>Observa las siguientes etiquetas y entiende su significado:</p>
+<ul>
+<li>form</li>
+<li>fieldset</li>
+<li>legend</li>
+<li>input</li>
+<li>label</li>
+</ul>
+<p>Entiende todos los atributos:</p>
+<ul>
+<li>type</li>
+<li>name</li>
+<li>id</li>
+<li>for</li>
+<li>value</li>
+<li>placeholder</li>
+</ul>
+<h2 id="ejercicio-15">Ejercicio 15<a class="headerlink" href="#ejercicio-15" title="Permanent link">&para;</a></h2>
+<p>Haz un formulario completo con todos los tipos de controles input</p>
+<div class="highlight"><pre><span></span><code>&lt;input type=&quot;button&quot;&gt;
+&lt;input type=&quot;color&quot;&gt;
+&lt;input type=&quot;date&quot;&gt;
+&lt;input type=&quot;datetime-local&quot;&gt;
+&lt;input type=&quot;email&quot;&gt;
+&lt;input type=&quot;file&quot;&gt;
+&lt;input type=&quot;hidden&quot;&gt;
+&lt;input type=&quot;image&quot;&gt;
+&lt;input type=&quot;month&quot;&gt;
+&lt;input type=&quot;number&quot;&gt;
+&lt;input type=&quot;password&quot;&gt;
+&lt;input type=&quot;range&quot;&gt;
+&lt;input type=&quot;reset&quot;&gt;
+&lt;input type=&quot;search&quot;&gt;
+&lt;input type=&quot;submit&quot;&gt;
+&lt;input type=&quot;tel&quot;&gt;
+&lt;input type=&quot;text&quot;&gt;
+&lt;input type=&quot;time&quot;&gt;
+&lt;input type=&quot;url&quot;&gt;
+&lt;input type=&quot;week&quot;&gt;
+&lt;input type=&quot;checkbox&quot;&gt;
+&lt;input type=&quot;radio&quot;&gt;
+&lt;textarea rows=&quot;10&quot; cols=&quot;50&quot;&gt;Esto es el contenido&lt;/textarea&gt;
+</code></pre></div>
+<blockquote>
+<p>NOTA: Ten en cuenta que los controles radio que estén asociados deben compartir el mismo nombre.</p>
+</blockquote>
+<h2 id="ejercicio-16">Ejercicio 16<a class="headerlink" href="#ejercicio-16" title="Permanent link">&para;</a></h2>
+<p>Realiza el siguiente formulario de contacto:</p>
+<p><img alt="Contact form" src="../imgs/01html/form-sketch-low.jpg" title="Contact form"></p>
+<h2 id="ejercicio-17">Ejercicio 17<a class="headerlink" href="#ejercicio-17" title="Permanent link">&para;</a></h2>
+<p>Crea un formulario para que la gente pueda pedir un presupuesto a una empresa de pintura. Debe contener la siguiente información:</p>
+<ul>
+<li>Datos de contacto<ul>
+<li>Nombre</li>
+<li>Dirección completa</li>
+<li>Email</li>
+</ul>
+</li>
+<li>Datos del trabajo<ul>
+<li>Número de habitaciones</li>
+<li>Color</li>
+<li>Un checkbox de si incluye pintar el techo</li>
+</ul>
+</li>
+<li>Otra información<ul>
+<li>Un text area</li>
+</ul>
+</li>
+<li>Finalizar<ul>
+<li>Botón de reset</li>
+<li>Botón de enviar</li>
+</ul>
+</li>
+</ul>
+<h2 id="ejercicio-18">Ejercicio 18<a class="headerlink" href="#ejercicio-18" title="Permanent link">&para;</a></h2>
+<p>Estás haciendo el formulario para que una pizzería de tu barrio pueda recogar pedidos en la web. Tienes que crear un formulario con los siguientes campos. Incluye una imagen de una pizza al comienzo de la página.</p>
+<p>Configura tu pizza:</p>
+<ul>
+<li>Tipos de masa: fina o gorda</li>
+<li>Tipos de salsa: tomate, barbacoa o carbonara</li>
+<li>Queso: Sí o no</li>
+<li>Ingrediente: Busca un listado de ingrediente y pon al menos 10 posibilidades</li>
+<li>Tamaño: pequeña, mediana, familiar</li>
+</ul>
+<p>Datos de pago:</p>
+<ul>
+<li>Número de cuenta</li>
+<li>Mes de caducidad</li>
+<li>Código de seguridad</li>
+</ul>
+<p>Datos de entrega:</p>
+<ul>
+<li>Dirección completa</li>
+<li>textarea con observaciones</li>
+</ul>
+<p>Finalizar:</p>
+<ul>
+<li>Reset</li>
+<li>Enviar</li>
+</ul>
+<h2 id="ejercicio-19">Ejercicio 19<a class="headerlink" href="#ejercicio-19" title="Permanent link">&para;</a></h2>
+<p>Multimedia. Crea una página con la etiqueta audio, vídeo con fichero que descargues.</p>
+<p>Contenido embebido. Al final de la página Copia el código de Youtube de algún vídeo para incluirlo en tu página.</p>
+<p>Contenido embebido. Añade 1 canción a la lista de spotify compartida y pon al comienzo de esta página este código. Tiene cosas de CSS que ya veremos, debes sustituir la sección en la que pone XXXXXXXXXXXXXXX por la url que aparece en el Moodle.</p>
+<div class="highlight"><pre><span></span><code>&lt;div style=&quot;float: right;&quot;&gt;
+&lt;h1&gt;Cosas que le gustan&lt;br/&gt; al resto de mi clase&lt;/h1&gt;
+&lt;iframe src=&quot;XXXXXXXXXXXXXXX&quot; width=&quot;300&quot; height=&quot;380&quot; frameborder=&quot;0&quot; allowtransparency=&quot;true&quot; allow=&quot;encrypted-media&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+</code></pre></div>
+<h2 id="ejercicio-20">Ejercicio 20<a class="headerlink" href="#ejercicio-20" title="Permanent link">&para;</a></h2>
+<p>Crea una página con un h1 con el nombre del instituto y un párrafo con una descripción. Luego busca en google maps su ubicación e investiga cómo puedes poner en tu página web el mapa incrustado.</p>
+<p>Luego busca como llegar desde el instituto a algún punto del mundo andando e incrusta también la ruta.</p>
+<p>Ejemplo:</p>
+<iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d5986222.069964629!2d1.2467262447160798!3d42.89479077846051!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0xd42290e2fa06349%3A0x1676419c937a4b0b!2sKil%C3%B3metro%20Cero%2C%20Puerta%20del%20Sol%2C%20Madrid!3m2!1d40.416635899999996!2d-3.7038100999999997!4m5!1s0x4763cfd02b2f2b75%3A0x98180d4d69cd3a62!2sCagar%2C%2053203%2C%20Kosinjski%20Bakovac%2C%20Croatia!3m2!1d44.701944399999995!2d15.194999999999999!5e0!3m2!1sen!2ses!4v1602144796868!5m2!1sen!2ses" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../ut01-conceptos-generales/index.htm" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                UT01 Conceptos Generales
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../ut03-01-css/index.htm" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                UT03 CSS
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <span class="md-footer-copyright__highlight">
+            
+          </span>
+        
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png"></a>
+        Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licencia Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional</a>.
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: ['navigation.tabs', 'navigation.instant', 'toc.integrate'],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="../extra.js"></script>
+      
+    
+  </body>
+</html>
