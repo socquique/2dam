@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>4. El component RecyclerView</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.htm">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../1_androidstudio/index.htm">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_arquitecturaapps/index.htm">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_elemensui/index.htm">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.htm">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../5_eventsrecyclerview/index.htm">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../6_menus/index.htm">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.htm">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.htm">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>4. El component RecyclerView</h1>
+        </header>
+        <h1 id="recyclerview">RecyclerView</h1>
+<p>El component <em>RecyclerView</em> ens mostra una llista de desplaçament d&rsquo;elements amb conjunts de dades variables i de grans dimensions. La informació que bolquem sobre un <em>RecyclerView</em> pot vindre de diverses fonts, com puguen ser fitxers, bases de dades locals o d&rsquo;Internet.</p>
+<p>Cadascun dels elements que es mostren en la llista tindrà un disseny determinat amb diversos elements de tipus <em>View</em>.</p>
+<p>Esquemàticament, podem veure-ho com un contenidor que conté diferents instàncies d&rsquo;un layout concret (ja siga un LinearLayout amb dos textos, text i imatge, o una targeta).</p>
+<p><img src="../../../../wp-content/uploads/2018/01/Android-RecyclerView-How-it-works-1024x576.png" alt="Esquema d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
+<p>El principal avantatge del <em>RecyclerView</em> respecte al clàssic <em>ListView</em> és que les diferents instàncies dels dissenys que desapareixen de la pantalla quan es fa *scroll^no es destrueixen, sinò que es &ldquo;reciclen&rdquo; amb nova informació per mostrar els elements que &ldquo;entren&rdquo; en la pantalla.</p>
+<h2 id="1-quins-elements-intervenen-en-tot-açò-què-necessitarem">1. Quins elements intervenen en tot açò? Què necessitarem?</h2>
+<p>Per implementar un <em>RecyclerView</em> necessitem diversos elements:</p>
+<ul>
+<li>Un contenidor que mostre de forma ordenada els diferents elements. Aquest contenidor és el propi <em><strong>RecyclerView</strong></em> i s&rsquo;especificarà en un <strong>docuement XML</strong>. La forma d&rsquo;ordenar els elements la determinarà un <em>Gestor de Disseny</em> o <em>LayoutManager</em>.</li>
+<li>Un <em><strong>disseny per a cadascun dels elements</strong></em> que volem mostrar a la llista. Aquest disseny el definirem amb altre <strong>document XML</strong>.</li>
+<li>També necessitarem saber quines són les <em>dades d&rsquo;origen</em> que volem mostrar a la llista. Aquestes poden provindre des d&rsquo;un simple vector d&rsquo;strings fins a un <em>ArrayList</em> d&rsquo;objectes de determinada classe. En alguns llocs sol nomenar-se aquesta estructura com a <em><strong>DataSource</strong></em> o <em><strong>DataSet</strong></em>.</li>
+<li>Ja tenim els dissenys per una banda i les dades per altra&hellip; pel que només ens queda lligar-los. D&rsquo;això s&rsquo;encarregarà un <em><strong>Adapter</strong></em>, que serà el component més important i que més feina ens portarà quan treballem amb <em>RecyclerView</em>. Aquest component, a més, contindrà una classe anomenada <em>ViewHolder</em> que s&rsquo;encarregarà de fer la correspondència entre el conjunt de dades <em>DataSet</em> i el disseny de la vista dels elements.</li>
+</ul>
+<p><img src="../../../../wp-content/uploads/2018/01/Android-RecyclerView-Flow.png" alt="Elements d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
+<h2 id="2-mans-a-lobra">2. Mans a l&rsquo;obra</h2>
+<p>Una vegada tenim clars els diferents elements, anem a vore com fer la implementació.</p>
+<blockquote>
+<p><img src="../img/projecteHdr.png" alt=""></p>
+<p>Al projecte <em><strong>llistes</strong></em> disposeu de la implementació d&rsquo;aquest exemple.</p>
+</blockquote>
+<p>Comencem per una llista senzilla, que mostre ítems d&rsquo;un parell d&rsquo;strings, com per exemple, un nom i una descripció.  Per a això, <strong>creem una nova aplicació <em>Llistes</em>, a partir d&rsquo;una <em>Empty Activity</em></strong>.</p>
+<h3 id="21-definint-les-vistes">2.1. Definint les vistes</h3>
+<p>Amb el dissenyador de vistes, definim els diferents <em>Layouts</em>, tant per a la vista amb el <em>RecyclerView</em>, com per als components individuals.</p>
+<p>Aquestes quedaran de la següent manera:</p>
+<p><img src="../img/layoutsLlistes.png" alt="Dissenys de les diferents vistes"></p>
+<p>Anem per parts alguns detalls del disseny.</p>
+<p>La vista principal <code>activity_main.xml</code> conté un títol i un <em>RecyclerView</em> amb la llista de contactes, i el seu contingut és el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">tools:context=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;androidx.recyclerview.widget.RecyclerView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/RecyclerViewContactes&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;417dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;513dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginStart=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginTop=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginEnd=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginBottom=</span><span style="color:#e6db74">&#34;55dp&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toBottomOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintEnd_toEndOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintStart_toStartOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toBottomOf=</span><span style="color:#e6db74">&#34;@+id/textView&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/textView&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginStart=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginTop=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginEnd=</span><span style="color:#e6db74">&#34;8dp&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/titol&#34;</span>
+        <span style="color:#a6e22e">android:textSize=</span><span style="color:#e6db74">&#34;24sp&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toTopOf=</span><span style="color:#e6db74">&#34;@+id/recyclerView&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintEnd_toEndOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintHorizontal_bias=</span><span style="color:#e6db74">&#34;0.498&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintStart_toStartOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toTopOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintVertical_bias=</span><span style="color:#e6db74">&#34;0.063&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#960050;background-color:#1e0010">&lt;</span>/androidx.constraintlayout
+</code></pre></div><p>Fixeu-vos que al <em>TextView</em> del títol s&rsquo;indica aquesta cadena com a un recurs d&rsquo;String <code>android:text=&quot;@string/titol&quot;</code>. Per tal d&rsquo;indicar el valor <em>&ldquo;Els meus contactes&rdquo;</em> a aquesta cadena, hem de generar aquest recurs. Per a això, a la vista de disseny, i amb el <em>TextView</em> seleccionat, ens fixem en el botó menut que hi ha al costat de l&rsquo;atribut <em>text</em> i fem clic en ell per obtir el selector de recursos. En aquest selector, farem clic al <em>+</em> que hi ha a la part superior i crearem el nou recurs:</p>
+<p><img src="../img/crear_cadena_titol.png" alt="Creació de la cadena del títol"></p>
+<p>Si no ens demana generar automàticament la dependència del RecyclerView al recurs, caldrà indicar-la al fitxer de construcció del projecte <code>build.gradle</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">implementation <span style="color:#e6db74">&#39;androidx.recyclerview:recyclerview:1.1.0&#39;</span>
+</code></pre></div><p>Ja tenim el Layout principal amb el <em>RecyclerView</em> generat, però ens falta fer el disseny per a cadascun dels ítems individuals que poblaran aquesta llista.</p>
+<p>Per a això, hem de crear un nou recurs de tipus <em>Layout</em>. Per a això, des de la vista d&rsquo;Android, seleccionem <em>Res &gt; Layout &gt; New &gt; Layout Resource File</em>, i creem el fitxer <code>contacte.xml</code> amb un Root Element de tipus <em>Linear Layout</em>:</p>
+<p><img src="../img/crearContacte.png" alt="Creació d&rsquo;un nou recurs"></p>
+<p>El disseny està compost de dos TextViews, tal i com hem vist en la imatge dels layouts que anem a utilitzat. Utilitzarem el LinearLayout* original amb orientació *vertical* i dins d&rsquo;ell afegirem els dos TextViews per al nom i la descripció. El fitxer XML resultant tindrà la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;96dp&#34;</span>
+    <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;vertical&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/nom&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;0dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_weight=</span><span style="color:#e6db74">&#34;2&#34;</span>
+        <span style="color:#a6e22e">android:gravity=</span><span style="color:#e6db74">&#34;center_vertical&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;TextView&#34;</span>
+        <span style="color:#a6e22e">android:textSize=</span><span style="color:#e6db74">&#34;24sp&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/descripcio&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_weight=</span><span style="color:#e6db74">&#34;1&#34;</span>
+        <span style="color:#a6e22e">android:gravity=</span><span style="color:#e6db74">&#34;center_vertical&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;TextView&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/LinearLayout&gt;</span>
+</code></pre></div><p>Com veiem, en aquest xml tenim els identificadors <em>nom</em> i <em>descripcio</em>, que utilitzarem posteriorment per tal d'<em>omplir els buits</em> d&rsquo;aquesta <em>plantilla</em>.</p>
+<h3 id="22-definint-el-model">2.2. Definint el model</h3>
+<p>El  nostre <em>model</em> serà la següent classe <em>Persona</em> (com que és curta la podem definir en la mateixa <em>MainActivity.kt</em>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">data</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Persona</span> (<span style="color:#66d9ef">val</span> nom:String, <span style="color:#66d9ef">val</span> descripcio: String)
+</code></pre></div><p>Aquesta classe només contindrà estos dos atributs <em>nom</em> i <em>descripció</em>. Si fem ús d&rsquo;aquest constructor primari, no farà falta ni indicar el cos. Kotlin per defecte ens generarà els accessors necessaris. A més, hem definit la classe com a una <em>Data Class</em> de Kotlin, que ens aporta algunes funcionalitats addicionals.</p>
+<blockquote>
+<p><strong>Data Classes</strong></p>
+<p>Es tracta de classes Kotlin que només van a contindre atributs, i no realitzen cap funcionalitat. Kotlin, amb estes classes ens ofereix:</p>
+<ul>
+<li>Definir les propietats en el propi constructor, i ens estalvia escriure el propi constructor i els mètodes accessors,</li>
+<li>Incorpora els mètodes <code>equals()</code> i <code>hasCode()</code></li>
+<li>Afig el mètode <code>componentX()</code>, per extreure diversa informació d&rsquo;un objecte amb una instrucció,</li>
+<li>Afig el mètode <code>copy()</code>, per duplicar objectes.</li>
+</ul>
+<p>Més informació de les data classes en: <a href="https://devexperto.com/data-classes-kotlin/">https://devexperto.com/data-classes-kotlin/</a></p>
+</blockquote>
+<h3 id="23-creant-ladaptador">2.3. Creant l&rsquo;adaptador</h3>
+<p>Com hem comentat, l&rsquo;adaptador és la classe que connecta el <em>RecyclerView</em> amb les dades (<em>DataSet</em>). Cada vegada que el RecyclerView necessita <em>reciclar</em> un ítem de la llista, fa ús de l&rsquo;adaptador per obtindre aquest ítem a partir de les dades, concretament, fa ús d&rsquo;una classe interna a aquest anomenada <em>ViewHolder</em>, que serà qui s&rsquo;encarregarà de la correspondència entre aquest <em>DataSet</em> i el disseny de la vista dels elements individuals, al nostre cas, definida al fitxer <code>contacte.xml</code>.</p>
+<p>La interacció entre el component <em>RecyclerView</em> i l&rsquo;Adaptador passa pels següents punts:</p>
+<ol>
+<li>Per tal de dibuixar la llista d&rsquo;elements en la pantalla, el <em>RecyclerView</em> pregunta a l&rsquo;adaptador quants ítems té en total. Açò s&rsquo;implementarà amb un mètode anomenat <code>getItemCount()</code>.</li>
+<li>Quan el <em>RecyclerView</em> necessita afegir una nova <em>fila</em> o instància de la vista en memòria, invoca el mètode <code>onCreateViewHolder()</code>. En aquest punt, l&rsquo;adaptador prepara el disseny definit a l&rsquo;XML per a la vista (al nostre cas <code>contacte.xml</code>).</li>
+<li>Quan un <em>ViewHolder</em> ja creat s&rsquo;ha de reutilitzar, el <em>RecyclerView</em> li demana a l&rsquo;adaptador que actualitze les seues dades. És a dir, utilitza el mateix disseny, però únicament modificarà les dades que es mostren. Açò s&rsquo;aconsegueix sobreescrivint el mètode <code>onBindViewHolder()</code>.</li>
+</ol>
+<p>Anm a començar per aquesta classe <em>ViewHolder</em>, que ens farà part de la feina.</p>
+<p><em><strong>Creant el ViewHolder</strong></em></p>
+<p>Tot i que podem definir-la dins la classe de l&rsquo;adaptador, per separar funcionalitat anem a definir-la en el seu propi fitxer.</p>
+<p>Per crear la nova classe, localitzem en la <em>Vista Android</em> la carpeta <code>java/com.ieseljust.pmdm.llistes</code> o la del projecte que tinguem definida, i amb el botó dret seleccionem <code>New &gt; Kotlin File/Class</code>.</p>
+<p>Creem la classe <code>contacteViewHolder</code> com a una subclasse de <code>RecyclerView.ViewHolder</code>, al fitxer <code>contacteViewHolder.kt</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> android.view.View
+<span style="color:#66d9ef">import</span> androidx.recyclerview.widget.RecyclerView
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">contacteViewHolder</span>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+}
+</code></pre></div><p>La classe <em>RecyclerView.ViewHolder</em> ens obliga a definir un paràmetre de tipus <em>Vista</em>. Si no indiquem aquest paràmetre, Android ens l&rsquo;oferirà automàticament.</p>
+<p>La funció principal d&rsquo;aquesta classe és <em>omplir els buits</em> de la <em>plantilla</em> que hem dissenyat per a cada element individual. Cada vegada que un nou item es fa visible mentre es fa <em>scroll</em>, esta classe s&rsquo;assegura que l&rsquo;element mostra el contingut que toca en cada posició de la llista.</p>
+<p>El codi complet d&rsquo;aquesta classe serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">contacteViewHolder</span>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    <span style="color:#75715e">// Definim al constructor primari els atributs nom i descripció,
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// que seran els dos elements de tipus TextView de la vista-
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> nom = itemView.findViewById(R.id.nom) <span style="color:#66d9ef">as</span> TextView
+    <span style="color:#66d9ef">val</span> descripcio = itemView.findViewById(R.id.descripcio) <span style="color:#66d9ef">as</span> TextView
+
+    <span style="color:#75715e">// Enllacem les dades del contacte amb la vista
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">bind</span>(contacte: Persona) {
+        nom.text = contacte.nom
+        descripcio.text = contacte.descripcio
+    }
+}
+</code></pre></div><ul>
+<li>En primer lloc, tenim dos atributs en la classe: <em>nom</em> i <em>descripció</em>. Aquests atributs, s&rsquo;inicialitzaran en el constructor primari amb els dos <em>TextViews</em> que conté cada ítem individual.</li>
+<li>També hem creat una nova funció, anomenada <code>bind</code>, que <em>enllaça</em> les dades d&rsquo;un contacte, de classe <em>Persona</em> amb els textos dels <em>TextViews</em> que componen la instància de la vista.</li>
+</ul>
+<p><em><strong>Creant l&rsquo;AdapterView</strong></em></p>
+<p>Anem a crear l&rsquo;adaptador en un fitxer específic per a ell, i l&rsquo;anomenarem <code>AdaptadorContactes.kt</code>. La nostra classe serà <code>AdaptadorContactes</code>. <strong>Aquest adaptador, haurà de ser una subclasse de <code>RecyclerView.Adapter</code></strong>, i aquest adaptador es basarà en un <code>RecyclerView.ViewHolder</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdaptadorContactes</span>: RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;(){
+}
+</code></pre></div><p>Amb aquest codi, se&rsquo;ns demanarà importar automàticament la llibrería <code>androidx.recyclerview.widget.RecyclerView</code>, o més concretament <code>androidx.recyclerview.widget.RecyclerView.Adapter</code>.</p>
+<p>Si la deixem definida tal i com està, ens marcarà que la línia és errònia, ja que manquen per implementar alguns components heretats de la classe pare.</p>
+<p><img src="../img/membresAdaptadorContactes_1.png" alt="Error en la classe"></p>
+<p>Si ara seleccionem que volem implementar els membres:</p>
+<p><img src="../img/membresAdaptadorContactes.png" alt="Afegint els components"></p>
+<p>I ens crearà automàticament els mètodes que falten, deixant la classe de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.llistes
+
+<span style="color:#66d9ef">import</span> android.view.ViewGroup
+<span style="color:#66d9ef">import</span> androidx.recyclerview.widget.RecyclerView
+<span style="color:#66d9ef">import</span> androidx.recyclerview.widget.RecyclerView.Adapter
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdaptadorContactes</span>: RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;(){
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateViewHolder</span>(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        TODO(<span style="color:#e6db74">&#34;Not yet implemented&#34;</span>)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onBindViewHolder</span>(holder: RecyclerView.ViewHolder, position: Int) {
+        TODO(<span style="color:#e6db74">&#34;Not yet implemented&#34;</span>)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getItemCount</span>(): Int {
+        TODO(<span style="color:#e6db74">&#34;Not yet implemented&#34;</span>)
+    }
+
+}
+</code></pre></div><p>Com veiem, ens ha generat els mètodes que necessita el <em>RecyclerView</em> per determinar el número d&rsquo;elements (<em>getItemCount</em>), crear nous elements (<em>onCreateViewHolder</em>) i <em>reciclar</em> els <em>ViewHolder</em> que ja no es veuen amb dades noves (<em>onBindEventHolder</em>).</p>
+<p>Unacosa que ens farà falta en aquest punt és saber el conjunt d&rsquo;elements amb el que treballem en l&rsquo;adaptador. Aquest conjunt d&rsquo;elements ens el passarà la pròpia activitat quan cree l&rsquo;adaptador, pel que haurem de modificat la signatura del nostre constructor per afegir aquest conjunt d&rsquo;elements. Així doncs, la definició de la nostra classe amb el constructor primari, quedaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdaptadorContactes</span>(<span style="color:#66d9ef">var</span> llistaPersones: List&lt;Persona&gt;): RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;()
+</code></pre></div><p>Amb això definim dins el nostre adaptador una llista de persones que ens serà assignada pe l&rsquo;activitat. Aquest és el <em>DataSet</em> del què parlàvem anteriorment.</p>
+<p>Ara ja podem implementar el mètodes de la següent forma:</p>
+<ul>
+<li>
+<p><strong>Mètode <code>onCreateViewHolder</code></strong>: Aquest mètode retorna un ViewHolder instanciat amb el layout especificat a l&rsquo;XML (al nostre cas <code>contacte.xml</code>), per a la qual cosa fa ús de <code>LayoutInflatter</code>. Dins aquest mètode caldrà fer:</p>
+<ul>
+<li>Crear l&rsquo;objecte <em>inflater</em> dins el context de l&rsquo;aplicació principal, que determinarà també valors de disseny segons la temàtica:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> inflater = LayoutInflater.from(parent.context)
+</code></pre></div><ul>
+<li>Instanciar el disseny XML amb els corresponents objectes de tipus View. Per a això, farem ús del mètode <code>inflate</code> de l'<em>Inflater</em>, proporcionant-li el recurs del layout (<code>R.layout.contacte</code>, que és <code>contacte.xml</code>). L&rsquo;últim paràmetre (<code>false</code>) indica que no s&rsquo;incorpore de forma immediata la nova vista al ViewGroup pare (que serà el RecyclerView):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> vista=inflater.inflate(R.layout.contacte, parent,<span style="color:#66d9ef">false</span>);
+</code></pre></div><ul>
+<li>Passem la vista al nostre <em>contacteViewHolder</em> per a que associe els <em>textViews</em> del nom i la descripció, i retornem el ViewHolder resultant:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">return</span> contacteViewHolder(vista)
+</code></pre></div></li>
+<li>
+<p><strong>Mètode <code>onBindViewHolder</code></strong>: Aquest era el mètode encarregat d&rsquo;enllaçar els valors tels <em>TextViews</em> del disseny de cada contacte amb els valors corresponents. Per a això rebem un <em>ViewHolder</em> ja preparat i la <em>posició</em> dins la nostra col·lecció d&rsquo;elements. Com que tenim implementada una classe a banda per al <em>contacteViewHolder</em> amb un mètode <em>bind</em> que fa aquesta feina, només hem de fer un càsting (amb <code>as</code>) del <em>holder</em> que se&rsquo;ns proporciona a <em>contacteViewHolder</em> i invocar el nostre mètode <em>bind</em> proporcionant-li l&rsquo;element corresponent a la posició en la llista de contactes (<code>llistaPersones</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    (holder <span style="color:#66d9ef">as</span> contacteViewHolder).bind(llistaPersones[position]);
+</code></pre></div></li>
+<li>
+<p><strong>Mètode <code>getItemCount</code></strong>: Retorna el nombre d&rsquo;elements de la col·lecció. Al nostre cas, la longitud de <code>llistaPersones</code>: <code>return llistaPersones.size</code>.</p>
+</li>
+</ul>
+<p>Amb tot açò, la implementació d&rsquo;estos mètodes a la classe queda:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AdaptadorContactes</span>(<span style="color:#66d9ef">var</span> llistaPersones: List&lt;Persona&gt;): RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;(){
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateViewHolder</span>(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        <span style="color:#66d9ef">val</span> inflater = LayoutInflater.from(parent.context)
+        <span style="color:#66d9ef">val</span> vista=inflater.inflate(R.layout.contacte, parent,<span style="color:#66d9ef">false</span>);
+        <span style="color:#66d9ef">return</span> contacteViewHolder(vista)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onBindViewHolder</span>(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder <span style="color:#66d9ef">as</span> contacteViewHolder).bind(llistaPersones[position]);
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getItemCount</span>(): Int {
+        <span style="color:#66d9ef">return</span> llistaPersones.size
+    }
+
+}
+
+</code></pre></div><h3 id="24-afegint-el-codi-necessari-a-lactivitat-principal">2.4. Afegint el codi necessari a l&rsquo;activitat principal</h3>
+<p>Ja tenim tots els ingredients necessaris per mostrar el nostre <em>RecyclerView</em>. Ara només ens queda crear la llista de contactes, i generar el RecyclerView a partir d&rsquo;ella. Tot això ho farem dins el mètode <code>onCreate()</code> de l&rsquo;activitat principal.</p>
+<ol>
+<li><strong>Creació del DataSet</strong></li>
+</ol>
+<p>El primer que farem és generar un ArrayList d&rsquo;elements de tipus <em>Persona</em>, i poblar-lo:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">// Creem l&#39;ArrayList de Contactes
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> llistaContactes=ArrayList&lt;Persona&gt;()
+
+<span style="color:#75715e">// I l&#39;omplim de dades
+</span><span style="color:#75715e"></span>llistaContactes.add(Persona(<span style="color:#e6db74">&#34;Din Djarin, Mando&#34;</span>, <span style="color:#e6db74">&#34;Caçarecompenses&#34;</span>))
+llistaContactes.add(Persona(<span style="color:#e6db74">&#34;El Chico&#34;</span>, <span style="color:#e6db74">&#34;Bebé de 50 anys&#34;</span>))
+llistaContactes.add(Persona(<span style="color:#e6db74">&#34;Cara Dune&#34;</span>, <span style="color:#e6db74">&#34;Ex soldat de la República&#34;</span>))
+<span style="color:#f92672">..</span>.
+llistaContactes.add(Persona(<span style="color:#e6db74">&#34;Cobb Vanth&#34;</span>, <span style="color:#e6db74">&#34;Sheriff de Mon Pelgo&#34;</span>))
+</code></pre></div><ol start="2">
+<li><strong>Assignació d&rsquo;un LayoutManager al RecyclerView i optimització</strong></li>
+</ol>
+<p>Fins ara no hem parlat del <em>LayoutManager</em> o el <em>Gestor de Disseny</em> que hem comentat que és necessari per ordenar les diferents vistes al <em>RecyclerView</em>. Existeixen diferents gestors que suporten diferents dissenys. Al nostre cas, farem ús del gestor més comú, el <em>LinearLayoutManager</em>, que crea un disseny de llista vertical en el que podem fer scroll amunt i avall. El <code>this</code> que li passem fa referència al <em>context</em>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">RecyclerViewContactes.layoutManager=LinearLayoutManager(<span style="color:#66d9ef">this</span>)
+</code></pre></div><p>I seguidament afegirem aquesta línia al codi:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">RecyclerViewContactes.setHasFixedSize(<span style="color:#66d9ef">true</span>)
+</code></pre></div><p>Aquesta línia optimitza el rendiment del <em>RecyclerView</em> al tractar-se d&rsquo;un component en què el tamany no ve donat pels continguts de l&rsquo;adaptador. La grandària del <em>RecyclerView</em> només depèn de la grandària del pare, de manera que podem indicar que tindrà una grandària fixa que no ha de calcular cada vegada.</p>
+<ol start="3">
+<li><strong>Assignem l&rsquo;adaptador al RecyclerView</strong></li>
+</ol>
+<p>En aquest punt, ja ho juntem tot. Anem a crear una nova instància de l&rsquo;adaptador, passant-li la llista de contactes, i l&rsquo;establirem com a l&rsquo;adaptador del <em>RecyclerView</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">RecyclerViewContactes.adapter = AdaptadorContactes(llistaContactes)
+</code></pre></div><blockquote>
+<p><strong>Fonts:</strong></p>
+<ul>
+<li>
+<p><a href="https://www.andreasjakl.com/kotlin-recyclerview-for-high-performance-lists-in-android/">https://www.andreasjakl.com/kotlin-recyclerview-for-high-performance-lists-in-android/</a></p>
+</li>
+<li>
+<p><a href="https://programacionymas.com/blog/listas-dinamicas-android-usando-recycler-view-card-view">https://programacionymas.com/blog/listas-dinamicas-android-usando-recycler-view-card-view</a></p>
+</li>
+<li>
+<p><a href="https://devexperto.com/adapter-recyclerview-kotlin/">https://devexperto.com/adapter-recyclerview-kotlin/</a></p>
+</li>
+</ul>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-quins-elements-intervenen-en-tot-açò-què-necessitarem">1. Quins elements intervenen en tot açò? Què necessitarem?</a></li>
+    <li><a href="#2-mans-a-lobra">2. Mans a l&rsquo;obra</a>
+      <ul>
+        <li><a href="#21-definint-les-vistes">2.1. Definint les vistes</a></li>
+        <li><a href="#22-definint-el-model">2.2. Definint el model</a></li>
+        <li><a href="#23-creant-ladaptador">2.3. Creant l&rsquo;adaptador</a></li>
+        <li><a href="#24-afegint-el-codi-necessari-a-lactivitat-principal">2.4. Afegint el codi necessari a l&rsquo;activitat principal</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

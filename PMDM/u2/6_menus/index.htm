@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>6. Menús en Android I</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.htm">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../1_androidstudio/index.htm">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_arquitecturaapps/index.htm">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_elemensui/index.htm">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../4_recyclerview/index.htm">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../5_eventsrecyclerview/index.htm">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.htm">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.htm">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.htm">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>6. Menús en Android I</h1>
+        </header>
+        <h1 id="menus">Menus</h1>
+<p>Els menús són un component comú en moltes aplicacions que ens permet escollir entre diverses funcionalitats d&rsquo;aquestes. Per tal de donar una experiència d&rsquo;usuari uniforme, es recomana utilitzar l&rsquo;API de Menu.</p>
+<p>A partir d&rsquo;Android 3.0 (API 11) es proporciona una barra d&rsquo;aplicació per tal de mostrar les accions més comunes de l&rsquo;usuari.</p>
+<p>En general, podem parlar de tres tipus de menús:</p>
+<ul>
+<li>Menú d&rsquo;opcions des de la barra de l&rsquo;App</li>
+<li>Menús contextuals</li>
+<li>Menús emergents</li>
+</ul>
+<p>Per començar ens centrarem en el menú d&rsquo;opcions de la barra de l&rsquo;App.</p>
+<h2 id="1-com-definim-un-menú">1. Com definim un Menú?</h2>
+<p>Els menus es defineixen en format un format estantarditzat en XML, de forma independent a l&rsquo;activitat o fragment, de manera que després s&rsquo;injecta (<em>inflate</em>) a través d&rsquo;un objecte de tipus menu.</p>
+<p>Els recursos de menú s&rsquo;ubiquen dins el directori <code>res/menu</code>, i contindran les següents etiquetes:</p>
+<ul>
+<li><code>&lt;menu&gt;</code>: És l&rsquo;arrel del menú, i dins conté diversos elements de tipus <code>&lt;item&gt;</code> i <code>&lt;group&gt;</code>.</li>
+<li><code>&lt;item&gt;</code>: Crea un MenuItem, que represetna un element en un menú, i que pot contindre algun element <code>&lt;menu&gt;</code> anidat per crear un submenú (només es permet un nivell d&rsquo;anidament). Dins els items, tindrem propietat com l&rsquo;identificador (<em>android:id</em>), la icona (<em>android:icon</em>) o el text (<em>android:title</em>), així com especificar quan i com l&rsquo;element ha d&rsquo;aparéixer o no a la barra d&rsquo;app, mitjançant <em>app:showAsAction</em>. Aquesta propietat admet els següents valors:
+<ul>
+<li><code>ifRoom</code>: Afig l&rsquo;element en la barra de l&rsquo;aplicació si hi ha espai. Si no hi ha lloc per a tots els elements que tinguen aquesta propietat activada, es mostraran aquells que tinguen valors de l&rsquo;atribut <code>orderInCategory</code> més baixos. La resta aniran al menú expandit.</li>
+<li><code>never</code>: No es mostra mai l&rsquo;element a la barra de l&rsquo;App, sinò que ho fa al menú expandit. Aquest és el comportament per defecte.</li>
+<li><code>always</code>: Afig sempre l&rsquo;element a la barra de l&rsquo;app. Aquesta no és una opció recomanable, ja que pot que diversos elements de la UI se superposen.</li>
+<li><code>collapseActionView</code>: Indica so cal contraure la vista de l&rsquo;acció associada a l&rsquo;element d&rsquo;acció.</li>
+</ul>
+</li>
+<li><code>&lt;group&gt;</code>: Permet categoritzar diferents elements de menú per compartir propietats, com l&rsquo;estat d&rsquo;una activitat o visibilitat.</li>
+</ul>
+<hr>
+<h3 id="creant-un-menú">Creant un menú</h3>
+<p>Anem a veure com crear un menú per a una aplicació composta de dues activitats. El nostr menú servirà per passar d&rsquo;una a altra activitat.</p>
+<p>Per a això creem una nova activitat buida (<em>Empty Activity</em>) en un projecte nou (l&rsquo;anomenarem Menus1).</p>
+<blockquote>
+<p><img src="../img/projecteHdr.png" alt=""></p>
+<p>Disposeu del projecte <strong>Menus1</strong> ja implementat, per poder consultar-lo.</p>
+</blockquote>
+<p>Com que aquesta activitat no té en principi cap recurs de menú associat l&rsquo;haurem de crear (en altres tipus d&rsquo;activitats com <em>Blank Activity</em> sí que apareix).</p>
+<p>Per tal de crear el nostre menú, primer huarem de crear la carpeta de recursos de tipus menú. Localitzem la carpeta de <code>res</code> dels recursos, i amb el botó dret fem <em>clic</em> en  ella i al menú desplegable seleccionem <em>New &gt; Android Resource Directory</em></p>
+<p><img src="../img/new_resource_menu.png" alt="Creant una nova carpeta de recursos"></p>
+<p>I creem el nou directori <em>menu</em> de tipus <em>menu</em>:</p>
+<p><img src="../img/dir_rsc_menu.png" alt="Nou recurs Menu"></p>
+<p>I fem el mateix procediment per crear ara el recurs de tipus menú. Ens situem en la carpeta <em>menu</em>, fem clic amb el botó dret del ratolí i al menú desplegable seleccionem <em>New &gt; Menu Resource File</em>.</p>
+<p><img src="../img/new_menu_resource_file.png" alt="Creant el nou recurs de tipus menú"></p>
+<p>I creem el nou menú, que anomenarem <em>menuprincipal</em>.</p>
+<p><img src="../img/nouRecursMenuPrincipal.png" alt="Nou menú principal"></p>
+<p>Si accedim al fitxer <em>menuprincipal.xml</em> veurem que el podem editar amb el dissenyador d&rsquo;Android Studio. Serà convenient afegir-li un identificador i assignar-li un recurs de tipus String per al títol.</p>
+<p><img src="../img/dissenyMenu.png" alt="Disseny del menú"></p>
+<p>Fem el disseny del menú, i finalment, l&rsquo;XML resultant és el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;menu</span> <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;item</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/goActivitat1&#34;</span>
+        <span style="color:#a6e22e">android:title=</span><span style="color:#e6db74">&#34;@string/activitat1&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;item</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/goActivitat2&#34;</span>
+        <span style="color:#a6e22e">android:title=</span><span style="color:#e6db74">&#34;@string/activitat2&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/menu&gt;</span>
+</code></pre></div><hr>
+<p>Per tal d&rsquo;utilitzar un menú en una activitat, caldrà sobreescriure el mètode <code>onCreateMenuOptions()</code> i dins d&rsquo;aquest fer ús del mètode <code>MenuInflatter.inflate()</code> per tal d&rsquo;injectar el menú en l&rsquo;activitat. Aquest mètode <code>onCreateMenuOptions()</code> s&rsquo;invoca quan s&rsquo;inicia l&rsquo;activitat, per tal de posar el menú en la barra de l&rsquo;aplicació. En versions anteriors a Android 3.0 el menú es creava quan es premia el botó de Menú.</p>
+<p>Al nostre exemple, sobreescriuriem aquest mètode a la classe MainActivity:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateOptionsMenu</span>(menu: Menu): Boolean {
+    <span style="color:#66d9ef">val</span> inflater: MenuInflater = menuInflater
+    inflater.inflate(R.menu.menuprincipal, menu)
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+}
+</code></pre></div><p>Per al seu correcte funcionament, se&rsquo;ns haurà demanar importar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> android.view.Menu
+<span style="color:#66d9ef">import</span> android.view.MenuInflater
+</code></pre></div><p>Amb açò ja podriem llançar l&rsquo;aplicació i veure que apareix el nostre menú en la barra de l&rsquo;Aplicació.</p>
+<p><em><strong>A més, també es poden afegir elements de menú amb <code>add()</code> i recuperar elements amb <code>findItem()</code>.</strong></em></p>
+<h2 id="2-gestió-dels-clicks-al-menú">2. Gestió dels clicks al menú</h2>
+<p>Quan se selecciona un element del menú d&rsquo;opcions, el sistema invoca el mètode <code>onOptionsItemSelected()</code> de l&rsquo;activitat, passant-li el <em>MenuItem</em> seleccionat. Podem identificar l&rsquo;element invocant el mètode <em>getItemId</em> (o <em>itemId</em> per accedir a l&rsquo;accessor en Kotlin), que ens mostrarà l&rsquo;id de l&rsquo;element de menú definit per <code>android:id</code> al recurs de menú.</p>
+<p>De moment, anem a fer que quan es faça clic en cada element aparega un <em>Toast</em> indicant ques&rsquo;ha seleccionat l&rsquo;opció. Per a això sobreescrivim el mètode <code>onOptionsItemSelected()</code> a la classe <em>MainActivity</em>.</p>
+<p>-&gt; Açò és el que ens suggereix android studio</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onOptionsItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span>.onOptionsItemSelected(item)
+    }
+</code></pre></div><p><strong>Quan controlem correctament un element de menú, haurem de retornar <code>true</code>, mentre que si no el controlem tornarem <em>false</em>?. En cas que no controlem l&rsquo;element del menú, invocarem al mètode <code>onOptionsItemSelected</code> de la superclasse.</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onOptionsItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> (item.itemId) {
+            R.id.goActivitat1 <span style="color:#f92672">-&gt;</span> {
+                Toast.makeText(<span style="color:#66d9ef">this</span>,<span style="color:#e6db74">&#34;Has seleccionat Activitat 1&#34;</span>, Toast.LENGTH_LONG).show()
+                <span style="color:#66d9ef">true</span>
+            }
+            R.id.goActivitat2 <span style="color:#f92672">-&gt;</span> {
+                Toast.makeText(<span style="color:#66d9ef">this</span>,<span style="color:#e6db74">&#34;Has seleccionat Activitat 2&#34;</span>, Toast.LENGTH_LONG).show()
+                <span style="color:#66d9ef">true</span>
+            }
+            <span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">super</span>.onOptionsItemSelected(item)
+        }
+    }
+</code></pre></div><h2 id="3-un-menú-comú-a-moltes-activitats">3. Un menú comú a moltes activitats</h2>
+<p>El menú que hem implementat va lligat a la classe <code>MainActivity</code>. Si volguérem utilitzar el mateix menús en altres activitats, hauriem de copiar el mateix codi, i quan el modifiquem, modificar-lo en totes les activitats. La forma habitual de reutilitzar aquest codi sol ser generant un nou tipus de classe <em>Activitat</em> que només implemente els mètodes <code>onCreateOptionsMenu()</code> i <code>onOptionsItemSelected()</code>, i estendre esta classe per cada activitat que compartisca el mateix menú d&rsquo;opcions. Així, tenim centralitzada la gestió del menú en una única classe. Si volem crear nous elements per a les activitats descendents, podem sobreescriure el mètode <code>onCreateOptionsMenu()</code>, invocar-lo amb <code>super.onCreateOptionsMenu(menu)</code> o bé afegir amb <code>menu.add()</code> les noves opcions.</p>
+<p>A efectes pràctics, si normalment definim les nostres activitats com a extensions de la classe <code>AppCompatActivity</code>, ara introduïrem una nova classe que descendisca d'<code>AppCompatActivity</code>, que implemente els mètodes <code>onCreateOptionsMenu()</code> i <code>onOptionsItemSelected()</code>, i de la que descendiran les altres activitats.</p>
+<p><img src="../img/herenciaMenuActivitats.png" alt="Nova classe per als menús"></p>
+<hr>
+<h3 id="afegint-el-menú-a-diverses-activitats">Afegint el menú a diverses activitats</h3>
+<p>Anem ara a aplicar això a l&rsquo;exemple que estàvem treballant. Per a això:</p>
+<ul>
+<li>Ccrearem una nova classe <code>ActivityWithMenus</code> que implemente els mètodes per gestionar els menús. Aquesta la podem generar com a una classe normal, i l&rsquo;huarem de definir com a <code>open</code> per a que puga tindre classes descendents.</li>
+<li>Farem que la nostra classe <code>MainActivity</code> desdencisca d&rsquo;aquesta nova classe, i eliminarem els mètodes de gestió del menú en ella.</li>
+<li>Crearem una nova activitat <code>Activitat2</code> que tinga també el menú. Aquesta activitat la crearem com a <em>New &gt; Activity</em> a partir també d&rsquo;una <em>Empty Activity</em>, i crearem el layout <em>activitat2.xml</em>. Podem modificar els Layouts de cada activitat al nostre gust per tal de distingir una activitat d&rsquo;altra.</li>
+</ul>
+<p>A més d&rsquo;estos ajustos, anem a modificar el funcionament del menú, de manera que cada entrada ens porte a cadascuna de les activitats, per al que haurem de crear els <em>intents</em> corresponents.</p>
+<p>El codi de cadascuna de les classes serà el següent:</p>
+<ul>
+<li><strong>Classe ActivityWithMenus</strong></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.menus1
+
+<span style="color:#66d9ef">import</span> android.content.Intent
+<span style="color:#66d9ef">import</span> android.view.Menu
+<span style="color:#66d9ef">import</span> android.view.MenuInflater
+<span style="color:#66d9ef">import</span> android.view.MenuItem
+<span style="color:#66d9ef">import</span> androidx.appcompat.app.AppCompatActivity
+
+
+<span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActivityWithMenus</span> : AppCompatActivity() {
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateOptionsMenu</span>(menu: Menu): Boolean {
+        <span style="color:#66d9ef">val</span> inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menuprincipal, menu)
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onOptionsItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> (item.itemId) {
+            R.id.goActivitat1 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, MainActivity<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                startActivity(intent)
+                <span style="color:#66d9ef">true</span>
+            }
+            R.id.goActivitat2 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, Activitat2<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                startActivity(intent)
+                <span style="color:#66d9ef">true</span>
+            }
+            <span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">super</span>.onOptionsItemSelected(item)
+        }
+    }
+}
+</code></pre></div><ul>
+<li><strong>Classe MainActivity</strong></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.menus1
+
+<span style="color:#66d9ef">import</span> android.os.Bundle
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : ActivityWithMenus() {
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+}
+</code></pre></div><ul>
+<li><strong>Classe Activitat2</strong></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.menus1
+
+<span style="color:#66d9ef">import</span> android.os.Bundle
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Activitat2</span> : ActivityWithMenus() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activitat2)
+    }
+}
+</code></pre></div><h3 id="millorant-el-menú">Millorant el menú</h3>
+<p>Tal i com el tenim, el menú ens mostra en totes les activitats les mateixes opcions. Si estem en l&rsquo;activitat principal (<em>Activitat 1</em>) i fem clic en aquesta opció en el menú, torna a carregar la mateixa activitat. Per a això, podem plantejar dos solucions:</p>
+<ol>
+<li>
+<p><strong>Que no es canvie a l&rsquo;activitat en què estem</strong>: Per a això, introduïrem al menú un nou atribut que ens indique l&rsquo;activitat en la que s&rsquo;està, i quan seleccionem una opció en el menú, que comprove que la nova activitat siga diferent a la que estem per tal de carregar-la.</p>
+<p>En Java, definiriem aquest nou atribut com a un atribut <code>static</code> de la pròpia classe, però Kotlin no suporta aquest tipus d&rsquo;atributs. En canvi, ens ofereix els <em>objectes acompanyants</em> o <code>companion objecte</code>, que aporten altres funcionalitats afegides. Al nostre cas, només hauriem de definir un objecte acompanyant amb aquest atribut estàtic.</p>
+<p>La classe del menú, en aquest cas, quedaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActivityWithMenus</span> : AppCompatActivity() {
+
+    <span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {
+        <span style="color:#75715e">// Kotin no suporta objectes static, 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// però ofereix els objectes acompanyants.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> activitatActual=<span style="color:#ae81ff">0</span>; <span style="color:#75715e">// Per defecte, la 0 és la primeara
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateOptionsMenu</span>(menu: Menu): Boolean {
+        <span style="color:#66d9ef">val</span> inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menuprincipal, menu)
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onOptionsItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> (item.itemId) {
+            R.id.goActivitat1 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">if</span> (activitatActual <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+                    <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, MainActivity<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                    activitatActual = <span style="color:#ae81ff">0</span>;
+                    startActivity(intent)
+                }
+                <span style="color:#66d9ef">true</span>
+            }
+            R.id.goActivitat2 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">if</span> (activitatActual <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>) {
+                    <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, Activitat2<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                    activitatActual = <span style="color:#ae81ff">1</span>;
+                    startActivity(intent)
+                }
+                <span style="color:#66d9ef">true</span>
+            }
+            <span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">super</span>.onOptionsItemSelected(item)
+        }
+    }
+}
+</code></pre></div></li>
+<li>
+<p><strong>Ocultant directament l&rsquo;opció de menú de l&rsquo;activitat actual</strong>: Fem ús del mateix objecte acompanyant per determinar l&rsquo;opció on estem, i en el mètode <code>onCreateOptionsMenu()</code> recorrem les opcions del menú ocultant l&rsquo;opció l&rsquo;índex de la qual coincidisca amb l&rsquo;activitat actual.</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">open</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ActivityWithMenus</span> : AppCompatActivity() {
+
+    <span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {
+        <span style="color:#66d9ef">var</span> activitatActual=<span style="color:#ae81ff">0</span>; <span style="color:#75715e">// Per defecte, la 0 és la primeara
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateOptionsMenu</span>(menu: Menu): Boolean {
+        <span style="color:#66d9ef">val</span> inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menuprincipal, menu)
+
+        <span style="color:#66d9ef">for</span> (i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span> until menu.size()) {
+            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">==</span> activitatActual) menu.getItem(i).isVisible = <span style="color:#66d9ef">false</span>
+            <span style="color:#66d9ef">else</span> menu.getItem(i).isVisible = <span style="color:#66d9ef">true</span>
+        }
+        
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onOptionsItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> (item.itemId) {
+            R.id.goActivitat1 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, MainActivity<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                activitatActual = <span style="color:#ae81ff">0</span>
+                startActivity(intent)
+                <span style="color:#66d9ef">true</span>
+            }
+            R.id.goActivitat2 <span style="color:#f92672">-&gt;</span> {
+                <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, Activitat2<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java)
+                activitatActual = <span style="color:#ae81ff">1</span>
+                startActivity(intent)
+                <span style="color:#66d9ef">true</span>
+            }
+            <span style="color:#66d9ef">else</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">super</span>.onOptionsItemSelected(item)
+        }
+    }
+}
+</code></pre></div><hr>
+<h2 id="4-gestionant-lestat">4. Gestionant l&rsquo;estat</h2>
+<p>Quan canviem d&rsquo;una activitat a altra o simplement amb un gir del dispositiu que faça que canvie l&rsquo;orientació del Layout, l&rsquo;activitat que estava en funcionament perd el seu estat, pel que ens hem d&rsquo;assegurar de guardar i restaurar aquest estat per a que l&rsquo;usuari trobe l&rsquo;activitat com estava quan va canviar d&rsquo;activitat.</p>
+<p>Això s&rsquo;aconsegueix amb els mètodes <code>onSaveInstanceState(estat: Bundle)</code> i <code>onRestoreInstanceState(estat: Bundle)</code>, per a guardar i recuperar instàncies de l&rsquo;estat respectivament.</p>
+<hr>
+<h3 id="exemple">Exemple</h3>
+<p>Anem a veure-ho amb un xicotet exemple modificant l&rsquo;activitat principal, on inclourem un botó al layout que incremente i mostre el valor d&rsquo;un comptador al <em>TextView</em>.</p>
+<p>Per a això, l&rsquo;XML de l&rsquo;activitat principal quedaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:app=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res-auto&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:background=</span><span style="color:#e6db74">&#34;#8BC34A&#34;</span>
+    <span style="color:#a6e22e">tools:context=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/mainActivityText&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;226dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;156dp&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/textActivity1&#34;</span>
+        <span style="color:#a6e22e">android:textAlignment=</span><span style="color:#e6db74">&#34;center&#34;</span>
+        <span style="color:#a6e22e">android:textColor=</span><span style="color:#e6db74">&#34;#FFFFFF&#34;</span>
+        <span style="color:#a6e22e">android:textSize=</span><span style="color:#e6db74">&#34;36sp&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toBottomOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintLeft_toLeftOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintRight_toRightOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toTopOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintVertical_bias=</span><span style="color:#e6db74">&#34;0.264&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;Button</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/IncrementaComptador&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/plus1&#34;</span>
+        <span style="color:#a6e22e">android:textSize=</span><span style="color:#e6db74">&#34;36sp&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toBottomOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintEnd_toEndOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintStart_toStartOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toBottomOf=</span><span style="color:#e6db74">&#34;@+id/mainActivityText&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintVertical_bias=</span><span style="color:#e6db74">&#34;0.197&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div><p>Fixeu-vos que l&rsquo;identificador del botó és <em>IncrementaComptador</em>, per tant, afegirem el següent codi al mètode <code>onCreate</code> de la classe <em>MainActivity</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">IncrementaComptador.setOnClickListener{
+    comptador<span style="color:#f92672">++</span>;
+    mainActivityText.text=comptador.toString()
+}
+</code></pre></div><p>I prèviament haurem definit la variable mutable <code>comptador</code> com a atribut de la nostra classe:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : ActivityWithMenus() {
+        <span style="color:#66d9ef">var</span> comptador = <span style="color:#ae81ff">0</span>
+        <span style="color:#f92672">..</span>.
+        }
+</code></pre></div><p>Amb açò, si llancem l&rsquo;aplicació i fem diversos clicks, veurem que el comptador s&rsquo;incrementa, però si canviem l&rsquo;orientació del dispositiu pe a que es <em>redibuixe</em> en horitzontal, veurem que la pantalla mostra de nou l&rsquo;estat inicial.</p>
+<p>Per evitar això, com hem dit, anem a preservar l&rsquo;estat amb els següents mètodes a la classe <em>MainActivity</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onSaveInstanceState</span>(outState: Bundle) {
+    outState<span style="color:#f92672">?.</span>run{
+        putInt(<span style="color:#e6db74">&#34;comptador&#34;</span>, comptador)
+    }
+<span style="color:#66d9ef">super</span>.onSaveInstanceState(outState)
+}
+
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onRestoreInstanceState</span>(savedInstanceState: Bundle) {
+    comptador=savedInstanceState.getInt(<span style="color:#e6db74">&#34;comptador&#34;</span>)
+    mainActivityText.text=comptador.toString();
+    <span style="color:#66d9ef">super</span>.onRestoreInstanceState(savedInstanceState)
+}
+</code></pre></div><p>Veiem alguns detalls del codi:</p>
+<ul>
+<li>El primer mètode, <code>onSaveInstanceState</code>, rep un objecte <code>outState </code>de tipus <em>Bundle</em>, sobre el que podrem bolcar la informació per preservar.
+<ul>
+<li>Aquest objecte de tipus <em>Bundle</em> permet afegir i recuperar parells de clau-valor.</li>
+<li>Per afegir un parell clau-valor, disposem de diversos mètodes en funció del tipus de dada a emmagatzemar: <code>putInt</code>, <code>putStrint</code>, etc. Al nostre cas, hem afegit el valor del comptador com un enter amb <code>putInt(&quot;comptador&quot;, comptador)</code>.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>La funció d&rsquo;extensió <code>run</code></strong></p>
+<p>La funció d&rsquo;extensió <code>run</code> és una de les funciona d&rsquo;àmbit, com són també <code>also</code>, <code>let</code>, <code>apply</code>, <code>run</code> o <code>with</code>.</p>
+<p>La funció <code>run</code> és una funció literal amb un receptor, on l&rsquo;objecte que es tracta no es passa com a un paràmetre a la funció, sinò que la funció s&rsquo;aplica com si fos membre de l&rsquo;objecte (par això s&rsquo;anomena receptor). Aquesta funció resol lambdes que no retornen cap valor però que tenen un efecte col·lateral.</p>
+<p>Aleshores, amb la construcció:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">outState<span style="color:#f92672">?.</span>run{
+      putInt(<span style="color:#e6db74">&#34;comptador&#34;</span>, comptador)
+  }
+</code></pre></div><p>Comprovem que l&rsquo;objecte <code>outState</code> no és nul, i si no ho és, executem el seu mètode <em>putInt</em>.</p>
+</blockquote>
+<ul>
+<li>El segon mètode, <code>onRestoreInstanceState(savedInstanceState</code>, rep també un objecte de tipus Bundle, amb el que restaurarem els diferents valors de la classe. Per a això:
+<ul>
+<li>Recuperem el valor del comptador amb el mètode <code>getInt</code> i l&rsquo;assinem al <em>comptador</em>: <code>comptador=savedInstanceState.getInt(&quot;comptador&quot;)</code>.</li>
+<li>Restaurem el valor al <em>textView</em> de la interfície: <code>mainActivityText.text=comptador.toString();</code></li>
+<li>I in</li>
+</ul>
+</li>
+<li>I fixeu-vos que en ambdós casos, hem invocat als mètodes corresponents de la classe pare amb <code>super.onSaveInstanceState(outState)</code> i <code>onRestoreInstanceState(savedInstanceState: Bundle)</code>.</li>
+</ul>
+<p>Amb tot açò, si ara voltegem la pantalla per a que es redibuixe la interfície, veurem que ja no perdem el valor d&rsquo;aquesta.</p>
+<p>Però&hellip; <strong>què passa si passem a l&rsquo;activitat 2 i després tornem a l&rsquo;activitat 1</strong>?</p>
+<hr>
+<h3 id="gestionant-lestat-entre-intents">Gestionant l&rsquo;estat entre intents</h3>
+<p>Des de la nostra classe Menú, el que fem és llançar mitjançant <em>intents</em> una o altra activitat amb el mètode <em>startActivity</em>. Açò fa que cada vegada s&rsquo;instancie la classe corresponent, de manera que perdem de nou els valors.</p>
+<p>Per tal d&rsquo;evitar això, els valors que volguem mantenir entre canvis d&rsquo;activitat hauran de ser valors propis de la classe. En Java tenim els atributs <code>static</code> per tal d&rsquo;abordar aquesta problemàtica. Al nostre cas, com ja hem utilitzat a la classe <code>ActivityWithMenus</code> per saber l&rsquo;activitat actual, farem ús d'<em>objectes acompanyants</em>. si definim el nostre atribut <em>comptador</em> (o en general tot l&rsquo;estat que volguem emmagatzemar) com a un <em>companion object</em>, tindrem resolt el problema.</p>
+<hr>
+<h3 id="resultat-final">Resultat final</h3>
+<p>Amb tot açò, la nostra classe MainActivity quedarà de la següent forma, afegint el comptador com a un objecte acompanyant:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.menus1
+
+<span style="color:#66d9ef">import</span> android.os.Bundle
+<span style="color:#66d9ef">import</span> android.os.PersistableBundle
+<span style="color:#66d9ef">import</span> android.widget.Toast
+<span style="color:#66d9ef">import</span> kotlinx.android.synthetic.main.activity_main.*
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : ActivityWithMenus() {
+
+    <span style="color:#66d9ef">companion</span> <span style="color:#66d9ef">object</span> {
+        <span style="color:#66d9ef">var</span> comptador = <span style="color:#ae81ff">0</span>
+    }
+    <span style="color:#66d9ef">val</span> tag=<span style="color:#e6db74">&#34;MainActivity Events&#34;</span>
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onSaveInstanceState</span>(outState: Bundle) {
+        outState<span style="color:#f92672">?.</span>run{
+            putInt(<span style="color:#e6db74">&#34;comptador&#34;</span>, comptador)
+        }
+        <span style="color:#66d9ef">super</span>.onSaveInstanceState(outState)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onRestoreInstanceState</span>(savedInstanceState: Bundle) {
+        comptador=savedInstanceState.getInt(<span style="color:#e6db74">&#34;comptador&#34;</span>)
+        mainActivityText.text=comptador.toString();
+        <span style="color:#66d9ef">super</span>.onRestoreInstanceState(savedInstanceState)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+        mainActivityText.text=comptador.toString()
+
+
+        IncrementaComptador.setOnClickListener{
+            comptador<span style="color:#f92672">++</span>;
+            mainActivityText.text=comptador.toString()
+        }
+    }
+
+}
+</code></pre></div><h2 id="5-menús-contextuals">5. Menús Contextuals</h2>
+<p>els menús contextuals proporcionen accions associades a elements o marcs concrets de la interfície d&rsquo;usuari, generalment elements de tipus col·leccion de vistes, com els ListViews o GridViews.</p>
+<p>Hi ha dues formes de proporcionar accions contextuals, per una banda, en un menú flotant, com a una llista d&rsquo;elements de menú que apareix en fer un clic llarg sobre un element, o é en el mode d&rsquo;acció contextual, que mostra una barra d&rsquo;accions contextuals en la part superior de la pantalla amb elements d&rsquo;acció.</p>
+<p>De moment ens centrarem en el primer d&rsquo;ells.</p>
+<h3 id="51-creació-dun-menú-contextual-flotant">5.1. Creació d&rsquo;un menú contextual flotant</h3>
+<p>El primer que caldrà fer és regitrar a l&rsquo;activitat la vista amb la que s&rsquo;associarà el menú contextual, invocant el mètode <code>registerForContextMenu()</code> i passar-li&rsquo;l a la vista. En cas que l&rsquo;activitat utilitze una <code>ListView</code> o <code>GridView</code> i volem que cada element oferisca el mateix menu contextual, caldrà registrar els elements del menú contextual passant <code>ListView</code> o <code>GridView</code> a <code>registerForContextMenu()</code>.</p>
+<p>En moment la vista registrada reba un esdeveniment de clic llarg, el sistema invocarà el mètode <code>onCreateContextMenu()</code>, i és aci on definirem els elements del menú, generalment, afegint un recurs de menú.</p>
+<p>Per veure un senzill exemple, anem a associar un menú contextual al text de l&rsquo;activitat 2. Per a això, abans que res, dins el mètode <code>onCreate</code> de l&rsquo;activitat registrarem el menú contextual passant-li la vista sobre la que actuarà, en aquest cas, el text de l&rsquo;activitat <em>textActivitat2</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Classe Activitat2 en Activitat2.kt */</span>
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#f92672">..</span>.
+        registerForContextMenu(textActivitat2)
+    }
+</code></pre></div><p>I sobreescriurem el mètode <em>onCreateContextMenu</em> de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Classe Activitat2 en Activitat2.kt */</span>
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateContextMenu</span>(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?) {
+    <span style="color:#75715e">// &#34;Unflem&#34; el menú amb el recurs de menú principal
+</span><span style="color:#75715e"></span>    menuInflater.inflate(R.menu.menuprincipal,menu)
+    <span style="color:#75715e">// També podem afegir-li una capçalera
+</span><span style="color:#75715e"></span>    menu<span style="color:#f92672">?.</span>setHeaderTitle(<span style="color:#e6db74">&#34;Menú contextual&#34;</span>)
+    <span style="color:#66d9ef">super</span>.onCreateContextMenu(menu, v, menuInfo)
+}
+</code></pre></div><p>Aquest mètode funciona de forma semblant al mètode <code>onCreateMenuOptions()</code>, amb la diferència que en lloc d&rsquo;invocar-se només una vegada en iniciar-se l&rsquo;aplicació, ho fa cada vegada que es necessita el menú contextual. Amb <code>MenuInflater</code> omplim el recurs contextual des d&rsquo;un recurs de menú -al nostre cas, hem utilitzat el mateix de les activitats-. Als paràmetres del callback incloguem la vista sobre la que s&rsquo;ha invocat el menú, i l&rsquo;objecte <em>ContextMenu.ContextMenuInfo</em>  que proporciona informació addicional sobre l&rsquo;element seleccionat. Si l&rsquo;activitat té diverses vistes amb diferents menús contextuals en cadascuna, podem utilitzar estos paràmetres per determinar el menú contextual a <em>unflar</em>.</p>
+<p>Ara ens queda determinar les accions que farem en cada opció. Fixeu-vos que el recurs de menú no porta associades les accions, de maner que podem utilitzar el mateix menú per a la barra de l&rsquo;aplicació i com a menú contextual, i en cadascun que ralitze unes accions diferents.</p>
+<p>En aquest exemple, únicament farem que es mostre un <em>Toast</em> en cada selecció del menú. Per a això, hem d&rsquo;implementar el mètode <em>onContextItemSelected()</em>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Classe Activitat2 en Activitat2.kt */</span>
+  <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onContextItemSelected</span>(item: MenuItem): Boolean {
+        <span style="color:#66d9ef">when</span>(item.itemId){
+            R.id.goActivitat1 <span style="color:#f92672">-&gt;</span>
+                Toast.makeText(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#34;Click on Activitat 1&#34;</span>, Toast.LENGTH_SHORT).show()
+            R.id.goActivitat2 <span style="color:#f92672">-&gt;</span>
+                Toast.makeText(<span style="color:#66d9ef">this</span>, <span style="color:#e6db74">&#34;Click on Activitat 2&#34;</span>, Toast.LENGTH_SHORT).show()
+        }
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span>.onContextItemSelected(item)
+    }
+</code></pre></div><p>En aquest mètode rebem l&rsquo;ítem seleccionat en el menú, i amb el mètode <code>getItemId()</code> podem consultar el seu ID al menú XML, comparar-lo amb els IDs que desitgem controlar i realitzar les accions pertinents. Al nostre cas, mostrar un simple Toast.</p>
+<p>Finalment, també podem controlar quan es tanca aquest menú contextual, implementant el mètode <em>OnCOntextMenuClosed</em>. Per exemple, per mostar un toast quan tanquem aquest menú:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">/* Classe Activitat2 en Activitat2.kt */</span>
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onContextMenuClosed</span>(menu: Menu) {
+        Toast.makeText(
+                <span style="color:#66d9ef">this</span>,
+                <span style="color:#e6db74">&#34;S&#39;ha tancat el menu&#34;</span>,
+                Toast.LENGTH_SHORT
+        ).show()
+        <span style="color:#66d9ef">super</span>.onContextMenuClosed(menu)
+    }
+</code></pre></div><blockquote>
+<p><strong>Documentació oficial</strong></p>
+<ul>
+<li>
+<p><a href="https://developer.android.com/guide/topics/ui/menus">https://developer.android.com/guide/topics/ui/menus</a></p>
+</li>
+<li>
+<p><a href="https://developer.android.com/guide/topics/resources/menu-resource">https://developer.android.com/guide/topics/resources/menu-resource</a></p>
+</li>
+<li>
+<p><a href="https://developer.android.com/topic/libraries/architecture/saving-states">https://developer.android.com/topic/libraries/architecture/saving-states</a></p>
+</li>
+<li>
+<p>Article sobre menús contextuals: <a href="https://www.sgoliver.net/blog/menus-en-android-ii-menus-contextuales/">https://www.sgoliver.net/blog/menus-en-android-ii-menus-contextuales/</a></p>
+</li>
+</ul>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-com-definim-un-menú">1. Com definim un Menú?</a>
+      <ul>
+        <li><a href="#creant-un-menú">Creant un menú</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-gestió-dels-clicks-al-menú">2. Gestió dels clicks al menú</a></li>
+    <li><a href="#3-un-menú-comú-a-moltes-activitats">3. Un menú comú a moltes activitats</a>
+      <ul>
+        <li><a href="#afegint-el-menú-a-diverses-activitats">Afegint el menú a diverses activitats</a></li>
+        <li><a href="#millorant-el-menú">Millorant el menú</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-gestionant-lestat">4. Gestionant l&rsquo;estat</a>
+      <ul>
+        <li><a href="#exemple">Exemple</a></li>
+        <li><a href="#gestionant-lestat-entre-intents">Gestionant l&rsquo;estat entre intents</a></li>
+        <li><a href="#resultat-final">Resultat final</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-menús-contextuals">5. Menús Contextuals</a>
+      <ul>
+        <li><a href="#51-creació-dun-menú-contextual-flotant">5.1. Creació d&rsquo;un menú contextual flotant</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

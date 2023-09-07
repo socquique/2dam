@@ -1,0 +1,778 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>3. Elements de la interfície</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.htm">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../1_androidstudio/index.htm">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_arquitecturaapps/index.htm">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.htm">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../4_recyclerview/index.htm">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../5_eventsrecyclerview/index.htm">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../6_menus/index.htm">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.htm">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.htm">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>3. Elements de la interfície</h1>
+        </header>
+        <h1 id="1-elements-de-la-interfície">1. Elements de la interfície</h1>
+<p>Tots els elements de la interfície d&rsquo;usuari d&rsquo;una app d&rsquo;Android són objectes de tipus <em>View</em> o <em>ViewGroup</em>. En general, les vistes o objectes de tipus View són objectes que <em>pinten</em> en la pantalla i amb les que l&rsquo;usuari pot interactuar. Per la seua banda, els <em>ViewGroups</em> són objectes que contenen altres objectes de tipus <em>View/ViewGroup</em>.</p>
+<p>Android ens ofereix un conjunt de classes d&rsquo;aquest tipus per als controls més comuns: botons, quadres dee text, així com diferents dissenys (<em>layouts</em>) per organitzar-los de forma jeràrquica. Recordem que com més plana siga aquesta jerarquia, el rendiment serà millor.</p>
+<p>Aquests elements d&rsquo;interfície i disseny es poden crear en temps d&rsquo;execució, o bé declarar-los en un fitxer d&rsquo;interfície en format XML, que serà el més habitual.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Al lloc de desenvolupadors d&rsquo;Android disposeu de molta més informació sobre els elements de la interfície, els tipus de disseny, i les seues propietats:</p>
+<p><a href="https://developer.android.com/guide/topics/ui/overview?hl=es-419">https://developer.android.com/guide/topics/ui/overview?hl=es-419</a></p>
+<p><a href="https://developer.android.com/guide/topics/ui/declaring-layout">https://developer.android.com/guide/topics/ui/declaring-layout</a></p>
+</blockquote>
+<p>En aquest apartat, anem a ampliar el nostre coneixement sobre els elements View de tipus botó, els checkboxes i radioButtons i la visualització de llistes.</p>
+<p>Tot i que el més habitual serà utilitzar el dissenyador d&rsquo;interfícies, veurem els diferents elements sobre el fitxer XML, per tal de veure més clar com es plasmen les diferents propietats que utilitzem. No obstant això, la manipulació d&rsquo;aquestes propietats es pot fer igualment des del dissenyador d&rsquo;interfícies.</p>
+<h2 id="11-elements-de-tipus-botó">1.1. Elements de tipus botó</h2>
+<p>Ja sabem utilitzar botons a la nostra interfície, i associar-los comportament mitjançant callbacks. Anem a veure ara algunes coses més que podem fer amb ells.</p>
+<p>Els botons són elements d&rsquo;intefície que consisteixen en un text i/o una icona, que realitzen certa acció quan l&rsquo;usuari fa clic en ells. Aquests s&rsquo;implementen amb les classes <code>Button</code> , que és una subclasse de <code>TextView</code> i <code>ImageButton</code> que és una subclasse d'<code>ImageView</code>.</p>
+<p>En general, l&rsquo;XML per definir un botó, quedaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Button</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/button&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/button_text&#34;</span>
+    <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>Les propietats que s&rsquo;han inclòs són:</p>
+<ul>
+<li>L&rsquo;identificador amb <code>id</code>, i valor <code>@+id/button</code>, per fer referència a ell amb <code>button</code>,</li>
+<li>Les propietats <code>layout_width</code> i <code>layout_height</code>, per indicar la grandària del botó, amb  valor <code>wrap_content</code> per a que s&rsquo;ajuste al contingut, i</li>
+<li>La propietat <code>text</code>, amb el text del botó. Cal tindre en compte que aquest text és aconsellable definiir-lo com a un recurs de tipus <em>String</em>, dins el fitxer <code>res/values/strings.xml</code>, de la forma: <code>&lt;string name=&quot;button_text&quot;&gt;Text del botó&lt;/string&gt;</code>.</li>
+</ul>
+<p>A més, si volem que incloga una imatge, afegirem la propietat <code>drawableLeft</code>:</p>
+<ul>
+<li><code>android:drawableLeft=&quot;@drawable/button_icon</code>: On estariem afegint el recurs d&rsquo;imatge <em>button_icon</em>, ubicat a la carpeta de recursos <code>res/drawable</code>.</li>
+</ul>
+<p>Per altra banda, si voleu un botó d&rsquo;imatge directament, fariem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;ImageButton</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:src=</span><span style="color:#e6db74">&#34;@drawable/button_icon&#34;</span>
+    <span style="color:#a6e22e">android:contentDescription=</span><span style="color:#e6db74">&#34;@string/button_icon_desc&#34;</span>
+    <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>Copm veiem, la imatge s&rsquo;inclou amb l&rsquo;atribut <code>src</code>, i amb <code>contentDescription</code> afegim una descrició. En cas que la imatge siga un recurs vectorial, s&rsquo;utilitzarà, en lloc d'<code>android:src</code> la propietat <code>app:srcCompat</code>. Doneu una ullada a la documentació d&rsquo;ampliació per veure com utilitzar-ho!</p>
+<p>&lt;Button
+android:layout_width=&ldquo;wrap_content&rdquo;
+android:layout_height=&ldquo;wrap_content&rdquo;
+android:text=&quot;@string/button_text&quot;</p>
+<pre><code>... /&gt;
+</code></pre>
+<p>Si volem que un botó responga a una acció de l&rsquo;usuari, directament podem utilitzar la propietat <code>android:onClick</code> i especificar-li un mètode de la nostra classe associada:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Button</span> <span style="color:#960050;background-color:#1e0010">...</span>
+    <span style="color:#a6e22e">android:onClick=</span><span style="color:#e6db74">&#34;metodeEnClasse&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>I en la nostra classe, definim el mètode, que haurà de ser públic, no retornar res i rebre la vista (botó) com a paràmetre.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">metodeEnClasse</span>(view: View){
+    <span style="color:#f92672">..</span>.
+}
+</code></pre></div><p>Per altra banda, l&rsquo;opció més recomanada per associar esdeveniments a botons, com ja sabem és fent ús d&rsquo;un <em>receptor d&rsquo;esdeveniments <code>OnClicListener</code></em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">button.setOnClickListener {
+    <span style="color:#75715e">// Do something in response to button click
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Recordeu que <code>button</code> és una propietat d&rsquo;extensió que se&rsquo;ns genera automàticament en importar l&rsquo;XML amb el Layout.</p>
+<h3 id="personalització-de-botons">Personalització de botons</h3>
+<p>En Android podem aplicar un tema concret a tots els elements d&rsquo;una aplicació mitjançant l&rsquo;aribut <code>android:theme</code> a l&rsquo;etiqueta <code>&lt;appliccation&gt;</code>, del fitxer de Manifest. Per defecte, aquest valor apareix com a: <code>android:theme=&quot;@style/AppTheme&quot;</code>, però per exemple, a partir d&rsquo;Android 4.0 podem utilitzar el tema Holo indicant <code>android:theme=&quot;@android:style/Theme.Holo&quot;</code>.</p>
+<p>Si volem utilitzar un estil personalitzat per als diferents botons de la nostra aplicació, podem fer les següents modificacions:</p>
+<ul>
+<li>Afegir un color de fons, mitjançant l&rsquo;atribut <code>android:background</code>, i fent referència a un recurs de tipus color o <em>drawable</em>.</li>
+<li>Modificar la font, mitjançant <code>android:fontFamily</code>, el seu color amb <code>android:textColor</code>, habilitar o deshabilitar les lletres capitals amb <code>android:textAllCaps</code> o canviar la grandària amb <code>android:textSize</code>, entre d&rsquo;altres.</li>
+</ul>
+<p>Per altra banda, també podem aplicar un estil directament al botó, mitjançant la propietat <code>style</code> en l&rsquo;etiqueta <code>&lt;Button&gt;</code>. Per exemple per fer ús d&rsquo;un estil de botó sense vores (<em>borderless</em>), podem utilitzar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Button</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/button&#34;</span>
+    <span style="color:#960050;background-color:#1e0010">...</span>
+    <span style="color:#a6e22e">style=</span><span style="color:#e6db74">&#34;?android:attr/borderlessButtonStyle&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>Podeu trobar més informació sobre botons i com personalitzar-los a la doccumentació que se us facilita més avall.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<ul>
+<li>
+<p>Sobre l&rsquo;element Button: <a href="https://developer.android.com/guide/topics/ui/controls/button">https://developer.android.com/guide/topics/ui/controls/button</a></p>
+</li>
+<li>
+<p>Sobre les imatges de tipus vectorial: <a href="https://developer.android.com/studio/write/vector-asset-studio?hl=es-419">https://developer.android.com/studio/write/vector-asset-studio?hl=es-419</a></p>
+</li>
+<li>
+<p>Especificació de la classe Button: <a href="https://developer.android.com/reference/android/widget/Button">https://developer.android.com/reference/android/widget/Button</a></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="12-checkboxes-radiobuttons-toggle-buttons-i-spinners">1.2. Checkboxes, RadioButtons, Toggle Buttons i Spinners</h2>
+<p>Les caselles de verificació (<em>checkboxes</em>) i els botons de selecció (<em>radiobuttons</em>) són elements que ens permeten seleccionar opcions entre un conjunt. Mentre que les caselles de verificació permeten seleccionar vàries opcions ente una o més opcions d&rsquo;un conjunt, els botons de selecció ens serviran per tal que l&rsquo;usuari seleccione una única opció d&rsquo;entre un conjunt.</p>
+<p>En aquest apartat anem a veure aquests dos tipus d&rsquo;elements de la interfície més els Spinners i els Toggle Buttons.</p>
+<p><img src="../img/uielements.png" alt="Elements de la interfície"></p>
+<h3 id="caselles-de-verificació-o-checboxes">Caselles de verificació o ChecBoxes</h3>
+<p>Per tal de crear una casella de verificació, crearem un objecte de tipus <code>checkBox</code> al nostre disseny. Com que es poden triar vàries opcions, cada checkbox es gestiona de forma separada, i caldrà registrar un receptor d&rsquo;esdeveniments per a cadascun.</p>
+<p>L&rsquo;event que es dispararà quan fem clic en un <code>CheckBox</code> és <em>onClick</em>, i pot ser capturat bé directament a l&rsquo;etiqueta <code>CheckBox</code> mitjançan l&rsquo;atribut <code>android:onClick</code> o bé mitjançant un receptor d&rsquo;esdeveniments (eventListener) capturant l&rsquo;event <code>onClick</code>. El funcionament és el mateix que hem vist per als botons comuns. Una vegada dins el mètode que gestione l&rsquo;event, podem accedir al seu valor amb la propietat <code>isChecked</code>.</p>
+<p>Veiem un exemple. Temim els següents botons <em>checkbox1</em> i <em>checkbox2</em> dins un Layout:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;CheckBox</span> <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/checkbox1&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/text1&#34;</span>
+    <span style="color:#a6e22e">android:onClick=</span><span style="color:#e6db74">&#34;MetodeEnFerClic&#34;</span><span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;CheckBox</span> <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/checkbox2&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/text2&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>Si ens fixem, el primer <em>checkbox</em> especifica el mètode a executar quan es fa clic en ell, mentre que el segon serà gestionat per un receptor d&rsquo;esdeveniments.</p>
+<p>Un possible codi per gestionar ambdós events seria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+
+    <span style="color:#75715e">// Mètode que s&#39;invoca directament quan fem clic
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// en el primer checkbox.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">MetodeEnFerClic</span>(view: View){
+        <span style="color:#75715e">// Comprovem que és un checkbox
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (view <span style="color:#66d9ef">is</span> CheckBox) {
+            <span style="color:#66d9ef">val</span> activat:String=<span style="color:#66d9ef">if</span> (view.isChecked) <span style="color:#e6db74">&#34;activat&#34;</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;desactivat&#34;</span>
+            <span style="color:#66d9ef">val</span> text = <span style="color:#e6db74">&#34;Has &#34;</span>+activat+<span style="color:#e6db74">&#34; el checkbox &#34;</span>+view.text
+            <span style="color:#75715e">// Congigurem el toast
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+            <span style="color:#75715e">// Creem el toast i el mostrem
+</span><span style="color:#75715e"></span>            Toast.makeText(applicationContext, text, duration).show()
+        }
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        <span style="color:#75715e">// EventListener per al checkbox2, que invocarà
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// el mateix mètode que invocava directament
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// el primer checkbox.
+</span><span style="color:#75715e"></span>        checkbox2.setOnClickListener { view: View <span style="color:#f92672">-&gt;</span>
+            MetodeEnFerClic(view)
+        }
+    }
+
+}
+</code></pre></div><p>Per altra banda, si volem canviar des del propi codi el valor del checkbox, ho podem fer amb els mpetodes <code>setChecked(boolean)</code> per indicar un valor concret, o bé el mètode <code>toggle()</code> per canviar el seu estat.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Documentació i guía sobre el Checkbox: <a href="https://developer.android.com/guide/topics/ui/controls/checkbox">https://developer.android.com/guide/topics/ui/controls/checkbox</a></p>
+<p>Referència del widget Checkbox: <a href="https://developer.android.com/reference/android/widget/CheckBox">https://developer.android.com/reference/android/widget/CheckBox</a></p>
+</blockquote>
+<h3 id="botons-de-selecció-o-radiobuttons">Botons de selecció o RadioButtons</h3>
+<p>Els botons de selecció ens permeten escollir una entre un conjunt d&rsquo;opcions mútuament excloents. Aquests botons s&rsquo;implementen amb la vista <code>RaduiButton</code>. Per tal d&rsquo;indicar que diversos <code>RadioButtons</code> són excloents, els posem a tots dins un mateix <code>RadioGroup</code>.</p>
+<p>La gestió d&rsquo;esdeveniments és exactament igual que als <em>CheckBoxes</em> i als botons. Quan fem clic al botó es dispara l&rsquo;esdeveniment <em>onClick</em>, que podem gestionar bé directament mitjançant el corresponent atribut en l&rsquo;etiqueta <code>RadioButton</code> o bé amb un receptor d&rsquo;esdeveniments des del codi. Una vegada dins el mètode que gestione l&rsquo;esdeveniment, també tenim accés a la propietat <code>isChecked</code>, per comprovar si l&rsquo;element està seleccionat o no.</p>
+<p>Veiem un exemple amb tres radiobuttons:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;RadioGroup</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/rg1&#34;</span>
+        <span style="color:#960050;background-color:#1e0010">...</span>
+        <span style="color:#f92672">&gt;</span>
+
+        <span style="color:#f92672">&lt;RadioButton</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/rb1&#34;</span>
+            <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+            <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+            <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/radio1&#34;</span><span style="color:#f92672">/&gt;</span>
+
+        <span style="color:#f92672">&lt;RadioButton</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/rb2&#34;</span>
+            <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+            <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+            <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/radio2&#34;</span><span style="color:#f92672">/&gt;</span>
+
+        <span style="color:#f92672">&lt;RadioButton</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/rb3&#34;</span>
+            <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+            <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+            <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/radio3&#34;</span><span style="color:#f92672">/&gt;</span>
+
+        <span style="color:#f92672">&lt;Button</span>
+            <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/btEnviar&#34;</span>
+            <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+            <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+            <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;@string/btEnviar&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;/RadioGroup&gt;</span>
+
+</code></pre></div><p>Cal tindr een compte, que el contenidor <code>RadioGroup</code> és una subclasse de<code>LinearLayout</code> amb orientació vertical, de manera que els <code>RadioButtons</code> que anem afegint a dins s&rsquo;aniran ordenant amb aquesta orientació.</p>
+<p>Com podem veure, a l&rsquo;exemple, hem afegit un botó a dins el <em>RadioGroup</em>. Aquest botó podría anar tant fora com dins, però s&rsquo;ha afegit dins per tal que entre dins aquest <em>LinearLayout</em>.</p>
+<p>Veiem com quedaria un possible codi per gestionar el clic al botó i mostrar un toast en funció del <em>RadioButton</em> seleccionat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        <span style="color:#f92672">..</span>.
+
+        btEnviar.setOnClickListener { view: View <span style="color:#f92672">-&gt;</span>
+            <span style="color:#75715e">// Busquem dins del RadioGroup,
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// quin radioButton està seleccionat
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// i ens quedem amb el seu ID
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">val</span> idRadioButtonSeleccionat: Int = rg1<span style="color:#f92672">!!</span>.checkedRadioButtonId
+
+            <span style="color:#75715e">// Declarem un objecte de tipus radioButton
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">val</span> radioButton: RadioButton
+            <span style="color:#75715e">// I l&#39;assignem al radioButton que té aquest ID
+</span><span style="color:#75715e"></span>            radioButton = findViewById(idRadioButtonSeleccionat)
+
+            <span style="color:#75715e">// Ara creem el text per al toast
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> text = <span style="color:#e6db74">&#34;Ha seleccionat el RadioButton &#34;</span>
+            <span style="color:#75715e">// I li afegim el text del radioButton
+</span><span style="color:#75715e"></span>            text<span style="color:#f92672">+=</span>radioButton.text
+
+            <span style="color:#75715e">// Finalment, mostrem el toast
+</span><span style="color:#75715e"></span>            Toast.makeText(baseContext, text, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+</code></pre></div><p>Per altra banda, recordeu que si voleu inicialitzar un <em>RadioButton</em> o modificar el seu estat des del codi, podeu utilitzar els mètodes <code>setChecked(boolean)</code> o <code>toggle()</code>.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Documentació i guía sobre el RadioButton: <a href="https://developer.android.com/guide/topics/ui/controls/radiobutton">https://developer.android.com/guide/topics/ui/controls/radiobutton</a></p>
+<p>Referència del widget RadioGroup: <a href="https://developer.android.com/reference/android/widget/RadioButton">https://developer.android.com/reference/android/widget/RadioButton</a></p>
+<p>Referència del widget RadioGroup: <a href="https://developer.android.com/reference/android/widget/RadioGroup">https://developer.android.com/reference/android/widget/RadioGroup</a></p>
+</blockquote>
+<h3 id="spinners">Spinners</h3>
+<p>Els spinners ofereixen una forma ràpida de triar un valor d&rsquo;un conjunt. A diferència dels <em>RadioButtons</em>, les diferents opcions disponibles no estan visibles, sinò que es <em>despleguen</em> en fer clic sobre l&rsquo;spinner, que en tot moment mostra el valor seleccionat. Per tal d&rsquo;afegir un spinner des del dissenyador d&rsquo;interfícies, cal buscar-lo en la paleta de <em>Containers &gt; Spinner</em></p>
+<p>L&rsquo;XML corresponent a un Spinner seria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">  <span style="color:#f92672">&lt;Spinner</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/dies_setmana&#34;</span>
+        <span style="color:#960050;background-color:#1e0010">..</span>
+        <span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>A diferència dels RadioButtons, en un Spinner no indiquem la llista d&rsquo;opcions en l&rsquo;XML, sinò que ho fem des del propi codi font, en una activitat o fragment. Les classes implicades en aquest procés seran <code>Spinner</code>, <code>SpinnerAdapter</code> i <code>AdapterView.OnItemSelectedListener</code>.</p>
+<p>Per tal d&rsquo;incorporar aquesta llista d&rsquo;opcions necessitarem d&rsquo;un <code>SpinnerAdapter</code>, com puguen ser un <code>ArrayAdapter</code> si el contingut es troba en un vector o bé un <code>CursorAdapter</code> si està en una consulta a la base de dades.</p>
+<p>Per exemple, anem a definir-nos un nou fitxer de recursos de tipus <em>values</em> amb un vector. Per a això, ens situem al directori <em>res/values</em> i fem clic al botó dret, per triar l&rsquo;opció <em>New &gt; Values Resource File</em>:</p>
+<p><img src="../img/nouRecurs.png" alt="Afegint un nou recurs">)</p>
+<p>I creem un nou recurs anomenat <em>dies_setmana.xml</em>:</p>
+<p><img src="../img/dies_setmana.png" alt="Creant el recurs dies_setmana.xml">)</p>
+<p>El contingut d&rsquo;aquest fitxer serà el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;resources&gt;</span>
+    <span style="color:#f92672">&lt;string-array</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;dies_setmana&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Dilluns<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Dimarts<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Dimecres<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Dijous<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Divendres<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Dissabte<span style="color:#f92672">&lt;/item&gt;</span>
+        <span style="color:#f92672">&lt;item&gt;</span>Diumenge<span style="color:#f92672">&lt;/item&gt;</span>
+    <span style="color:#f92672">&lt;/string-array&gt;</span>
+<span style="color:#f92672">&lt;/resources&gt;</span>
+</code></pre></div><p>Per tal de <em>poblar</em> el nostre <em>Spinner</em> amb aquest contingut, faríem ús d&rsquo;una instància d'<em>ArrayAdapter</em>, de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">// Creem un mètode específic per poblar l&#39;spinner
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">populateSpinner</span>(){
+    <span style="color:#75715e">// Creem un ArrayAdapter a partir d&#39;un recurs de tipus array
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Requereix tres paràmetres: El context, el recurs, i el
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// disseny de l&#39;entrada (utilitzarem el proporcionat per la 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// pròpia plataforma.
+</span><span style="color:#75715e"></span>    ArrayAdapter.createFromResource(
+        <span style="color:#66d9ef">this</span>,
+        R.array.dies_setmana,
+        android.R.layout.simple_spinner_item
+        ).also { adapter <span style="color:#f92672">-&gt;</span>
+        <span style="color:#75715e">// Si tenim l&#39;adaptador preparat, seleccionem el disseny
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// per a la llista d&#39;opcions (el proporcionat per la plataforma)
+</span><span style="color:#75715e"></span>        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        <span style="color:#75715e">// I finalment, afegim l&#39;adaptador a l&#39;spinner
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Fixeu-se que spinner és l&#39;id de l&#39;spinner, que
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// aci tenim com a propietat d&#39;extensió
+</span><span style="color:#75715e"></span>        spinner.adapter = adapter
+    }
+}
+
+<span style="color:#75715e">// I l&#39;invoquem des del mètode onCreate
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+    <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    <span style="color:#f92672">..</span>.
+    populateSpinner()
+}
+</code></pre></div><p>Fixeu-vos que hem fet us de la següent construcció en Kotlin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    ArrayAdapter.createFromResource(<span style="color:#f92672">..</span>.)
+    .also { adapter <span style="color:#f92672">-&gt;</span>
+        
+    }
+</code></pre></div><blockquote>
+<p><strong>El mètode .also</strong></p>
+<p>El mètode <code>.also</code> és molt semblant al <code>.let</code>, i serveix per a una execució condicional de tot un bloc en cas que el que li passem no siga nul, estalviant-nos així fer aquesta comprovació.</p>
+<p>La principal diferència és que amb <code>let</code> es retorna el resultat d&rsquo;una funció, mentre que <code>also</code> retorna l&rsquo;objecte en sí (te <em>efectes col·laterals</em>).</p>
+</blockquote>
+<blockquote>
+<p>Principalment, aquesta construcció s&rsquo;utilitza quan volem fer operacions addicionals amb un objecte. En aquest cas, hem creat un adaptador, i <em>a més</em> de crear-lo, l&rsquo;hem incorporat a l&rsquo;spinner.</p>
+</blockquote>
+<p><strong>Com sabem la selecció de l&rsquo;usuari?</strong></p>
+<p>Cada vegada que l&rsquo;usuari canvia la selecció es dispara un event de tipus <em>ItemSelected</em>. Per tal de capturar aquest event, cal implementar la interfície <em>AdapterView.OnItemSelectedListener</em> i el callback <em>onItemSelected()</em> corresponent.</p>
+<p>El codi corresponent vindria a ser:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">
+<span style="color:#75715e">// Implementem la interfície AdapterView.OnItemSelectedListener 
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity(), AdapterView.OnItemSelectedListener  {
+
+    <span style="color:#75715e">// Sobreescrivim els mètodes de la interfície onItemSelected i on NothingSelected
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onItemSelected</span>(parent: AdapterView&lt;*&gt;, view: View, pos: Int, id: Long) {
+        <span style="color:#75715e">// Es dispara quan es selecciona un item en l&#39;spinner
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// per tal d&#39;obtenir l&#39;element seleccionat, ferm ús de
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// parent.getItemAtPosition(pos)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">var</span> text = <span style="color:#e6db74">&#34;Selecció de l&#39;spinner: &#34;</span>+ parent.getItemAtPosition(pos)
+
+        Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+            text, Toast.LENGTH_SHORT).show()
+    }
+
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onNothingSelected</span>(parent: AdapterView&lt;*&gt;) {
+        Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+            <span style="color:#e6db74">&#34;No s&#39;ha seleccionat res&#34;</span>, Toast.LENGTH_SHORT).show()
+    }
+
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        <span style="color:#f92672">..</span>.
+        populateSpinner()
+        <span style="color:#75715e">// Associem l&#39;event onItemSelected per a que
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// el gestione la nostra classe
+</span><span style="color:#75715e"></span>        spinner.onItemSelectedListener = <span style="color:#66d9ef">this</span>
+        <span style="color:#f92672">..</span>.
+    }
+}
+</code></pre></div><p>Algunes alternatives a aquest codi qur també ens podem trobar són:</p>
+<ul>
+<li>
+<p>Per accedir al conringut del vector, en lloc de fer ús del <code>parent</code>, podem recuperar el recurs del vector i accedir a la posició seleccionada.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onItemSelected</span>(parent: AdapterView&lt;*&gt;, view: View, pos: Int, id: Long) {
+        <span style="color:#66d9ef">val</span> dies_setmana = resources.getStringArray(R.array.dies_setmana)
+        <span style="color:#66d9ef">var</span> text = <span style="color:#e6db74">&#34;Selecció de l&#39;spinner &#34;</span>+ dies_setmana[pos]
+          
+        Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+            text, Toast.LENGTH_SHORT).show()
+}
+</code></pre></div></li>
+<li>
+<p>Fer un d&rsquo;un objecte d&rsquo;una classe anònima que implemente la interfície <code>AdapterView.OnItemSelectedListener</code>, de manera que no l&rsquo;hajam d&rsquo;implementar a la nostra activitat principal:</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        <span style="color:#f92672">..</span>.
+        populateSpinner()
+        
+        <span style="color:#75715e">// Creem un objecte anònim que implemente AdapterView.OnItemSelectedListener
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i sobreescrivim aci els seus mètodes.
+</span><span style="color:#75715e"></span>        spinner.onItemSelectedListener = <span style="color:#66d9ef">object</span> <span style="color:#960050;background-color:#1e0010">:</span>
+            AdapterView.OnItemSelectedListener {
+            <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onItemSelected</span>(parent: AdapterView&lt;*&gt;,
+                                        view: View, pos: Int, id: Long) {
+                <span style="color:#66d9ef">var</span> text = <span style="color:#e6db74">&#34;Selecció de l&#39;spinner: &#34;</span>+ parent.getItemAtPosition(pos)
+                Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+                    text, Toast.LENGTH_SHORT).show()
+            }
+
+            <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onNothingSelected</span>(parent: AdapterView&lt;*&gt;) {
+                Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+                    <span style="color:#e6db74">&#34;No s&#39;ha seleccionat res&#34;</span>, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    <span style="color:#f92672">..</span>.
+}
+
+
+</code></pre></div><blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Guía sobre els spinners: <a href="https://developer.android.com/guide/topics/ui/controls/spinner">https://developer.android.com/guide/topics/ui/controls/spinner</a></p>
+<p><strong>Articles</strong></p>
+<p>Spinners en Kotlin, de <em>Geeks for Geeks</em>: <a href="https://www.geeksforgeeks.org/spinner-in-kotlin/">https://www.geeksforgeeks.org/spinner-in-kotlin/</a></p>
+</blockquote>
+<h3 id="togglebuttons">ToggleButtons</h3>
+<p>Els Toggle Buttons són botons que ens permeten alternar entre dos estats. L&rsquo;objecte que gestiona aquests controls és el <code>ToggleButton</code>. A partir d&rsquo;Android 4.0 (API level 14), s&rsquo;introdueix altre tipus de Toggle Button anomenat switch, controlats per l&rsquo;objecte <code>Switch</code> i <code>SwitchCompat</code> per fer-los compatibles amb versions anteriors.</p>
+<p>Per tal de modificar-ne l&rsquo;estat, podem fer ús dels mètodes <code>setChecked()</code> o <code>toggle()</code>.</p>
+<p>Veiem com expressariem aquests elements en l&rsquo;XML:</p>
+<ul>
+<li>
+<p>Per al toggle:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;ToggleButton</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/toggleButton&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;ToggleButton&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div></li>
+<li>
+<p>Per al Switch:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;Switch</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/switch1&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#a6e22e">android:text=</span><span style="color:#e6db74">&#34;Switch&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div></li>
+</ul>
+<p>Per tal de detectar l&rsquo;activació de qualsevol d&rsquo;aquests botons, farem ús del mètode <code>setOnCheckedChangeListener()</code> per assignar el callback:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    toggleButton.setOnCheckedChangeListener { _,  isChecked <span style="color:#f92672">-&gt;</span>
+        <span style="color:#66d9ef">var</span> text = <span style="color:#66d9ef">if</span> (isChecked) <span style="color:#e6db74">&#34;El toggle està activat&#34;</span>
+                    <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;El toggle està desactivat&#34;</span>
+        Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+            text, Toast.LENGTH_SHORT).show()
+        }
+
+        switch1.setOnCheckedChangeListener { _,  isChecked <span style="color:#f92672">-&gt;</span>
+            <span style="color:#66d9ef">var</span> text = <span style="color:#66d9ef">if</span> (isChecked) <span style="color:#e6db74">&#34;El switch està activat&#34;</span>
+            <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;El switch està desactivat&#34;</span>
+            Toast.makeText(<span style="color:#66d9ef">this</span><span style="color:#a6e22e">@MainActivity</span>,
+                text, Toast.LENGTH_SHORT).show()
+        }
+</code></pre></div><blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Guía dels toggle Buttons: <a href="https://developer.android.com/guide/topics/ui/controls/togglebutton">https://developer.android.com/guide/topics/ui/controls/togglebutton</a></p>
+</blockquote>
+<h2 id="13-llistes-i-recyclerview">1.3. Llistes i RecyclerView</h2>
+<p>En l&rsquo;apartat anterior ja hem vist com mostrar una llista d&rsquo;items amb l&rsquo;element Spinner, i com utilitzar un adaptador en aquest.</p>
+<p>Anem a veure ara com crear una activitat que consistisca en una llista d&rsquo;elements i com gestionar-la mitjançant el contenidor <em>RecyclerView</em>.</p>
+<p>El widget <em>RecyclerView</em> és una versió més avançada i flexible que el ListView, i serveix per mostrar una llista de desplaçament d&rsquo;elements, que continga grans conjunts de dades, o dades que canvien freqüentment.</p>
+<p>Per tal de treballar amb aquestes llistes, necessitem diferents components:</p>
+<ul>
+<li>Un <strong>contenidor general</strong>, de tipus <code>RecyclerView</code> dins el nostre disseny, que es completarà per si sol amb vistes que ofereix l&rsquo;administrador de disseny,</li>
+<li><strong>Contenidors de vistes</strong>, que seran instàncies de l&rsquo;objecte <code>RecyclerView.ViewHolder</code>. Cadascun d&rsquo;aquests objectes contenidors mostraran un element individual de la llista. A mesura que l&rsquo;usuari es mou per la llista, el RecyclerView és l&rsquo;encarregat de gestionar les vistes que es veuen.</li>
+<li>Un <strong>adaptador</strong>, que estenem de <code>RecyclerView.Adapter</code>, que administra els objectes contenidors de vistes. Aquest adaptador crerà els contenidors segons vagen sent necessaris i els vincula amb les seues dades. Per fer açò, assigna el contenidor de vistes a una posició i invoca el mètode <code>onBindViewHolder()</code> de l&rsquo;adaptador, que farà ús de la posició del contenidor de vistes per determinar el seu contingut segons la posició en la llista.</li>
+</ul>
+<h3 id="creant-un-nou-layout-i-assignant-un-recycledview">Creant un nou Layout i assignant un RecycledView</h3>
+<p>Anem a crear un nou Layout dins el nostre projecte. Per a aixo, ens situem en la carpeta de recursos i fem clic amb el botó dret sobre la carpeta de Layout i triem <em>New &gt; Layout Resource File</em>. Amb això, se&rsquo;ns mostrarà una finestra demanant-nos el nom i algunes propietats per al fitxer, com el tipu d&rsquo;element arrel. Deixarem la resta d&rsquo;opcions per defecte:</p>
+<p><img src="../img/nouLayout.png" alt="Afegint un nou Layout"></p>
+<p>Amb aquest recurs creat, l&rsquo;obrim amb el dissenyador d&rsquo;interfícies, i des de la paleta de widgets, busquem l&rsquo;element <em>RecyclerView</em> bé des <em>Common</em> o des de <em>Containers</em>. Veurem que té un símbol al costat que indica que s&rsquo;ha de descarregar. Amb arrossegar l&rsquo;element a la vista, ja ens demana si volem afegir la dependència:</p>
+<p><img src="../img/dependenciaRecyclerView.png" alt="Afegint la dependèncla al RecyclerView"></p>
+<p>Diem <em>Ok</em> i se&rsquo;ns generarà la següent dependència al <em>build.gradle</em> del mòdul:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">implementation <span style="color:#e6db74">&#39;androidx.recyclerview:recyclerview:1.1.0&#39;</span>
+</code></pre></div><p>Si ens fixem en l&rsquo;XML generat, tindrà una forma semblant a aquesta (després d&rsquo;ajustar els constraints a 1):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">    <span style="color:#f92672">&lt;androidx.recyclerview.widget.RecyclerView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/contenidorDies&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;409dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;0dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginStart=</span><span style="color:#e6db74">&#34;1dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginTop=</span><span style="color:#e6db74">&#34;1dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginEnd=</span><span style="color:#e6db74">&#34;1dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_marginBottom=</span><span style="color:#e6db74">&#34;1dp&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintBottom_toBottomOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintEnd_toEndOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintStart_toStartOf=</span><span style="color:#e6db74">&#34;parent&#34;</span>
+        <span style="color:#a6e22e">app:layout_constraintTop_toTopOf=</span><span style="color:#e6db74">&#34;parent&#34;</span> <span style="color:#f92672">/&gt;</span>
+</code></pre></div><h3 id="creació-de-ladaptador">Creació de l&rsquo;adaptador</h3>
+<p>Hem dit que l&rsquo;adaptador és qui gestiona el contingut de les vistes, creant els contenidors a mesura que vagen sent necessaris, i vinculant-los amb les dades corresponents.</p>
+<p>El nostre adaptador ha d&rsquo;estendre de la classe <code>RecyclerView.Adapter</code> i reemplaçar el contingut de es vistes per nous elements de dades.</p>
+<p>Al nostre cas, anem a fer ús de nou de l&rsquo;XML dels dies de la setmana com a conjunt de dades que utilitzarem com a un vector d&rsquo;strings, que es mostraran com un widget de tipus TextView i un botó de Switch.</p>
+<p>Primerament, anem a definir la següent classe diesSetmana, que contindrà dos atributs, un string amb el dia de la setmana i un booleà (de nom activat), que diu qu eixe dia hi ha classe o no.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">diaSetmana</span>(<span style="color:#66d9ef">val</span> dia:String, <span style="color:#66d9ef">val</span> activat: Boolean)
+</code></pre></div><p>Fixeu-vos que d&rsquo;esta classe no ens ha fet falta declarar el cos, ja que només tindrà dos atributs i els hem definit al constructor primari.</p>
+<p>Ara, definirem el codi de la nostra classe adaptador de la següent manera:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#75715e">// Classe adaptador: Rep un arrayList d&#39;elements de tipus diaSetmana
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyAdapter</span>(<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> myDataset: ArrayList&lt;diaSetmana&gt;) :
+    RecyclerView.Adapter&lt;MyAdapter.MyViewHolder&gt;() {
+    <span style="color:#75715e">// Referència a les vistes per a cada element de dades.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Els elements més complexos requeriran de més d&#39;una vista per cada element
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// i necessitarem proporcionar totes les vistes de cada element en un viewHolder.
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Definim una classe descendent de ViewHolder per a les files
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Al nostre cas, cada element d&#39;aquesta estarà compost d&#39;un TextView i un Switch,
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// que es correspondran al dia i al valor booleà d&#39;activat de diaSetmana
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyViewHolder</span>(view: View) : RecyclerView.ViewHolder(view){
+        <span style="color:#66d9ef">var</span> text_en_fila = view.findViewById(R.id.text_en_fila) <span style="color:#66d9ef">as</span> TextView
+        <span style="color:#66d9ef">val</span> switch_en_fila = view.findViewById(R.id.switch_en_fila) <span style="color:#66d9ef">as</span> Switch
+    }
+
+    <span style="color:#75715e">// Creació de les noves vistes, Aquest mètode és invocat pel layout manager
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// i retorna un objecte de tipus MyViewHolder per inserir al RecyclerView
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateViewHolder</span>(parent: ViewGroup, viewType: Int): MyViewHolder {
+        <span style="color:#75715e">// Creació de la nova vista
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> layoutInflater = LayoutInflater.from(parent.context)
+        <span style="color:#66d9ef">return</span> MyViewHolder(layoutInflater.inflate(R.layout.fila, parent, <span style="color:#66d9ef">false</span>))
+    }
+
+     <span style="color:#75715e">// Reemplaç el contingut d&#39;una vista (invocat pel layout manager)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onBindViewHolder</span>(holder: MyViewHolder, position: Int) {
+        <span style="color:#75715e">// Agafa cada element del dataSet en la posició indicada
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i reemplaça el contingut de la vista amb l&#39;element
+</span><span style="color:#75715e"></span>        holder.text_en_fila.text=myDataset[position].dia
+        <span style="color:#66d9ef">if</span> (myDataset[position].activat) holder.switch_en_fila.toggle()
+    }
+
+    <span style="color:#75715e">// Returna la longitud del dataset (invocat pel layoutManaget)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getItemCount</span>() = myDataset.size
+}
+
+
+</code></pre></div><p>Fixeu-vos que la classe defineix al constuctor primari (és a dir, en la pròpia declaració de la classe) l&rsquo;atribut myDataset, que rebrà com a argument, de tipus <code>ArrayList</code> de <code>diaSetmana</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyAdapter</span>(<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">val</span> myDataset: ArrayList&lt;diaSetmana&gt;) :<span style="color:#f92672">..</span>.
+</code></pre></div><p>El funcionament és el següent: L&rsquo;administrador de disseny invoca el mètode <code>onCreateViewHolder()</code> d&rsquo;aquest adaptador:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateViewHolder</span>(parent: ViewGroup, viewType: Int): MyViewHolder {
+    <span style="color:#75715e">// Creació de la nova vista
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> layoutInflater = LayoutInflater.from(parent.context)
+    <span style="color:#66d9ef">return</span> MyViewHolder(layoutInflater.inflate(R.layout.fila, parent, <span style="color:#66d9ef">false</span>))
+}
+</code></pre></div><p>Aquest mètode retornarà un objecte <code>RecyclerView.viewHolder</code> i configurarà la vista per mostra el contingut. Aquesta vista es configura a partir del recurs <code>R.layout.fila</code>, que fa referència a un fitxer XML anomenat <code>fila.xml</code>, dins <code>res/layout</code>, amb el següent contingut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;LinearLayout</span> <span style="color:#a6e22e">xmlns:android=</span><span style="color:#e6db74">&#34;http://schemas.android.com/apk/res/android&#34;</span>
+    <span style="color:#a6e22e">xmlns:tools=</span><span style="color:#e6db74">&#34;http://schemas.android.com/tools&#34;</span>
+    <span style="color:#a6e22e">android:orientation=</span><span style="color:#e6db74">&#34;horizontal&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+    <span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/text_en_fila&#34;</span>
+        <span style="color:#a6e22e">android:textSize=</span><span style="color:#e6db74">&#34;20sp&#34;</span>
+        <span style="color:#a6e22e">android:textStyle=</span><span style="color:#e6db74">&#34;bold&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;0dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;wrap_content&#34;</span>
+        <span style="color:#a6e22e">android:layout_weight=</span><span style="color:#e6db74">&#34;5&#34;</span>
+        <span style="color:#a6e22e">android:layout_margin=</span><span style="color:#e6db74">&#34;16dp&#34;</span>
+        <span style="color:#a6e22e">tools:text=</span><span style="color:#e6db74">&#34;Text de prova&#34;</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;Switch</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/switch_en_fila&#34;</span>
+        <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;0dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+        <span style="color:#a6e22e">android:layout_margin=</span><span style="color:#e6db74">&#34;16dp&#34;</span>
+        <span style="color:#a6e22e">android:layout_weight=</span><span style="color:#e6db74">&#34;2&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/LinearLayout&gt;</span>
+</code></pre></div><p>Aquest XML configura l&rsquo;aspecte per a cadascuna de les files del viewHolder.</p>
+<p>Posteriorment, l&rsquo;administrador de disseny vincula el contenidor de vistes amb les dades. Per a això, invoca el mètode <code>onBindViewHolder()</code> de l&rsquo;adaptador, i li passa la posició del contenidor de vistes en RecyclerView.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onBindViewHolder</span>(holder: MyViewHolder, position: Int) {
+        <span style="color:#75715e">// Agafa cada element del dataSet en la posició indicada
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i reemplaça el contingut de la vista amb l&#39;element
+</span><span style="color:#75715e"></span>        holder.text_en_fila.text=myDataset[position].dia
+        <span style="color:#66d9ef">if</span> (myDataset[position].activat) holder.switch_en_fila.toggle()
+    }
+</code></pre></div><p>Amb aquesta posició, es reompli la <em>plantilla</em> del <code>holder</code> amb els valors que tenim a l&rsquo;atribut <code>myDataSet</code>, en la posició corresponent. Em quest cas, hem afegit el dia, i si el valor <em>activat</em> està a true, fa un <em>toggle</em> del <em>switch</em>, per tal d&rsquo;activar-lo.</p>
+<p>El codi principal de la nostra activitat serà:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+
+    <span style="color:#75715e">// Declarem els components necessaris 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// de la classe per al RecyclerView.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Amb lateinit, diem que aquests s&#39;inicialitzarán posteriorment.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> recyclerView: RecyclerView
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> viewAdapter: RecyclerView.Adapter&lt;*&gt;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">lateinit</span> <span style="color:#66d9ef">var</span> viewManager: RecyclerView.LayoutManager
+
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+
+        <span style="color:#75715e">// Llegim el recurs `dies_setmana.xml`, i el passem a un vector
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> dies_setmana = resources.getStringArray(R.array.dies_setmana)
+        <span style="color:#75715e">// Definim un arrayList d&#39;elements de tipus diaSetmana
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> dies_de_classe=ArrayList&lt;diaSetmana&gt;()
+
+        <span style="color:#75715e">// Poblem aquest arrayList, amb els dies de la setmana, 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i marquem dimarts i dijous com a dies de classe.
+</span><span style="color:#75715e"></span>        dies_setmana.forEach { dia <span style="color:#f92672">-&gt;</span>
+            <span style="color:#66d9ef">val</span> activat=(dia<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Dimarts&#34;</span> <span style="color:#f92672">||</span> dia<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Dijous&#34;</span>)
+            dies_de_classe.add(diaSetmana(dia, activat ))
+        }
+
+        <span style="color:#75715e">// Afegim el layout `llistes.xml`
+</span><span style="color:#75715e"></span>        setContentView(R.layout.llistes)
+
+        <span style="color:#75715e">// Inicialitzem l&#39;administrador de disseny amb un 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// LinearLayoutManager
+</span><span style="color:#75715e"></span>        viewManager = LinearLayoutManager(<span style="color:#66d9ef">this</span>)
+        <span style="color:#75715e">// I l&#39;adaptador amb els dies de la setmana
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Aquest és l&#39;adaptador que hem definit.
+</span><span style="color:#75715e"></span>        viewAdapter = MyAdapter(dies_de_classe)
+
+        <span style="color:#75715e">// Ara busquem l&#39;element amb id contenidorDies al layout (l&#39;XML del principi)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i una vegada el tenim, executem sobre ell el bloc de codi indicat {..}
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// És a dir, una vegada tenim el contenidor dies li &#34;apliquem&#34; el bloc de codi
+</span><span style="color:#75715e"></span>        recyclerView = findViewById&lt;RecyclerView&gt;(R.id.contenidorDies).apply {
+            <span style="color:#75715e">// Aquest ajust es fa per millorar el rendiment si sabem que
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// el contingut no va a modificar la grandària del RecyclerView
+</span><span style="color:#75715e"></span>            setHasFixedSize(<span style="color:#66d9ef">true</span>)
+
+            <span style="color:#75715e">// Establim el layoutManager, per
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// utilitzar un linear layout (tal i com hem 
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// definit viewManager més amunt)
+</span><span style="color:#75715e"></span>            layoutManager = viewManager
+
+            <span style="color:#75715e">// I especifiquem el viewAdaptador
+</span><span style="color:#75715e"></span>            adapter = viewAdapter
+
+        }
+
+    }
+
+}
+
+
+</code></pre></div><p>A l&rsquo;exemple hem vist com inicialitzar l&rsquo;administrador de disseny amb un <code>LinearLayoutManager</code>, però aquest ofereix altres possibilitats de confguració, com <code>GridLayoutManager</code> o <code>StaggeredGridLayoutManager</code>.</p>
+<p>Podeu trobar més informació sobre aquest control a la documentació oficial d&rsquo;Android.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Guía del RecycledView: <a href="https://developer.android.com/guide/topics/ui/layout/recyclerview">https://developer.android.com/guide/topics/ui/layout/recyclerview</a></p>
+<p>Article sobre RecycledViw: <a href="https://cursokotlin.com/capitulo-15-recyclerview-kotlin/">https://cursokotlin.com/capitulo-15-recyclerview-kotlin/</a></p>
+</blockquote>
+<h2 id="14-components-webviews">1.4. Components Webviews</h2>
+<p>Els Webviews són components que proporcionen una vista de <em>Navegador web</em>, capaç d&rsquo;interpretar codi HTML i javascript dins les nostres aplicacions.</p>
+<p>La classe webview descendeix de la classe View d&rsquo;Android, i ens permet mostrar pàgines web com a part del disseny de la nostra activitat. Aquesta vista no inclou funcions com controls de navegació o barra d&rsquo;adreces.</p>
+<p>Per afegit un webview als nostres dissenys, podem arrossegar des de la paleta a la secció de <em>Widgets</em> el component <em>WebView</em>, o generar el següent codi XML:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;WebView</span>
+    <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/webview&#34;</span>
+    <span style="color:#a6e22e">android:layout_width=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+    <span style="color:#a6e22e">android:layout_height=</span><span style="color:#e6db74">&#34;match_parent&#34;</span>
+<span style="color:#f92672">/&gt;</span>
+</code></pre></div><p>Des del nostre codi, per tal de carregar una pàgina al webView farem ús del mètode <code>loadUrl</code> des del mètode <code>onCreate</code> de la vista:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> myWebView: WebView = findViewById(R.id.webview)
+myWebView.loadUrl(<span style="color:#e6db74">&#34;http://www.ieseljust.com&#34;</span>)
+</code></pre></div><p>Per defecte, javascript està inhabilitat al webview. Si volem habilitar-lo caldrà indicar-ho amb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">myWebView.settings.javaScriptEnabled = <span style="color:#66d9ef">true</span>
+</code></pre></div><p>Per tal que aquest codi funcione, necessitarem accés a Internet, i caldrà demanar-li permís a l&rsquo;usuari. Per a això, al nostre fitxer de Manifest haurem d&rsquo;indicar-ho explícitament:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;manifest</span> <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">&gt;</span>
+   <span style="color:#f92672">&lt;uses-permission</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;android.permission.INTERNET&#34;</span> <span style="color:#f92672">/&gt;</span>
+    ...
+<span style="color:#f92672">&lt;/manifest&gt;</span>
+</code></pre></div><blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Sobre webview: <a href="https://developer.android.com/guide/webapps/webview">https://developer.android.com/guide/webapps/webview</a></p>
+<p>Sobre WebViewAssetLoader: <a href="https://developer.android.com/reference/androidx/webkit/WebViewAssetLoader">https://developer.android.com/reference/androidx/webkit/WebViewAssetLoader</a></p>
+</blockquote>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-elements-de-tipus-botó">1.1. Elements de tipus botó</a>
+      <ul>
+        <li><a href="#personalització-de-botons">Personalització de botons</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-checkboxes-radiobuttons-toggle-buttons-i-spinners">1.2. Checkboxes, RadioButtons, Toggle Buttons i Spinners</a>
+      <ul>
+        <li><a href="#caselles-de-verificació-o-checboxes">Caselles de verificació o ChecBoxes</a></li>
+        <li><a href="#botons-de-selecció-o-radiobuttons">Botons de selecció o RadioButtons</a></li>
+        <li><a href="#spinners">Spinners</a></li>
+        <li><a href="#togglebuttons">ToggleButtons</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-llistes-i-recyclerview">1.3. Llistes i RecyclerView</a>
+      <ul>
+        <li><a href="#creant-un-nou-layout-i-assignant-un-recycledview">Creant un nou Layout i assignant un RecycledView</a></li>
+        <li><a href="#creació-de-ladaptador">Creació de l&rsquo;adaptador</a></li>
+      </ul>
+    </li>
+    <li><a href="#14-components-webviews">1.4. Components Webviews</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

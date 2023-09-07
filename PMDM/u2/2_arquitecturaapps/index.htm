@@ -1,0 +1,1069 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>2. Desenvolupament d&#39;apps en Android</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 2. Programació d&#39;Android amb Kotlin</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../0_javakotlin/index.htm">0. Repàs de Java i introducció a Kotlin</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../1_androidstudio/index.htm">1. Android Studio i Kotlin. Primers pasos.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.htm">2. Desenvolupament d&#39;apps en Android</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_elemensui/index.htm">3. Elements de la interfície</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../4_recyclerview/index.htm">4. El component RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../5_eventsrecyclerview/index.htm">5. Gestió d&#39;events als RecyclerView</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../6_menus/index.htm">6. Menús en Android I</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../7_myplaces2/index.htm">7. Ampliació de l&#39;aplicació MyPlaces. Navigation Drawer, Fragments, MVVM, View Binding.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../8_myplaces2_2/index.htm">8. Ampliació de l&#39;aplicació MyPlaces. Intents amb retorn, Galeria, Emmagatzemament i Maps.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>2. Desenvolupament d&#39;apps en Android</h1>
+        </header>
+        <h2 id="1-visió-general-del-desenvolupament-dapps-en-android">1. Visió general del desenvolupament d&rsquo;apps en Android</h2>
+<p>Després de vore com fer un Hola món, anem a aprofundir en aspectes bàsics sobre les aplicacions Android amb Kotlin.</p>
+<p>Les aplicacions Android es programen en Kotlin, Java o C++, i són compilades per l&rsquo;Android SDK, junt amb fitxers amb dades i recursos (interfícies, imatges)&hellip; per generar un fitxer <code>.apk</code>. Aquests fitxers inclouen l&rsquo;aplicació i la informació que necessita Android per instal·lar-la.</p>
+<p>Android implementa el principi del <em>mínim privilegi</em> en les aplicacions, amb el que aporta certa seguretat a les aplicacions. Aquesta principi es tradueix en:</p>
+<ul>
+<li>Android és un sistema operatiu multiusuari, ja que es basa en Linux, i cada aplicació és un usuari diferent.</li>
+<li>Cada app té un ID d&rsquo;usuari conegut només pel sistema, i estableix els permissos necessaris per tal que aquesta puga accedir als seus recursos,</li>
+<li>Cada procés té la seua màquina virtual, de manera que el codi s&rsquo;executa de forma independent, i cada app tindrà, en principi, el seu propi procés.</li>
+</ul>
+<p>Amb açò, cada aplicació té només accés als components que necessita. De tota manera, una aplicació pot compartir dades amb altres aplicacions i accedir a serveis del sistema, bé fent que dos aplicacions compartisquen l&rsquo;ID d&rsquo;usuari o bé sol·licitant permís a l&rsquo;usuari per accedir a dades i recursos del dispositiu (càmera, micròfon, connexió bluetooth, targeta SD, contactes, etc.)</p>
+<blockquote>
+<p><em><strong>Anàlisi de l&rsquo;hola món</strong></em></p>
+<p>Durant aquesta part de la unitat, farem referència a l&rsquo;exemple que vam fer a la introducció d&rsquo;Android Studio d'<em>Hola Món</em> amb un botó. És interessant que mantingueu aquest exemple obert per poder fer bé el seguiment i algunes modificacions que veurem.</p>
+</blockquote>
+<blockquote>
+<p><em><strong>Documentació oficial:</strong></em> <em>Conceptes bàsics sobre aplicacions Android</em></p>
+<p><a href="https://developer.android.com/guide/components/fundamentals?hl=es-419">https://developer.android.com/guide/components/fundamentals?hl=es-419</a></p>
+</blockquote>
+<h3 id="11-components-duna-aplicació">1.1. Components d&rsquo;una aplicació</h3>
+<p>Les aplicacions Android tenen quatre tipus de components: activitats, serveis, receptors d&rsquo;emissions i proveïdors de continguts.</p>
+<ul>
+<li>
+<p><strong>Activitats <em>(Activities)</em>:</strong> Representen les diferents pantalles de l&rsquo;aplicació i recullen la interacció amb l&rsquo;usuari. Cada activitat pot ser un punt d&rsquo;entrada a l&rsquo;aplicació, i pot ser requerida per altres aplicacions. Pensem per exemple quan fem una foto i volem compartir-la directament per una aplicació de missatgeria instantània. L&rsquo;activitat de l&rsquo;aplicació que se&rsquo;ns obri és directament la d&rsquo;enviar missatges.</p>
+<p>Les activitats, a més de mostrar el procés per pantalla a l&rsquo;usuari, tindran en compte aspectes com la gestió dels processos recents (activitats aturades), ajudar en la finalització de processos de manera que es puga retornar amb l&rsquo;estat restaurat, i permetre que el sistema coordine el flux de dades entre usuaris (aplicacions), com per exemple, <em>compartir</em>.
+Les activitats s&rsquo;implementen com a subclasses de la classe <code>Activity</code>. Si ens fixem a l&rsquo;exemple de l'<em>Hola Món</em>, definiem la nostra activitat com a <code>class MainActivity : AppCompatActivity()</code>, on <code>AppCompatActivity</code> és una subclasse d'<code>Activity</code>.</p>
+</li>
+<li>
+<p><strong>Serveis <em>(Services)</em>:</strong> Els serveis són punts d&rsquo;entrada general que ens permeten mantindre l&rsquo;execució de l&rsquo;aplicació en segon pla i que no proporcionen interfície d&rsquo;usuari, com poguera ser un servei de reproducció d&rsquo;audio en segon pla o la sincronització de dades des de la xarxa, permetent que l&rsquo;usuari es trobe interactuant amb altra activitat. Les activitats o altres components poden iniciar serveis i permetre que s&rsquo;executen o enllaçar-se a ells per tal d&rsquo;interactuar.</p>
+<p>Els serveis s&rsquo;implementaran com a subclasses de la classe <code>Service</code>.</p>
+</li>
+<li>
+<p><strong>Receptors d&rsquo;emissions <em>(Broadcast receivers)</em>:</strong> Es tracta de components que recullen certs esdeveniments del sistema fora del flux habitual de les aplicacions, i permeten fins i tot enviar emissions a aplicacions que no estan en execució. Exemples d&rsquo;emissions llançades pel propi sistema poden ser l&rsquo;anunci que s&rsquo;apaga de la pantalla, que queda poca bateria, o que s&rsquo;ha fet una captura de pantalla. Les aplicacions també poden iniciar emissions, com per exemple per avisar que s&rsquo;han descarregat dades al dispositiu. Aquests components tampoc tenen interfície gràfica, però poden crear notificacions en la barra d&rsquo;estat o servir com a porta d&rsquo;entrada a altres components.</p>
+<p>Aquests receptors s&rsquo;implementen com a subclasses de <code>BroadcastReceiver</code>, i cada receptor d&rsquo;emissió es lliura com un objecte <code>Intent</code>.</p>
+</li>
+<li>
+<p><strong>Proveïdors de continguts <em>(Content providers)</em>:</strong> Administren dades compartides de l&rsquo;aplicació, que es poden emmagatzemar bé al sistema de fitxers, en una base de dades SQLite, al núvol.. Un clar exemple són els contactes de l&rsquo;usuari. Android proveeix a qualsevol aplicació amb els permisos corresponents l&rsquo;accés als contactes. Els proveïdors de continguts s&rsquo;implementen com a subclasses de <code>ContentProvider</code>.</p>
+</li>
+</ul>
+<p>Un dels aspectes més interessants del disseny d&rsquo;Android, i a diferència d&rsquo;altres sistemes, és que <strong>les aplicacions no tenen un únic punt d&rsquo;entrada o funció principal</strong>, sinò que podem tindre diferents punts d&rsquo;entrada a cada component de l&rsquo;aplicació. A més, <strong>qualsevol aplicació pot iniciar un component d&rsquo;altra aplicació</strong>, sense necessitat d&rsquo;incorporar o vincular l&rsquo;altra aplicació al nostre codi. L&rsquo;exemple més clar és poder fer una foto amb l&rsquo;aplicació de la càmera, de manera que en la nostra aplicació, només ens cal iniciar l&rsquo;activitat corresponent en l&rsquo;aplicació de la càmera. En aquest moment, s&rsquo;iniciarà (si no estava en execució) el procés per a l&rsquo;aplicació de la càmera, creant una instància de les classes necessàries.</p>
+<p>Com hem dit, en Android cada aplicació té un procés amb un usuari diferent, i per tant uns permisos que limiten l&rsquo;accés a altres aplicacions. Per tant, com podem des d&rsquo;una aplicació accedir a components d&rsquo;una altra? La resposta és que les nostres aplicacions no poden fer-ho, però Android sí, de manera que per activar un component en altra aplicació, haurem d&rsquo;enviar un missatge al sistema per demanar-li un component específic i que el sistema l&rsquo;active per nosaltres. Aquests misstges seran els <em>intents</em>.</p>
+<h4 id="activació-de-components-intents">Activació de components. Intents.</h4>
+<p>Les activitats, els serveis i els receptors d&rsquo;emissió s&rsquo;activen mitjançant missatges asíncrons coneguts com <em>intents</em> (objectes <code>Intent</code>), i que vinculen en temps d&rsquo;execució diferents components. Aquests missatges poden servir per activar un component específic (intent explícit) o un <em>tipus de component</em> més genèric (intent implícit).</p>
+<blockquote>
+<p><em><strong>Documentació oficial:</strong></em> <em>Activació de Components</em></p>
+<p><a href="https://developer.android.com/guide/components/fundamentals?hl=es-419#ActivatingComponents">https://developer.android.com/guide/components/fundamentals?hl=es-419#ActivatingComponents</a></p>
+</blockquote>
+<h3 id="12-el-fitxer-de-manifest">1.2. El fitxer de manifest</h3>
+<p>Per tal de poder iniciar un component d&rsquo;una aplicació, Android necessita saber que aquest existeix. Per a això, només cal que ho indiquem al fitxer de manifest (<code>AndroidManifest.xml</code>) de l&rsquo;aplicació.</p>
+<p>Així doncs, al fitxer de Manifest s&rsquo;indiquen els components d&rsquo;aquesta, i a més, també podem:</p>
+<ul>
+<li>Indicar els permissos de l&rsquo;usuari que requereix l&rsquo;aplicació (accés a dispositius, contactes, Internet&hellip;)</li>
+<li>Indicar l&rsquo;API mínima de l&rsquo;aplicació,</li>
+<li>Indicar les caracaterístiques de programari i maquinari que requereix l&rsquo;aplicació (càmera, bluetooth, pantalla multitàctil, etc.)</li>
+<li>Inidicar les biblioteques de l&rsquo;API a les que l&rsquo;aplicació estarà vinculada (com per exemple Google Maps).</li>
+</ul>
+<p>Anem a analitzar el fitxer de Manifest del nostre primer projecte d&rsquo;Hola Món.</p>
+<ul>
+<li>
+<p>L&rsquo;etiqueta <code>&lt;application&gt;</code> defineix als seus atributs aspectes bàsics de l&rsquo;aplicació, com els recursos de les icones a utilitzar <code>android:icon</code> i <code>android:roundIcon</code> o el nom de l&rsquo;aplicació <code>android:label</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;manifest</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;application</span>
+        <span style="color:#960050;background-color:#1e0010">...</span>
+        <span style="color:#a6e22e">android:icon=</span><span style="color:#e6db74">&#34;@mipmap/ic_launcher&#34;</span>
+        <span style="color:#a6e22e">android:label=</span><span style="color:#e6db74">&#34;Hola Món&#34;</span>
+        <span style="color:#a6e22e">android:roundIcon=</span><span style="color:#e6db74">&#34;@mipmap/ic_launcher_round&#34;</span>
+        <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">&gt;</span>
+</code></pre></div><p>Dins d'<em>aplication</em> cal registrar tots els components de l&rsquo;aplicació, mitjaçant els elements corresponents <code>&lt;activity&gt;</code>, <code>&lt;service&gt;</code>, <code>&lt;receiver&gt;</code> o <code>&lt;provieer&gt;</code>. Els components que no incloguem aci, no estaran visibles per al sistema, i per tant, no es podran executar.</p>
+</li>
+<li>
+<p>Veiem l&rsquo;etiqueta <code>&lt;activity&gt;</code> que conté el nostre fitxer. En aquesta, l&rsquo;atribut <code>android:name</code> especifica el nom de la classe <code>Activity</code> plenament qualificat, i admetria l&rsquo;atribut <code>android:label</code> si volguérem especificar una etiqueta de l&rsquo;activitat de cara a l&rsquo;usuari.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;activity</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;.MainActivity&#34;</span><span style="color:#f92672">&gt;</span>
+    ...
+<span style="color:#f92672">&lt;/activity&gt;</span>
+</code></pre></div></li>
+<li>
+<p>I dins d&rsquo;activity, trobem l&rsquo;etiqueta <code>&lt;intent-filter&gt;</code>. Com hem comentat abans, els <em>Intent</em> són misstges que s&rsquo;utilitzen per activar els diferents components, com activitats, serveis i receptors. Els Intents poden explicitar el component objectiu, fent ús de la classe del component, o bé indicar el component de forma implícita, indicant el tipus d&rsquo;acció (i de forma opcional les dades amb què es realitzarà aquesta).</p>
+<p>En cas que indiquem el tipus de component, serà el propi sistema el qui busque un component que puga realitzar l&rsquo;acció i iniciar aquesta. En cas que  hi haja més d&rsquo;un component que realitze l&rsquo;acció que requereix l'<em>Intent</em>, es demanarà a l&rsquo;usuari que seleccione l&rsquo;acció que vol.</p>
+<p>Per tal d&rsquo;indicar al sistema quins components de cada aplicació poden respondre a un <em>Intent</em>, fem ús dels filtres d&rsquo;intents (element <code>&lt;intent-filter&gt;</code>) dins del propi component.</p>
+<p>Així doncs, al nostre cas, dins de l&rsquo;activiity tenim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;intent-filter&gt;</span>
+    <span style="color:#f92672">&lt;action</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;android.intent.action.MAIN&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;category</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;android.intent.category.LAUNCHER&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/intent-filter&gt;</span>
+</code></pre></div><p>Amb l'<code>&lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</code>, especifiquem que l&rsquo;activitat és el punt d&rsquo;entrada a l&rsquo;aplicació, de manera que quan carreguem l&rsquo;activitat, és esta l&rsquo;activitat que es crea. Per la seua banda, especificant en <code>&lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</code>, indiquem que aquesta acció estarà disponible com un llançador a nivell d&rsquo;aplicació (i per tant, ens apareixerà a la pantalla d&rsquo;aplicacions). Si especifiquem per exemple <code>android.intent.category.DEFAULT</code>, estarem indicant que es tracta d&rsquo;una acció que respon a intents implícits.</p>
+<blockquote>
+<p><em><strong>Documentació Oficial</strong></em></p>
+<p>Podeu trobar més informació sobre els <em>Intents</em> i els filtres d'<em>Intents</em> a:</p>
+<p><a href="https://developer.android.com/guide/components/intents-filters?hl=es-419">https://developer.android.com/guide/components/intents-filters?hl=es-419</a>.</p>
+</blockquote>
+</li>
+</ul>
+<p>Finalment, al fitxer <code>AndroidManifest.xml</code> podem especificar altres etiquetes, per tal d&rsquo;indicar els recursos que puga necessitar l&rsquo;aplicació, tant de maquinari com de programari. PEr exemple, podríem haverem escrit:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;manifest</span> <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;uses-feature</span> <span style="color:#a6e22e">android:name=</span><span style="color:#e6db74">&#34;android.hardware.camera.any&#34;</span>
+                  <span style="color:#a6e22e">android:required=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;uses-sdk</span> <span style="color:#a6e22e">android:minSdkVersion=</span><span style="color:#e6db74">&#34;7&#34;</span> <span style="color:#a6e22e">android:targetSdkVersion=</span><span style="color:#e6db74">&#34;19&#34;</span> <span style="color:#f92672">/&gt;</span>
+    ...
+<span style="color:#f92672">&lt;/manifest&gt;</span>
+
+</code></pre></div><p>Per indicar que anem a utilitar la càmera i que necessitem la versió mínima de l&rsquo;SDK 7 (Android 2.1)</p>
+<h3 id="13-recursos-de-laplicació">1.3. Recursos de l&rsquo;aplicació</h3>
+<p>A banda del codi, les aplicacions poden necessitar d&rsquo;altres recursos, ja siguen imatges, fitxers de so, animacions, menús, estils, etc. Com ja vam veure a l&rsquo;exemple de l'<em>Hola Món</em>, la interfície d&rsquo;usuari de les activitats s&rsquo;especifiquen com a un recurs també, en format XML.</p>
+<p>Dins la carpeta <em>resources</em>, tindrem organitzats els diferents tipus de recurs que podem tindre.</p>
+<p>Si ens fixem en la nostra aplicació de base, tenim els següemts subdirectoris dins els recursos:</p>
+<ul>
+<li><code>drawable/</code>: Conté el contingut <em>dibuixable</em> de l&rsquo;aplicació. És a dir, els fitxers d&rsquo;imatges, però també diversos elements de disseny, com llistes d&rsquo;estats, formes o elements relacionats amb les animacions.</li>
+<li><code>mipmap/</code>: Conté diferents elements de disseny, com per exemple les icones de l&rsquo;aplicació, en diferents densitats (ppp).</li>
+<li><code>layout/</code>: Conté els fitxers XML amb la interfície de l&rsquo;usuari.</li>
+<li><code>values/</code>: Conté fitxers XML mab valor simples, com cadenes, valors enters o colors.</li>
+</ul>
+<p>Per cadascun d&rsquo;aquests recursos que utilitzem al projecte, l&rsquo;SDK defineix un <em>ID de recurs</em> amb un número enter únic dins l&rsquo;aplicació, que podem utilitzar per fer referència al recurs en qüestió des del nostre codi. Per exemple, la interfície d&rsquo;usuari definida en <code>res/layout/activity_main.xml</code> és accessible a través de l&rsquo;ID anomenat <code>R.layout.activity_main</code> generat automàticament per l&rsquo;SDK.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Podem trobar molta més informació sobre aquesta carpeta de recursos a la documentació d&rsquo;Android en:</p>
+<p><a href="https://developer.android.com/guide/topics/resources/providing-resources?hl=es-419">https://developer.android.com/guide/topics/resources/providing-resources?hl=es-419</a>.</p>
+</blockquote>
+<h2 id="2-activitats-layouts-i-vistes">2. Activitats, Layouts i Vistes</h2>
+<p>Com hem vist, les activitats són un dels components principals de les aplicacions en Android i representen les diferents pantalles on recollim la interacció de l&rsquo;usuari.</p>
+<p>Aquestes activitats representen la interfície amb recursos de tipus Layout, on s&rsquo;especifiquen els diferents elements d&rsquo;interfície (botons, textos, etc.). Aquests elements seran elements especialitzats de la classe <code>View</code>.</p>
+<h3 id="21-vinculació-o-bind-de-vistes">2.1. Vinculació o Bind de vistes</h3>
+<p>Els diferents elements o vistes que conformen la interfície d&rsquo;usuari als fitxers XML s&rsquo;han d&rsquo;enllaçar d&rsquo;alguna manera al nostre codi. Aquest procés es coneix com a vinculació de vistes.</p>
+<blockquote>
+<p>La vinculació de vistes consisteix a enllaçar els diferents elements de la interfície d&rsquo;usuari especificada als fitxers de disseny XML amb el nostre codi.</p>
+</blockquote>
+<p>Aquesta vinculació es pot fer de diverses formes, i la proposta per Kotlin es basa en les <em>propietats d&rsquo;extensió</em> per tal d&rsquo;injectar les vistes en el codi.</p>
+<blockquote>
+<p><strong>Funcions i propietats d&rsquo;extensió</strong></p>
+<p>En Java, quan volem afegir funcionalitat a una classe, creem una subclasse i afegim els nostres mètodes a aquesta subclasse.</p>
+<p>En Kotlin, disposem de les funcions d&rsquo;extensió, que ens permetien afegir noves funcionalitats a classes ja existents, declarant-les fora de la classe.</p>
+<p>El mateix passa amb les propietats d&rsquo;extensió, amb la peculiaritat que no poden emmagatzemar un estat propi, i fan ús de les funcions ja existents per tal de modificar-ne l&rsquo;estat.</p>
+</blockquote>
+<p>Quan treballem en Android amb Kotlin, les propietats d&rsquo;extensió ens eviten invocar contínuament al mètode <em>findViewById</em> per localitzar la vista i els seus elements, ja que <strong>es creen automàticament propietats d&rsquo;extensió per a cada element que tinga un <em>ID</em>, amb el qual farem referència a la propietat</strong>.</p>
+<p>Així doncs, accedirem a la vista a través de propietats de la classe, que tenen com a nom el mateix id que té al layout.</p>
+<p>A l&rsquo;exemple de l'<em>hola món</em>, fem referència a l&rsquo;etiqueta amb la propietat corresponent al seu id <code>TextPrincipal</code>. Veiem-ho en el seu layout <em>activity_main.xml</em> següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;androidx.constraintlayout.widget.ConstraintLayout</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+
+    <span style="color:#f92672">&lt;TextView</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/TextPrincipal&#34;</span>
+    <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">/&gt;</span>
+
+    <span style="color:#f92672">&lt;Button</span>
+        <span style="color:#a6e22e">android:id=</span><span style="color:#e6db74">&#34;@+id/boto1&#34;</span>
+       <span style="color:#960050;background-color:#1e0010">...</span> <span style="color:#f92672">/&gt;</span>
+
+<span style="color:#f92672">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div><p>Com veiem, tenim una etiqueta XML tant per al TextView com per a l&rsquo;element Button, i cadascuna d&rsquo;elles, amb un identificador.</p>
+<p>Quan escrivim la propietat <em>Textincipal</em> o <em>boto1</em>, Kotlin ja ens suggereix l&rsquo;import:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">import</span> kotlinx.android.synthetic.main.activity_main.*
+</code></pre></div><p>Amb aquesta línia, s&rsquo;importen totes les propietats d&rsquo;extensió del <em>layout</em> <code>activity_main</code>.</p>
+<p>A més, podem accedir a la lectura i modificació del valor d&rsquo;aquest <code>TextPrincipal</code>, bé fent ús dels clàssics mètode accessors <code>setText</code> i <code>getText</code> o bé directament accedint o modificant la <em>propietat</em> <code>text</code> (ja que Kotlin ens genera automàticament els getters i setters i ens hi deixa accedir com si accedirem a la propietat).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">
+<span style="color:#75715e">// Accés amb els mètodes accessors
+</span><span style="color:#75715e"></span>TextPrincipal.setText(<span style="color:#e6db74">&#34;Bon dia a tu també!&#34;</span>)
+
+<span style="color:#75715e">// Accés amb l&#39;id (mètode accessor automàtic)
+</span><span style="color:#75715e"></span>TextPrincipal.text=<span style="color:#e6db74">&#34;Bon dia a tu també!&#34;</span>
+</code></pre></div><blockquote>
+<p><em><strong>Lectura  recomanada</strong></em></p>
+<p>Per vere més amb profunditat la vinculació de vistes i les propietats d&rsquo;extensió al següent article en anglès: <a href="https://antonioleiva.com/kotlin-android-extensions/">https://antonioleiva.com/kotlin-android-extensions/</a> o més ressumit en castellà <a href="https://devexperto.com/kotlin-android-extensions/">https://devexperto.com/kotlin-android-extensions/</a></p>
+</blockquote>
+<h3 id="22-gestionant-els-esdeveniments-dentrada">2.2. Gestionant els Esdeveniments d&rsquo;entrada</h3>
+<p>Com hem comentat, la interacció dels usuaris amb els elements de la interfície de l&rsquo;aplicació es gestiona a través de la classe <code>View</code>, de la qual deriven tots els elements que conformen la pròpia interfície.</p>
+<p>Per tal de llançar determinades accions quan l&rsquo;usuari interactúa amb aquests elements és necessari <em>capturar</em> aquestes accions que fa l&rsquo;usuari, i que s&rsquo;abstrauen com <em>esdeveniments</em>.</p>
+<p>Per tal de capturar els esdeveniments que ocorren sobre els elements de la interfície, la classe <code>View</code> (i per tant tots els elements que se&rsquo;n deriven d&rsquo;ella) es fa ús dels <em>receptors d&rsquo;esdeveniments</em> o <em>EventListeners</em>, que no són més que <em>interfícies anidades</em> a la classe <code>View</code>, a les quals podem especificar-los una funció de <em>callback</em> que s&rsquo;execute quan es produisca determinat esdeveniment sobre la vista.</p>
+<p>A l&rsquo;exemple de l&rsquo;Hola Món, per enllaçar l&rsquo;event de fer <em>clic</em> en el botó, hem fet, senzillament:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">boto1.setOnClickListener { 
+    TextPrincipal.text=<span style="color:#e6db74">&#34;Bon dia a tu també!&#34;</span>
+    }
+</code></pre></div><p>Com veiem, es tracta d&rsquo;un codi molt senzill i simplificat, però que implica conceptes més abstractes i complexos com les expressions lambda. Anem a veure-ho amb detall.</p>
+<p>Amb Java, per detectar el clic sobre el botó utilitzaríem el següent codi:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// En primer lloc, creem una implementació anònima de 
+</span><span style="color:#75715e">// la interfície onClicListener()
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> OnClickListener CallbackClicBoto <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> View<span style="color:#f92672">.</span><span style="color:#a6e22e">OnClickListener</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// I sobreescrivim el mètode onClic
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// per indicar l&#39;acció que volem que faça
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onClick</span><span style="color:#f92672">(</span>View v<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Agafem la referència al text
+</span><span style="color:#75715e"></span>        TextView TextPrincipal <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TextView<span style="color:#f92672">)</span>findViewById<span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">TextPrincipal</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">// I establim el seu valor
+</span><span style="color:#75715e"></span>        TextPrincipal<span style="color:#f92672">.</span><span style="color:#a6e22e">setText</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Nou text del textView&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">};</span>
+
+<span style="color:#75715e">// I ara ens quedaría enllaçar, dins l&#39;activitat el
+</span><span style="color:#75715e">// botó amb aquest escoltador.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">...</span>
+    <span style="color:#75715e">// Capturem la referència al botó
+</span><span style="color:#75715e"></span>    Button boto1 <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Button<span style="color:#f92672">)</span>findViewById<span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">id</span><span style="color:#f92672">.</span><span style="color:#a6e22e">boto1</span><span style="color:#f92672">);</span>
+    <span style="color:#75715e">// Register the onClick listener with the implementation above
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// i ara enllacem l&#39;escoltador de l&#39;event click
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// amb el callback que hem definit.
+</span><span style="color:#75715e"></span>    button<span style="color:#f92672">.</span><span style="color:#a6e22e">setOnClickListener</span><span style="color:#f92672">(</span>CallbackClicBoto<span style="color:#f92672">);</span>
+    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, hem hagut de fer-ho en dos passos. Primer crear la funció de callback, i després enllaçar-la amb el botó dins la nostra activitat.</p>
+<p>Anem a veure com seguiríem aquest procediment en Kotlin, simplificant un poc el codi. En primer lloc, fariem que la nostra activitat implementara també la interfície <code>View.onClickListener</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity(), View.OnClickListener {
+    <span style="color:#f92672">..</span>.
+}
+</code></pre></div><p>Després, sobreescriuruem el mètode de callback per a l&rsquo;event <code>onClick</code> en la nostra pròpia classe <code>MainActivity</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onClick</span>(v: View?) {
+    <span style="color:#75715e">// Agafem la referència al text i modifiquem
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// el contingut
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> text: TextView = findViewById(R.id.TextPrincipal);
+    text.setText(<span style="color:#e6db74">&#34;Clic des del callback&#34;</span>);
+}
+</code></pre></div><p>I al mètode <code>onCreate</code> del MainActivity faríem l&rsquo;associació de l&rsquo;event amb el callback:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#f92672">..</span>.
+<span style="color:#66d9ef">val</span> boto1: Button = findViewById(R.id.boto1)
+boto1.setOnClickListener(<span style="color:#66d9ef">this</span>);
+</code></pre></div><p>Com veiem, establim com a classe que gestiona l&rsquo;event <em>onClick</em> la pròpia classe (<em>this</em>), ja que és on hem sobreescrit el nostre mètode.</p>
+<p>En resum, per tal que la nostra aplicació (Activitat) responga a una acció de l&rsquo;usuari, hem d&rsquo;establir quin mètode volem que es llance quan es realitze l&rsquo;acció. Això ho fem mitjançant el mètode receptor d&rsquo;esdeveniments <code>setOn...Listener</code> de la vista, i li passem el mètode (<em>callback</em>) que volem que s&rsquo;execute com a resposta a eixa acció.</p>
+<p>En Kotlin, amb les expressions lambda és més senzill realitzar aquest procediment.</p>
+<blockquote>
+<p><em><strong>Expressions Lambda</strong></em></p>
+<p>Les <em>expressions lambda</em> o <em>funcins literals</em> <strong>representen el bloc de codi d&rsquo;una funció</strong>, i es poden assignar a variables o passar com a arguments a altres funcions o mètodes per simplificar el codi.</p>
+<p>La forma general de crear una expressió lambda és fent ús de l&rsquo;operador <em>fletxa</em> per separar els paràmetres del cos de la funció:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">{ param1: Tipus1, param2: Tipus2,<span style="color:#f92672">..</span>.,paramN:TipusN <span style="color:#f92672">-&gt;</span> Cos_de_la_funció }
+</code></pre></div><p>El tipus del paràmetre no és oblitori sempre que es puga inferir, i a més, si només hi ha un paràmetre, també es pot ometre.</p>
+</blockquote>
+<p>Així doncs, podem indicar-li directament a l&rsquo;escoltador d&rsquo;esdeveniments la funció de <em>callback</em> com a una expressió lambda. Al cas de l&rsquo;exemple de l&rsquo;hola món faríem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">boto1.setOnClickListener { view: View <span style="color:#f92672">-&gt;</span>
+             TextPrincipal.text = <span style="color:#e6db74">&#34;Clic amb lambda&#34;</span>
+         }
+</code></pre></div><p>Que podem simplificar més encara, ja que no caldria indicar l&rsquo;argument:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">boto1.setOnClickListener { TextPrincipal.text = <span style="color:#e6db74">&#34;Clic amb lambda simplificat&#34;</span> }
+</code></pre></div><p>A més, la nostar Activity no faria falta que fera un <em>implements</em> del <code>View.OnClickListener</code>.</p>
+<h4 id="event-listenes-o-receptors-devents">Event Listenes o receptors d&rsquo;events</h4>
+<p>Com hem vist, els <em>receptors d&rsquo;esdeveniments</em> són interfícies a la classe <code>View</code>, que contenen un únic mètode de <em>callback</em> que serà invocat pel framework com a resposta a una interacció de l&rsquo;usuari amb l&rsquo;element de la interfície. En general, aquests callbacks no retornen cap valor, llevat d&rsquo;alguns casos on es requereix que l&rsquo;execució retorne un valor lògic.</p>
+<p>Veiem ara, en forma de taula, quines són aquestes interfícies i els mètodes de callback que ofereixen front a determinades accions de l&rsquo;usuari. La columna <em>Eixida</em> indica si es requereix que el callback <em>escriga</em> o torne algun valor com a resultat de l&rsquo;execució:</p>
+<table>
+<thead>
+<tr>
+<th>Interfície</th>
+<th>Callback</th>
+<th>Eixida</th>
+<th>Accions de l&rsquo;usuari</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>View.OnClickListener</code></td>
+<td><code>onclick()</code></td>
+<td>-</td>
+<td>L&rsquo;usuari toca l&rsquo;element (en el mode tàctil), o bé el selecciona amb les tecles de cursor o el ratolí i prem <em>Intro</em> o <em>Espai</em></td>
+</tr>
+<tr>
+<td><code>View.OnLongClickListener</code></td>
+<td><code>onLongClick()</code></td>
+<td><code>boolean</code></td>
+<td>L&rsquo;usuari toca i manté pressionat l&rsquo;element (en mode tàctil) o bé el selecciona amb les tecles del cursos o el ratoló o prem <em>Intro</em> durant un segon</td>
+</tr>
+<tr>
+<td><code>View.OnFocusChangeListener</code></td>
+<td><code>onFocusChange()</code></td>
+<td>-</td>
+<td>L&rsquo;usuari navega cap a l&rsquo;element o ix d&rsquo;ell fent ús del cursor o el ratolí</td>
+</tr>
+<tr>
+<td><code>View.OnKeyListener</code></td>
+<td><code>onKey()</code></td>
+<td><code>boolean</code></td>
+<td>L&rsquo;usuari es centra en l&rsquo;element i prem o solta una tecla física del dispositiu</td>
+</tr>
+<tr>
+<td><code>View.OnTouchListener</code></td>
+<td><code>onTouch()</code></td>
+<td><code>boolean</code></td>
+<td>L&rsquo;usuari realitza alguna acció tàctil o gest de moviment en la pantalla dins els límits del propi element</td>
+</tr>
+<tr>
+<td><code>View.OnCreateContextMenuListener</code></td>
+<td><code>onCreateContextMenu()</code></td>
+<td>-</td>
+<td>L&rsquo;usuari fa un clic llarg sostingut per obrir un menú contextual</td>
+</tr>
+</tbody>
+</table>
+<p>Els mètodes que han de tornar un valor lògic com a resultat de l&rsquo;execució ho fan per indicar si s&rsquo;ha consumit l&rsquo;esdeveniment i si no s&rsquo;ha de continuar. Aquest valor serà <code>true</code> per indicar que s&rsquo;ha utilitzar l&rsquo;esdeveniment i que s&rsquo;ha d&rsquo;aturar o <code>false</code> si no s&rsquo;ha consumit l&rsquo;event i aquest ha de continuar per a altres receptors de l&rsquo;event. Al cas de l'<code>onTouch</code>, aquest valor té relació amb les següents accions que l&rsquo;usuari realitze sobre l&rsquo;element, com puga ser un gest per arrossegar.</p>
+<p>Per exemple, anem a afegir una funcionalitat nova a la nostra activitat principal a l'<em>Hola Món</em> per a que responga també a l&rsquo;event <code>onLongClick</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">boto1.setOnLongClickListener { view <span style="color:#f92672">-&gt;</span> 
+    TextPrincipal.text=<span style="color:#e6db74">&#34;Has fet un click llarg&#34;</span>
+    <span style="color:#75715e">// Retornem un booleà per indicar que s&#39;ha consumit l&#39;event
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">true</span>
+    }
+</code></pre></div><p>Com veiem, al final hem posat simplement <code>true</code>.  En aquest cas, fer un <code>return true</code> sería un error, ja que el mètode al que faría referència és al mètode <code>onCreate</code>, on està definida, i aquest no retorna un booleà. Si fem memòria de la introducció a Kotlin, vam comentar que aquest suporta programació funcional, i tota execució (recordeu els exemples del when) retorna també un valor. Per aquest motiu, simplement hem posat <code>true</code>, com a resultat de l&rsquo;execució del callback. Si volguèrem haver utilitzat el <code>return</code>, caldria haver especificat que es correspon a l&rsquo;event amb <code>return@setOnLongClickListener true</code>.</p>
+<p>Anem ara a modificar una miqueta l&rsquo;exemple per gestionar un comptador, i veure l&rsquo;efecte de retornar <code>true</code> o <code>false</code>. Partint del següent codi de base:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+
+    <span style="color:#66d9ef">var</span> comptador: Int = <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+         boto1.setOnClickListener { 
+             comptador<span style="color:#f92672">++</span>
+             TextPrincipal.text = <span style="color:#e6db74">&#34;Comptador: &#34;</span>+comptador
+         }
+
+        boto1.setOnLongClickListener {
+            comptador<span style="color:#f92672">--</span>
+            TextPrincipal.text = <span style="color:#e6db74">&#34;Comptador: &#34;</span>+comptador
+            <span style="color:#66d9ef">true</span>
+        }
+    }
+
+}
+</code></pre></div><p>Amb aquest codi, quan fem clic en el botó, incrementarà el comptador i actualitzarà el text, i quan fem un clic llarg, decrementarà i mostrarà aquest.</p>
+<p>Ara bé&hellip; què passa si en lloc de retornar <code>true</code>, l&rsquo;execució del callback <code>onLongClick</code> retornara un <code>false</code>?</p>
+<blockquote>
+<p>Exercici</p>
+<p>Utilitza el codi de dalt per implementar la classe MainActivity del projecte de l&rsquo;Hola Món, i comprova el seu funcionament.</p>
+<p>Després modifica el <code>true</code> del retorn per un <code>false</code> i observa&rsquo;n el comportament. A què penses que es deu?</p>
+</blockquote>
+<p>Com hem comprovat, el fet d&rsquo;acabar amb <code>true</code> o <code>false</code> ens permet controlar la propagació d&rsquo;esdeveniments a altres controladors, definits a la mateixa vista o a vistes que continguen la vista actual.</p>
+<blockquote>
+<p><em><strong>Documentació oficial</strong></em></p>
+<p>Gestió d&rsquo;esdevenimenta a la UI:</p>
+<p><a href="https://developer.android.com/guide/topics/ui/ui-events?hl=es#kotlin">https://developer.android.com/guide/topics/ui/ui-events?hl=es#kotlin</a>.</p>
+</blockquote>
+<h3 id="23-activitats-i-el-seu-cicle-de-vida">2.3. Activitats i el seu cicle de vida</h3>
+<p>Les activitats i la forma en què aquestes s&rsquo;inicien és part fonamental del model d&rsquo;aplicació d&rsquo;Android. Si recordem, una aplicació d&rsquo;Android pot tindre diferents punts d&rsquo;entrada, que són les activitats.</p>
+<p>La classe <code>Activity</code> facilita aquest model, de manera que des d&rsquo;una aplicació es poden invocar activitats d&rsquo;altres aplicacions (recurdeu l&rsquo;exemple de l&rsquo;App de la càmera). Les nostres activitats s&rsquo;implementen com a subclasses d&rsquo;questa classe <code>Activity</code>.</p>
+<p>En general, cadascuna d&rsquo;aquestes activitats implementaran les diferents pantalles que componen la nostra aplicació. Com que la majoria d&rsquo;aplicacions contindran diverses pantalles, implementaran diverses activitats. El més habitual és que hi haja una activitat que siga l&rsquo;activitat principal, que serà la que apareixerà quan l&rsquo;usuari inicie l&rsquo;aplicació, i serà aquesta la que inicie altres activitats.</p>
+<p>Tot i que les activitats treballen en conjunt, per donar una experiència coherent a l&rsquo;usuari, les activitats tenen poca relació entre elles, el que facilita la invocació d&rsquo;activitats entre diferents apps.</p>
+<p>Cada activitat haurà d&rsquo;estar registrada en el fitxer de Manifest, i a més, haurà de gestionar els seus cicles de vida de forma correcta.</p>
+<h4 id="gestionant-el-cicle-de-vida-de-les-activitats">Gestionant el cicle de vida de les activitats</h4>
+<p>Les activitats, al llarg de la seua vida útil, passen per diferents estats. En el canvi d&rsquo;un estat a altre, es disparen certs esdeveniments, que podem capturar i gestionar mitjançant funcions de <em>callback</em>.</p>
+<p>Veiem quines són aquestes:</p>
+<ul>
+<li>
+<p><strong><code>onCreate()</code></strong>: S&rsquo;activa quan es crea l&rsquo;activitat, i en ella inicialitzem els components essencials d&rsquo;aquesta, enllaçarem les vistes i vincularem dades. Aci generalment utilitzem <code>setContentView()</code> per establir el <em>layout</em> de la interfície de l&rsquo;activitat.</p>
+</li>
+<li>
+<p><strong><code>onStart()</code></strong>: Es dispara sempre quan acaba <code>onCreate()</code> i l&rsquo;activitat passa a estat <em>Iniciada</em>, passant a primer pla i tornant-se visible per a l&rsquo;usuari.</p>
+</li>
+<li>
+<p><strong><code>onResume()</code></strong>: Aquest callback es dispara just abans que l&rsquo;activitat comence a interactuar amb l&rsquo;usuari, i es troba a dalt de tot de la pila d&rsquo;activitats, capturant tot el que introdueix l&rsquo;usuari.</p>
+</li>
+<li>
+<p><strong><code>onPause()</code></strong>: S&rsquo;invoca quan l&rsquo;activitat perd el focus i pasas a l&rsquo;estat de <em>Detesa</em> (s&rsquo;ha polsat <em>enrere</em> o <em>Recents</em>). Quan el sistema invoca <code>onPause()</code>, l&rsquo;activitat encara està parcialment visible. Les activitats <em>deteses</em> poden continuar actualitzant la UI si l&rsquo;usuari espera que això passe (com per exemple, actualitzar un mapa de navegació). Aquest callback no s&rsquo;ha d&rsquo;utilitzar per guardar dades de l&rsquo;aplicació, de l&rsquo;usuari, fer crides de xarxa o realitzar transaccions sobre bases de dades.</p>
+</li>
+<li>
+<p><strong><code>onStop()</code></strong>: S&rsquo;invoca quan l&rsquo;activitat ja no és visible per a l&rsquo;usuari, bé perquè s&rsquo;estiga eliminant l&rsquo;activitat, perquè se n&rsquo;inicia una de nova o perquè es reanude altra que la cobrisca. Després d&rsquo;ella, es pot llançar <code>onRestart()</code> o <code>onDestroy()</code>.</p>
+</li>
+<li>
+<p><strong><code>onRestart()</code></strong>: S&rsquo;invoca quan una activitat que estava <em>Detesa</em> passa de nou a estar en primer pla. Aquest callback, restaura l&rsquo;estat de l&rsquo;activitat en el moment en què esta es va parar. Després d&rsquo;aquest callback, s&rsquo;invoca sempre <code>onStart()</code>.</p>
+</li>
+<li>
+<p><strong><code>onDestroy()</code></strong>: S&rsquo;invoca aquest callback abans que s&rsquo;elimine l&rsquo;activitat, i s&rsquo;usa per garantir que els seus recursos s&rsquo;alliberen amb ella, i el procés que la conté s&rsquo;elimine.</p>
+</li>
+</ul>
+<p>Gràficament, podem vore aquest cicle de vida de la següent forma general:</p>
+<p><img src="../img/activity_lifecycle.png" alt="Cicle de vida d&rsquo;una activitat"></p>
+<p>I centrant-nos en els diferents callbacks i estats:</p>
+<p><img src="../img/basic-lifecycle.png" alt="Cicle de vida d&rsquo;una activitat"></p>
+<blockquote>
+<p><em><strong>Documentació oficial</strong></em></p>
+<p>Podem trobar molta més informació sobre el cicle de vida de les activitats en:</p>
+<p><a href="https://developer.android.com/guide/components/activities/activity-lifecycle?hl=es">https://developer.android.com/guide/components/activities/activity-lifecycle?hl=es</a>.</p>
+<p>I sobre la preservació d&rsquo;estats durant el cicle de vida:</p>
+<p><a href="https://developer.android.com/topic/libraries/architecture/saving-states?hl=es">https://developer.android.com/topic/libraries/architecture/saving-states?hl=es</a></p>
+</blockquote>
+<h4 id="logs">Logs</h4>
+<p>Android ens ofereix, a través de la classe <code>Log</code> una API per enviar informació d&rsquo;eixida a través d&rsquo;un registre.</p>
+<p>L&rsquo;IDE d&rsquo;Android Studio ens ofereix la finestra <em>Logcat</em>, on es mostren els diferents missatges del sistema, però també pot mostrar-nos missatges des de la nostra aplicació, si fem ús d&rsquo;aquesta classe <code>Log</code>. Aquests missatges es mostraran en temps real, i es guardaran en un historial.</p>
+<p>Aquesta finestra és bastant potent, i ens permet crear filtres de cerca, establir nivells de prioritat, mostrar només els missatges de l&rsquo;app, buscar en el registre&hellip;</p>
+<p>Quan la nostra app genera una excepció, aquesta finestra ens mostra un misstge seguit del seguiment de la pila (<em>Stack Trace</em>).</p>
+<p>Tot i que a partir de la versió 2.2 d&rsquo;Android Studio els missatges de la nostra aplicació també es mostren a la finestra <em>Run</em>, és aconsellable seguir utilitzant <em>logcat</em>, ja que ofereix més possibilitats en quant a gestió dels missatges.</p>
+<p>Per accedir a la finestra <em>Logcat</em>, podem fer-ho bé a través del menú <em>View &gt; Tool Windows &gt; Logcat</em>, o bé en la pestanya <em>Logcat</em> en la barra de finestres d&rsquo;eines, a la part de baix.</p>
+<p>Per tal d&rsquo;escriure misstges en aquesta finestra, la classe <em>Log</em> ens ofereix diversis mètodes, segons tipus de misstge que volguem escriure. De major a menor prioritat, estos mètodes són:</p>
+<table>
+<thead>
+<tr>
+<th>Mètode</th>
+<th>Tipus de misstge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Log.e(String, String)</code></td>
+<td>Misstge d&rsquo;error</td>
+</tr>
+<tr>
+<td><code>Log.w(String, String)</code></td>
+<td>Missatge d&rsquo;advertència (Warning)</td>
+</tr>
+<tr>
+<td><code>Log.i(String, String)</code></td>
+<td>Missatge d&rsquo;informació</td>
+</tr>
+<tr>
+<td><code>Log.d(String, String)</code></td>
+<td>Misstge de depuración</td>
+</tr>
+<tr>
+<td><code>Log.v(String, String)</code></td>
+<td>Eixida detallada del registre</td>
+</tr>
+</tbody>
+</table>
+<p>Com veiem, tots aquests mètodes necessiten dos arguments. El primer és una etiqueta que tindrà el missatge, per tal de poder-les filtrar, i el segon serà ja el text del missatge. Quan es tracta de misstges del sistema, l&rsquo;etiqueta és un string curt que indica el component des del que s&rsquo;ha originat el missatge.</p>
+<p>És una pràctica habitual fer ús d&rsquo;una constant <code>TAG</code> en les nostres classes per utilitzar-les com a etiqueta.</p>
+<blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Disposeu de més informació sobre aquest finestra, les seues opcions a i més informació sobre els logs en: <a href="https://developer.android.com/studio/debug/am-logcat.html">https://developer.android.com/studio/debug/am-logcat.html</a></p>
+</blockquote>
+<p>A mode d&rsquo;exemple per utilitzar logs i per aprofundir en el cicle de vida de les activitats, anem a fer que en cada canvi d&rsquo;estat de l&rsquo;activitat principal de l&rsquo;app amb què estem treballant se&rsquo;ns mostre un missatge de depuració. Per a això, ens situem en la nostra classe principal <code>MainActivity.kt</code>, i fem el següent:</p>
+<ul>
+<li>En primer lloc, incloem una constant al nostre codi per indicar el <em>tag</em> que anem a utilitzar. La podem definir com a atribut de la classe <em>MainActivity</em>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> tag:String =<span style="color:#e6db74">&#34;Lifecycle Events&#34;</span>
+</code></pre></div><ul>
+<li>En segon lloc, afegim un missagte al registre com a primera instrucció del mètode <code>onCreate()</code>, que ja tenim al nostre codi.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onCreate&#34;</span>)
+        <span style="color:#f92672">..</span>.}
+</code></pre></div><p>Veure que la classe <em>Log</em> no la reconeix, i si ens posem al damunt ens suggereix el missatge: <code>android.util.Log? Alt+Enter</code>. Premem <code>Alt+Enter</code> per tal d&rsquo;afegir l&rsquo;import corresponent (<code>import android.util.Log</code>).</p>
+<ul>
+<li>Finalment, afegim nous mètodes de <em>Callback</em> a la classe, per capturar els diferents canvis d&rsquo;estat:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onStart</span>() {
+        <span style="color:#66d9ef">super</span>.onStart()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onStart&#34;</span>)
+    }
+
+<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onResume</span>() {
+        <span style="color:#66d9ef">super</span>.onResume()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onResume&#34;</span>)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onPause</span>(){
+        <span style="color:#66d9ef">super</span>.onPause()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onPause&#34;</span>)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onStop</span>() {
+        <span style="color:#66d9ef">super</span>.onStop()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onStop&#34;</span>)
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onRestart</span>() {
+        <span style="color:#66d9ef">super</span>.onRestart()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onRestart&#34;</span>)
+    }
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onDestroy</span>(){
+        <span style="color:#66d9ef">super</span>.onDestroy()
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onDestroy&#34;</span>)
+    }
+</code></pre></div><p>Una vegada fet açò, llanceu l&rsquo;aplicació i fixeu-vos en l&rsquo;evolució dels logs mentre feu les següents operacions:</p>
+<ol>
+<li>Inici de l&rsquo;aplicació</li>
+<li>De la barra de navegació d&rsquo;Android<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, fem clic al botó d&rsquo;inici (central) per tornar a la pantalla principal o bé al botó de menú (dreta) per mostrar totes les aplicacions actives.</li>
+<li>Restaurar l&rsquo;aplicació, si haviem fet clic al botó d&rsquo;inici premem el botó de menú i seleccionem la nostra aplicació, o bé si havíem fet clic al menú, directament cliquem a l&rsquo;aplicació.</li>
+<li>Tornem a fer clic al botó de menú.</li>
+<li>Arrosseguem l&rsquo;aplicació cap amunt, per tal de tancar-la.</li>
+</ol>
+<p>Podem vore aquet procés i les diferents eixides del log a la següent imatge:</p>
+<p><img src="../img/logs.png" alt="Registrant els canvis d&rsquo;estat">{ widh=600px}</p>
+<h2 id="3-disseny-de-layouts">3. Disseny de Layouts</h2>
+<p>Com hem vist, la interfície d&rsquo;usuari d&rsquo;una activitat de l&rsquo;aplicació s&rsquo;especifica com un recurs de tipus <em>layout</em>, en format XML. Aquest document XML podríem escriure&rsquo;l manualment, però Android Studio disposa d&rsquo;un potent editor visual basat en arrossegar i soltar elements.</p>
+<p>Quan creem una interfície d&rsquo;usuari, aquesta es compon d&rsquo;una jerarquia de <em>layouts</em> i <em>widgets</em>. Aquests <em>layouts</em> seran objectes de tipus <em>ViewGroup</em>, controladors que controlaran el posicionament i les vistes secundàries de la pantalla. Els <em>widgets</em> seran objectes del tipus <em>View</em> que ja coneixem, com botons o quadres de text.</p>
+<p><img src="../img/layouts.png" alt="Construcció de la interfície"></p>
+<p>En general, existeixen principalment tres formes d&rsquo;organitzar el disseny d&rsquo;una aplicació:</p>
+<ul>
+<li>
+<p><strong>Aplicar un disseny mitjançant <em>LinearLayouts</em></strong>: Es tracta de la forma més primitiva per realitzar intefícies. Es tracta de contenidors on es poden afegir elements que s&rsquo;ajusten bé ven vertical o en horitzontal, segons indique el paràmetre <code>android:orientation</code>. A més, disposa de l&rsquo;atribut <code>android:gravity</code> per posicionar els elements i centrar-los horitzontalment, verticalment o d&rsquo;ambdues maneres. També tenim la possibilitat d&rsquo;afegir un <em>pes</em> (<code>android:layout_weight</code>) en cadascun dels elements de dins el layout per especificar en quantes parts es dividirà la vista general i quantes parts ocupa l&rsquo;element.</p>
+</li>
+<li>
+<p><strong>Realitzar un disseny mitjançant <em>RelativeLayouts</em></strong>, un disseny on les posicions de les vistes filles es poden descriure respecte a altres filles o el seu pare, fent referència a ells a través del seu ID, al qual ens referirem amb <code>android:id=&quot;@id/xxx&quot;</code>. Una vegada referenciat l&rsquo;element, podem indicar el seu posicionament relatiu (si està dalt, baix, a un costat&hellip;)</p>
+</li>
+<li>
+<p><strong>Realitzar el disseny mitjançant <em>ConstraintLayout</em></strong>, l&rsquo;últim en aparéixer, i que ens permet gestionar vistes complexes de forma senzilla i linial. Per tal d&rsquo;utilitzar-les, ens haurem d&rsquo;assegurar que al fitxer <code>build.gradle</code> de l&rsquo;aplicació tenim la dependència:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies <span style="color:#f92672">{</span>
+<span style="color:#f92672">...</span> 
+implementation <span style="color:#e6db74">&#39;androidx.constraintlayout:constraintlayout:2.0.2&#39;</span>
+<span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Amb els <em>ConstraintLayouts</em> podem ajustr les vistes respecte a altres vistes o respecta el pare, a l&rsquo;igual que fariem amb els <em>RelativeLayouts</em>, però amb molts més paràmetrs i possibilitats. El fet d&rsquo;utilitzar aquests dissenys, fa que es genere un codi XML més linial, sense tants elements anidats, ja que tots estan al mateix nivell, i el posicionament es realitza en base a la relació amb els altres elements. El dissenyador d&rsquo;Android, ens ajuda bastant en açò.</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Articles</strong></p>
+<p>Podeu trobar més informació sobre els diferents tipus de disseny als següents articles:</p>
+<ul>
+<li><em>Constraint, Relative y Linear Layout</em>: <a href="https://medium.com/knowing-android/constraint-relative-y-linear-layout-e287eb2b2db1">https://medium.com/knowing-android/constraint-relative-y-linear-layout-e287eb2b2db1</a></li>
+<li><em>Android Relative vs Constraint Layouts, Cuál es mejor y como usarlo?</em>: <a href="https://codearmy.co/android-relative-vs-constraint-layouts-cual-es-mejor-y-como-usarlo-95c08582ab2e">https://codearmy.co/android-relative-vs-constraint-layouts-cual-es-mejor-y-como-usarlo-95c08582ab2e</a></li>
+</ul>
+</blockquote>
+<blockquote>
+<p><em><strong>Documentació oficial</strong></em></p>
+<ul>
+<li><em>Ús de l&rsquo;editor de disseny</em>: <a href="https://developer.android.com/studio/write/layout-editor?hl=es">https://developer.android.com/studio/write/layout-editor?hl=es</a></li>
+</ul>
+<p><em>Creació d&rsquo;una interfície senzilla</em>: <a href="https://developer.android.com/training/basics/firstapp/building-ui?hl=es">https://developer.android.com/training/basics/firstapp/building-ui?hl=es</a></p>
+</blockquote>
+<p>Per altra banda, per vore de manera més visual la creació d&rsquo;interfícies, podem consultar el següent canal de Youtube:</p>
+<blockquote>
+<p>Canal <em>La Cueva del Programador</em></p>
+<p><a href="https://www.youtube.com/channel/UCmV-TWMANQFKZx4iC07agqg">https://www.youtube.com/channel/UCmV-TWMANQFKZx4iC07agqg</a></p>
+</blockquote>
+<p>A la part pràctica d&rsquo;aquesta unitat vorem com posar en pràctica aquests dissenys per tal de crear una senzilla calculadora.</p>
+<h2 id="4-toasts-i-diàlegs">4. Toasts i Diàlegs</h2>
+<p>Fins ara hem vist com afegitr botons i quadres de text als nostres dissenys. Anem a vore ara com afegir alguns elements emergents com diàlegs i toasts.</p>
+<h3 id="41-toasts">4.1. Toasts</h3>
+<p>Els <em>toasts</em> serveixen per proporcionar informació a l&rsquo;usuari de manera simple, sobre una operació en una xicoteta finestra emergent. Aquesta finestra només ocuparà l&rsquo;espai requerit per mostrar el missatge, i no blocarà l&rsquo;activitat actual. Estos avisos desapareixen automàticament al cap d&rsquo;un temps determinat.</p>
+<p>Per tal de mostrar un toast, farem ús del mètode estàtic <code>makeText()</code> de la classe <code>Toast</code>, que ens retornarà l&rsquo;objecte de tipus <em>toast</em>. Aquest mètode requereix de tres paràmetres: el <em>Context</em> de l&rsquo;aplicació, el missatge de text, i el temps durant el qual serà visible l&rsquo;avís. Una vegada hem inicialitzat el <em>Toast</em>, el mostrem amb <code>show()</code>.</p>
+<p>Per exemple, a l&rsquo;aplicació amb el botó comptador, anem a afegit el següent codi al mètode <code>setOnClickListener</code> del <code>boto1</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">boto1.setOnClickListener { view: View <span style="color:#f92672">-&gt;</span>
+    comptador<span style="color:#f92672">++</span>
+    TextPrincipal.text = <span style="color:#e6db74">&#34;Comptador: &#34;</span> + comptador
+
+    <span style="color:#75715e">//  Inicialitzem el text a mostrar
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> text = <span style="color:#e6db74">&#34;Has incrementat el comptador a &#34;</span>+comptador
+    <span style="color:#75715e">// Afegim la durada (agafant una constant de la pròpia classe Toast)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+    <span style="color:#75715e">// Creem el toast
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">val</span> toast = Toast.makeText(applicationContext, text, duration)
+    <span style="color:#75715e">// Mostrem el Toast
+</span><span style="color:#75715e"></span>    toast.show()
+}
+</code></pre></div><p>Fixeu-vos que estem utilitzant com a primer argument <code>applicationContext</code>, que no hem definit en cap lloc. Es tracta d&rsquo;una propietat de la pròpia classe <code>Activity</code>, a la que realment estem accedint a través del mètode accessor <code>getApplicationContext()</code>.</p>
+<blockquote>
+<p><strong>Context</strong>
+El <em>context</em> s&rsquo;entén com una forma d&rsquo;accés informació sobre l&rsquo;aplicació i el seu entorn. Es tracta d&rsquo;una classe abstracta implementada pel propi sistema Android, i que dóna accés a recursos i classes de la pròpia aplicació, així com suport a les crides per iniciar activitats o enviar i rebre intents.</p>
+</blockquote>
+<p>En principi, per tal de mostrar el <em>Toast</em> en l&rsquo;activitat actual, podem utilitzar tant l&rsquo;atribut <code>applicationContext</code> o directament utilitzar <code>this</code>.</p>
+<p>També podem simplificar el codi anterior i encadenar el show amb la creació del toast, estalviant-nos la variable:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">Toast.makeText(applicationContext, text, duration).show()
+</code></pre></div><p>Si volem que el <em>toast</em> es mostre a la part superior, fem ús del mètode <code>setGravity(constant_Gravity:int, desplaçament_x: int, desplaçament_y:int)</code>. Per exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin">toast.setGravity(Gravity.TOP, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>)
+</code></pre></div><blockquote>
+<p><strong>Documentació oficial</strong></p>
+<p>Disposeu de més informació i personalització dels toasts en:
+<a href="https://developer.android.com/guide/topics/ui/notifiers/toasts#kotlin">https://developer.android.com/guide/topics/ui/notifiers/toasts#kotlin</a></p>
+</blockquote>
+<h3 id="42-diàlegs">4.2. Diàlegs</h3>
+<p>Els diàlegs són finestres menudes que serveixen per donar avisos a l&rsquo;usuari, confirmar accions o afegir informació addicional. Els diàlegs no ocupen tota la pantalla, però fan que no siga possible la interacció amb la pantalla principal fins que no es realitze determinada acció (finestres <em>modals</em>).</p>
+<p>els diàlegs s&rsquo;implementen a la classe <em>Dialog</em>, de la que deriven els tres tipus de diàlegs que utilitzarem:</p>
+<ul>
+<li><em>AlertDialog</em>, per mostrar un misstge d&rsquo;avís, amb un títol, tres botons, una llista d&rsquo;elements seleccionables, o bé un disseny personalitzat.</li>
+<li><em>DatePickerDialog</em> / <em>TimePickerDialog</em>, per mostrar un diàleg per triar una data o una hora.</li>
+</ul>
+<p>Veiem un xicotet exemple de com mostrar una alerta senzilla, per al què utilitzarem el mètode <code>Builder</code> de l'<code>AlertDialog</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">showDialogAlertSimple</span>() {
+    AlertDialog.Builder(<span style="color:#66d9ef">this</span>)
+        <span style="color:#75715e">// Afegim el títol amb
+</span><span style="color:#75715e"></span>        .setTitle(<span style="color:#e6db74">&#34;Aquest és el títol del diàleg&#34;</span>)
+        <span style="color:#75715e">// Afegim el missatge
+</span><span style="color:#75715e"></span>        .setMessage(<span style="color:#e6db74">&#34;Aci va el text del missatge&#34;</span>)
+        <span style="color:#75715e">// Diem si es pot tancar el diàleg fent clic a la part
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// opaca de darrere el diàleg (Cancelable=true)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// o que s&#39;haja de tancar fent clic en OK
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  o Cancel (Cancelable=false)
+</span><span style="color:#75715e"></span>        .setCancelable(<span style="color:#66d9ef">false</span>) 
+        <span style="color:#75715e">// Afegim el botó &#34;Ok&#34;
+</span><span style="color:#75715e"></span>        .setPositiveButton(android.R.string.ok,
+            DialogInterface.OnClickListener { dialog, which <span style="color:#f92672">-&gt;</span>
+                <span style="color:#75715e">// Callback en forma de lambda per a quan es prem Ok
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// Per exemple, mostrar un toast
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+                Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Click en Ok&#34;</span>, duration).show()
+            })
+        <span style="color:#75715e">// Afegim el botó &#34;Cancel&#34;
+</span><span style="color:#75715e"></span>        .setNegativeButton(android.R.string.cancel,
+            DialogInterface.OnClickListener { dialog, which <span style="color:#f92672">-&gt;</span>
+                <span style="color:#75715e">// Callback en forma de lambda per a quan es prem Cancel·lar
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// Per exemple, mostrar un toast
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+                Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Click en Cancel·lar&#34;</span>, duration).show()
+            })
+        .show()
+}
+</code></pre></div><p>Aquesta funció, ens demanarà afegir les dependències a <code>android.content.DialogInterface?</code> i <code>androidx.appcompat.app.AlertDialog?</code>.</p>
+<h4 id="dialogfragment">DialogFragment</h4>
+<p>Tot i que de l&rsquo;anterior forma hem creat un diàleg, la forma habitual de fer-ho és mitjançant un contenidor <em>DialogFragment</em>, amb el que se&rsquo;ns proporcionaran els controls necessaris per crear i gestionar els diàlegs, de manera que, per exemple, el diàleg no es tanque de forma predeterminada en rotar la vista.</p>
+<p>Per a això crearem el nostre diàleg com una subclasse de <code>DialogFragment</code>, sobreescrivint el mètode <code>onCreateDialog</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleAlertDialog</span> : DialogFragment() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateDialog</span>(savedInstanceState: Bundle?): Dialog {
+        <span style="color:#66d9ef">return</span> activity<span style="color:#f92672">?.</span>let {
+            <span style="color:#66d9ef">val</span> title = <span style="color:#e6db74">&#34;Aquest és el títol del diàleg&#34;</span>
+            <span style="color:#66d9ef">val</span> content = <span style="color:#e6db74">&#34;Aci va el text del missatge&#34;</span>
+            <span style="color:#66d9ef">val</span> builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+            builder.setTitle(title).setMessage(content)
+                .setPositiveButton(android.R.string.ok) { _, _ <span style="color:#f92672">-&gt;</span>
+                    <span style="color:#75715e">// Callback per al &#34;Ok&#34;
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+                    Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Click en Ok&#34;</span>, duration).show()
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ <span style="color:#f92672">-&gt;</span>
+                    <span style="color:#75715e">// Callback pe al Cancel
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+                    Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Click en Cancel&#34;</span>, duration).show()
+                }
+            <span style="color:#66d9ef">return</span> builder.create()
+        } <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> IllegalStateException(<span style="color:#e6db74">&#34;L&#39;activitat no pot ser nul·la&#34;</span>)
+    }
+ 
+}
+</code></pre></div><p>Parem-nos a mirar un poc l&rsquo;estructura per entendre-la millor:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleAlertDialog</span> : DialogFragment() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateDialog</span>(savedInstanceState: Bundle?): Dialog {
+        <span style="color:#66d9ef">return</span> activity<span style="color:#f92672">?.</span>let {
+            <span style="color:#f92672">..</span>.
+            <span style="color:#66d9ef">return</span> builder.create()
+        } <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> IllegalStateException(<span style="color:#e6db74">&#34;L&#39;activitat no pot ser nul·la&#34;</span>)
+    }
+}
+</code></pre></div><p>Aquest codi introdueix una nova funcionalitat de Kotlin que no havíem vist, l&rsquo;operador <code>?.let</code>, i l&rsquo;operador <em>Elvis</em> (<code>?:</code>) que ja coneixíem. El primer, defineix un bloc <em>let</em> que s&rsquo;executarà semrpe i quan l'<code>activity</code> no siga nul·la. Per la seua banda, l&rsquo;operador <em>Elvis</em> ens servia per especificar un valor alternatiu quan el resultat del bloc siga nul. El codi anterior, en pseudocodi podria ser:</p>
+<pre><code>funció onCreateDialog(..):Dialog{
+    if (activity != null) {
+        ...
+        return builder.create()
+    } else throw IllegalStateException(&quot;L'activitat no pot ser nul·la&quot;)
+}
+</code></pre><p>Aquesta estructura és bastant comú en Android, ja que moltes vegades tenim elements qua mai sabrem si són nuls o no, i tant els contextos com els fragments poden ser-ho.</p>
+<p>Per fer ús d&rsquo;aquest diàleg que hem creat, fariem:</p>
+<ul>
+<li>
+<p>Si s&rsquo;invoca des d&rsquo;una activitat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> elMeuDialegModal = SimpleAlertDialog()
+elMeuDialegModal.show(supportFragmentManager, <span style="color:#e6db74">&#34;confirmDialog&#34;</span>)
+</code></pre></div></li>
+<li>
+<p>Si s&rsquo;invoca des d&rsquo;altre fragment:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> elMeuDialegModal = SimpleAlertDialog()
+elMeuDialegModal.show(requireActivity().supportFragmentManager, <span style="color:#e6db74">&#34;confirmDialog&#34;</span>)
+</code></pre></div></li>
+</ul>
+<p>Ara bé, si volguérem, per exemple incrementar el comptador de l&rsquo;activitat anterior només si fem click en <code>OK</code>, ens trobaríem amb el problema que no tenim accés a aquesta variable des del diàleg. En estos casos, voldrem enviar l&rsquo;event a l&rsquo;activitat o fragment que va obrir el diàleg.</p>
+<p>Per tal de propagar un esdeveniment del diàleg a l&rsquo;activitat, hem de fer ús de <em>Callbacks</em> per al retorn de l&rsquo;esdeveniment, definint-los amb una interfície, i interceptar-los a l'<em>Activity</em> amb els corresponents <em>Listeners</em>.</p>
+<p>Afegim la interfície amb els esdeveniments al <code>DialogFragment</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleAlertDialog</span> : DialogFragment() {
+<span style="color:#f92672">..</span>.
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">OnContinueCancelClickListener</span> {
+    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onPositiveClick</span>()
+    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCancelClick</span>()
+}
+<span style="color:#f92672">..</span>.
+builder.setTitle(title).setMessage(content)
+    .setPositiveButton(android.R.string.ok) { _, _ <span style="color:#f92672">-&gt;</span>
+        <span style="color:#66d9ef">val</span> listener = activity <span style="color:#66d9ef">as</span> OnContinueCancelClickListener?
+        listener<span style="color:#f92672">!!</span>.onPositiveClick()
+    }
+    .setNegativeButton(android.R.string.cancel) { _, _ <span style="color:#f92672">-&gt;</span>
+        <span style="color:#66d9ef">val</span> listener = activity <span style="color:#66d9ef">as</span> OnContinueCancelClickListener?
+        listener<span style="color:#f92672">!!</span>.onCancelClick()
+    }
+    <span style="color:#f92672">..</span>.
+}
+</code></pre></div><p>I a l&rsquo;activitat afegim el Listener:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity(), OnContinueCancelClickListener {
+<span style="color:#f92672">..</span>.
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onPositiveClick</span>() {
+        <span style="color:#f92672">..</span>.
+    }
+ 
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCancelClick</span>() {
+        <span style="color:#f92672">..</span>.
+    }
+}
+</code></pre></div><p>Veiem amb açò com quedaria la implementació completa de les dues classes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleAlertDialog</span> : DialogFragment() {
+
+    <span style="color:#75715e">// Definim la interfície interna amb els callbacks
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// la classe que utilitze aquest diàleg, haurà
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// d&#39;implementar-los
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">OnContinueCancelClickListener</span> {
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onPositiveClick</span>()
+        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCancelClick</span>()
+    }
+
+    <span style="color:#75715e">// Sobreescrivim el mètode onCreateDialog
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateDialog</span>(savedInstanceState: Bundle?): Dialog {
+        <span style="color:#66d9ef">return</span> activity<span style="color:#f92672">?.</span>let {
+            <span style="color:#66d9ef">val</span> title = <span style="color:#e6db74">&#34;Comptador&#34;</span>
+            <span style="color:#66d9ef">val</span> content = <span style="color:#e6db74">&#34;Voleu incrementar el comptador?&#34;</span>
+            <span style="color:#75715e">// Creem l&#39;objecte Builder per construir el diàleg
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">val</span> builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+            <span style="color:#75715e">// Afegim el títol i el contingut, així com 
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// els callbacks per als dos botons.
+</span><span style="color:#75715e"></span>            builder.setTitle(title).setMessage(content)
+                .setPositiveButton(android.R.string.ok) { _, _ <span style="color:#f92672">-&gt;</span>
+                    <span style="color:#75715e">// Callback per al &#34;Ok&#34;
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// Definim el listener com una activitat que implementarà
+</span><span style="color:#75715e"></span>                    <span style="color:#75715e">// la interfície OnContinueCancelClickListener
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">val</span> listener = activity <span style="color:#66d9ef">as</span> OnContinueCancelClickListener?
+                    listener<span style="color:#f92672">!!</span>.onPositiveClick()
+                }
+                .setNegativeButton(android.R.string.cancel) { _, _ <span style="color:#f92672">-&gt;</span>
+                    <span style="color:#75715e">// Callback pe al &#34;Cancel&#34;, igual que amb el &#34;Ok&#34;
+</span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">val</span> listener = activity <span style="color:#66d9ef">as</span> OnContinueCancelClickListener?
+                    listener<span style="color:#f92672">!!</span>.onCancelClick()
+                }
+            <span style="color:#66d9ef">return</span> builder.create()
+        } <span style="color:#f92672">?:</span> <span style="color:#66d9ef">throw</span> IllegalStateException(<span style="color:#e6db74">&#34;L&#39;activitat no pot ser nul·la&#34;</span>)
+    }
+
+}
+
+<span style="color:#75715e">// La nostra activitat implementa la interfície 
+</span><span style="color:#75715e">// SimpleAlertDialog.OnContinueCancelClickListener
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity(), 
+                     SimpleAlertDialog.OnContinueCancelClickListener {
+    
+    <span style="color:#66d9ef">var</span> comptador: Int = <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e">// I ara sobreescrivim els mètodes que hem definit 
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// a la interfície que implementem.
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onPositiveClick</span>() {
+        <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+        comptador<span style="color:#f92672">++</span> <span style="color:#75715e">// Incrementem el comptador
+</span><span style="color:#75715e"></span>        TextPrincipal.text = <span style="color:#e6db74">&#34;Comptador: &#34;</span> + comptador
+        Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Comptador incremantat a &#34;</span>+comptador, duration).show()
+    }
+
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCancelClick</span>() {
+        <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+        Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Acció cancel·lada&#34;</span>, duration).show()
+    }
+    
+    <span style="color:#75715e">// Definim el mètode onCreate de l&#39;activitat
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        Log.d(tag, <span style="color:#e6db74">&#34;Entre al mètode onCreate&#34;</span>)
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        
+        boto1.setOnClickListener { view: View <span style="color:#f92672">-&gt;</span>
+            <span style="color:#66d9ef">val</span> elMeuDialegModal = SimpleAlertDialog()
+            elMeuDialegModal.show(supportFragmentManager, <span style="color:#e6db74">&#34;confirmDialog&#34;</span>)
+        }
+
+    }
+<span style="color:#f92672">..</span>.
+
+}
+</code></pre></div><p>Com veiem, es tracta pràcticament del mateix mecanisme que utilitzàvem per implementar els clicks sobre els botons amb la interfície <code>View.OnCLickListener</code>.</p>
+<h4 id="personalitzant-els-diàlegs">Personalitzant els diàlegs</h4>
+<p>Els diàlegs ofereixen moltes possibilitats de personalització i configuració. A la documentació oficial podeu trobar descrites totes aquestes possibilitats. Aci anem a veure una xicoteta selecció d&rsquo;aquestes.</p>
+<ul>
+<li><strong>Afegir una icona al diàleg</strong>: Només cal que afegim la imatge als recursos, concretament a la carpeta <code>res/drawable</code> i quan creem el diàleg, fem ús del mètode <code>setIcon(R.drawable.nom_fitxer_sense_extensio)</code></li>
+</ul>
+<p><img src="../img/icones.png" alt="Afegint imatges als diàlegs"></p>
+<ul>
+<li>
+<p><strong>Afegir una llista d&rsquo;opcions al diàleg</strong>: Fem ús del mètode del <em>Builder</em> <code>setItems</code>, al que li passem un conjunt de valors. En el mètode de callback, el segon argument indicarà l&rsquo;índex que s&rsquo;ha seleccionat de la llista, i podrem utilitzar-lo al callback de la interfície:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SimpleAlertDialog</span> : DialogFragment() {
+
+    <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">OnContinueCancelClickListener</span> {
+        <span style="color:#f92672">..</span>.
+        <span style="color:#75715e">// Afegim un nou callback per a quan
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// es trie un element de la llista
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Aquest rebrà un string del propi 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// callback del diàleg.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onSelectNom</span>(nom:String)
+    }
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreateDialog</span>(savedInstanceState: Bundle?): Dialog {
+        <span style="color:#66d9ef">return</span> activity<span style="color:#f92672">?.</span>let {
+            <span style="color:#66d9ef">val</span> title = <span style="color:#e6db74">&#34;Tria un nom&#34;</span>
+            <span style="color:#66d9ef">val</span> builder: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+            <span style="color:#75715e">// Definim una llista mutable
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">val</span> noms: Array&lt;String&gt; = arrayOf&lt;String&gt;(<span style="color:#e6db74">&#34;Pep&#34;</span>, <span style="color:#e6db74">&#34;Joan&#34;</span>, <span style="color:#e6db74">&#34;Anna&#34;</span>, <span style="color:#e6db74">&#34;Maria&#34;</span>)
+            builder.setTitle(title)
+            builder.setItems(noms, { _, index_seleccionat <span style="color:#f92672">-&gt;</span>
+                <span style="color:#66d9ef">val</span> listener = activity <span style="color:#66d9ef">as</span> OnContinueCancelClickListener?
+                <span style="color:#75715e">// index_seleccionat conté la posició en el vector
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// de l&#39;element seleccionat, és el que li passarem
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// al callback
+</span><span style="color:#75715e"></span>                listener<span style="color:#f92672">!!</span>.onSelectNom(noms[index_seleccionat])
+                })
+    <span style="color:#f92672">..</span>.
+        }
+    }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity(), 
+      SimpleAlertDialog.OnContinueCancelClickListener {
+    <span style="color:#f92672">..</span>.
+
+    <span style="color:#75715e">// Sobreescrivim el mètode onSelectNom de la interfície
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onSelectNom</span>(nom: String) {
+        <span style="color:#75715e">// I mostrem al toast el nom
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> duration = Toast.LENGTH_SHORT
+        Toast.makeText(applicationContext, <span style="color:#e6db74">&#34;Has seleccionat &#34;</span>+nom, duration).show()
+    }
+    <span style="color:#f92672">..</span>.
+}
+
+</code></pre></div></li>
+</ul>
+<p><img src="../img/dialeg_llista.png" alt="Exemple de llista en un dàleg"></p>
+<blockquote>
+<p>Documentació oficial sobre Diàlegs</p>
+<p><a href="https://developer.android.com/guide/topics/ui/dialogs?hl=es#kotlin">https://developer.android.com/guide/topics/ui/dialogs?hl=es#kotlin</a></p>
+</blockquote>
+<h2 id="5-navegació-entre-activitats-introducció-als-intents">5. Navegació entre activitats. Introducció als Intents.</h2>
+<p>Com hem anat comentant al llarg de la unitat, les aplicacions d&rsquo;Android s&rsquo;organitzen en Activities, que representen cadascuna de les pantalles de l&rsquo;aplicació. Aquest disseny d&rsquo;activitats independents afavoreix el desacoplament entre els components d&rsquo;una aplicació.</p>
+<p>Per tal de comunicar-nos entre les diferents activitats de les nostres aplicacions, o bé amb activitats d&rsquo;altra aplicació, fem ús de missatges asíncrons, anomenats <em><strong>Intents</strong></em> que enviem al sistema, i és aquest qui s&rsquo;encarrega d&rsquo;accedir a l&rsquo;activitat per nosaltres. Recordeu que una aplicació en Android té diferents punts d&rsquo;entrada, i tota activitat és susceptible de ser un punt d&rsquo;entrada a l&rsquo;aplicació.</p>
+<p>Recordem també que distingíem entre <em>intents explícits</em> en els que referenciàvem un component concret, o <em>intents implícits</em>, indicant un tipus d&rsquo;acció, sense importar-nos qui la va a atendre. De forma opcional, també podem enviar dades en aquest Intent.</p>
+<p>A mode d&rsquo;exemple, anem a vore com implementaríem una xicoteta aplicació que enviara un missatge d&rsquo;una activitat a altra de la nostra aplicació.</p>
+<ul>
+<li>Comencem un projecte (aci li hem dir <em>ProvaIntents</em>) buït a partir d&rsquo;una plantilla de <em>Empty Activity</em>, i amb el dissenyador d&rsquo;interfícies, creem el següent disseny:</li>
+</ul>
+<p><img src="../img/layoutIntents1.png" alt="Pantalla 1"></p>
+<p>Com veiem, es tracta d&rsquo;un <em>editTextMultiline</em> i un botó.</p>
+<p>Un detall interessant, per evitar alertes, és que el text del botó &ldquo;Enviar&rdquo; l&rsquo;hem definit amb un recurs de tipus String.</p>
+<p>Per a això, obrim el fitxer <em>res/values/strings.xml</em>, i afegim el següent contingut dins l&rsquo;etiqueta <code>resources</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;string</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;btEnviar&#34;</span><span style="color:#f92672">&gt;</span>Enviar<span style="color:#f92672">&lt;/string&gt;</span>
+</code></pre></div><p>Ara, en el dissenyador d&rsquo;interfícies podem afegir, com a contingut de l&rsquo;atribut <em>text</em> el valor <code>@string/btEnviar</code>.</p>
+<p><img src="../img/layoutIntents2.png" alt="Configuració de les cadenes"></p>
+<p>Una vegada fet açò, anem a crear una nova Activity. Per a això, ens ubiquem a la carpeta de l&rsquo;aplicació (i no d&rsquo;altre lloc) i fem clic amb el botó esquerre per seleccionar: <em><strong>app &gt; New &gt; Activity &gt; Empty Activity</strong></em>.</p>
+<p>Amb això tornarem a veure l&rsquo;assistent d&rsquo;activitats:</p>
+<p><img src="../img/layoutIntents3.png" alt="Activitat nova"></p>
+<p>Li afegim per nom <em>Activity2</em> i creem un disseny semblant a l&rsquo;anterior, però amb un TextView i un botó de <em>Tornar</em>.</p>
+<p><img src="../img/layoutIntents4.png" alt="Disseny de l&rsquo;activitat nova"></p>
+<p>Ara ja només ens queda realitzar els <em>Intents</em> entre estes dos activitats.</p>
+<p>La definició d&rsquo;un Intent es fa de la següent manera:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">val</span> intent = Intent(Context, ClasseDestí).apply {
+            putExtra(CLAU, Valor)
+    }
+</code></pre></div><p>El constructor de l&rsquo;intent té dos arguments, el Context des del que s&rsquo;inicia la crida, i la classe que rebrà aquest Intent. Aquest <em>Context</em> és un objecte de tipus <code>Context</code>, que és un superclasse d&rsquo;Activity, pel que li passarem com a context la pròpia classe (és a dir, <code>this</code>). El segon serà el nom de la classe <code>Activity2.class.</code> Per la seua banda, <code>putExtra</code> afig dades de tipus parells clau-valor, anomenats extra.</p>
+<p>El codi resultant serà el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.provaintents
+
+<span style="color:#66d9ef">import</span> android.content.Intent
+<span style="color:#66d9ef">import</span> androidx.appcompat.app.AppCompatActivity
+<span style="color:#66d9ef">import</span> android.os.Bundle
+<span style="color:#66d9ef">import</span> android.view.View
+<span style="color:#66d9ef">import</span> kotlinx.android.synthetic.main.activity_main.*
+
+<span style="color:#75715e">// Definim una constant per al nom del misstge
+</span><span style="color:#75715e">// Preferiblement precedida del nom del paquet.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">val</span> NOM_MISSATGE = <span style="color:#e6db74">&#34;com.ieseljust.pmdm.provaintents.MESSAGE&#34;</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainActivity</span> : AppCompatActivity() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        <span style="color:#75715e">// Associem l&#39;event de clic a enviar el misstge
+</span><span style="color:#75715e"></span>        btEnviar.setOnClickListener{ enviaMisstge()}
+
+    }
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">enviaMisstge</span>() { <span style="color:#75715e">// Callback
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Agafem el missatge (textAEnviar és el ID del quadre de text)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Quan escrivim &#34;textAEnviar&#34;, s&#39;importa l&#39;xml 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i es creen les propietats d&#39;extensió
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> missatge=textAEnviar.text.toString()
+
+        <span style="color:#75715e">// Definim l&#39;Intent (afig import android.content.Intent)
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> intent = Intent(<span style="color:#66d9ef">this</span>, Activity2<span style="color:#f92672">::</span><span style="color:#66d9ef">class</span>.java).apply {
+            putExtra(NOM_MISSATGE, missatge)
+        }
+
+        <span style="color:#75715e">// I llancem l&#39;activitat
+</span><span style="color:#75715e"></span>        startActivity(intent)
+    }
+
+}
+</code></pre></div><p>Per la seua banda, la classe Activity2, agafarà el contingut del missatge que hem indicat com a constant global, des de l&rsquo;intent, i extreu d&rsquo;aquesta els strings extra, actualitzant la vista <em>textEscrit</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#66d9ef">package</span> com.ieseljust.pmdm.provaintents
+
+<span style="color:#66d9ef">import</span> androidx.appcompat.app.AppCompatActivity
+<span style="color:#66d9ef">import</span> android.os.Bundle
+<span style="color:#66d9ef">import</span> kotlinx.android.synthetic.main.activity_2.*
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Activity2</span> : AppCompatActivity() {
+    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">onCreate</span>(savedInstanceState: Bundle?) {
+        <span style="color:#66d9ef">super</span>.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_2)
+
+        <span style="color:#75715e">// Get the Intent that started this activity and extract the string
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">val</span> missatge = intent.getStringExtra(NOM_MISSATGE)
+        textEscrit.text=missatge
+    }
+}
+</code></pre></div><blockquote>
+<p><em><strong>Activitat</strong></em></p>
+<p>Com hauràs comprovat, els intents es fan en una direcció, però queda per implementar la part de tornada. Completa l&rsquo;exemple amb aquesta part.</p>
+</blockquote>
+<blockquote>
+<p><em><strong>Documentació oficial:</strong></em> <em>Activació de Components</em></p>
+<p><a href="https://developer.android.com/training/basics/firstapp/starting-activity?hl=es-419">https://developer.android.com/training/basics/firstapp/starting-activity?hl=es-419</a></p>
+<p><a href="https://developer.android.com/guide/components/fundamentals?hl=es-419#ActivatingComponents">https://developer.android.com/guide/components/fundamentals?hl=es-419#ActivatingComponents</a></p>
+</blockquote>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Recordeu que la barra de navegació d&rsquo;Android és la barra que apareix a sota les aplicacions, i en la que tenim disponibles tres botons: Enrere, inici i menú. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-visió-general-del-desenvolupament-dapps-en-android">1. Visió general del desenvolupament d&rsquo;apps en Android</a>
+      <ul>
+        <li><a href="#11-components-duna-aplicació">1.1. Components d&rsquo;una aplicació</a></li>
+        <li><a href="#12-el-fitxer-de-manifest">1.2. El fitxer de manifest</a></li>
+        <li><a href="#13-recursos-de-laplicació">1.3. Recursos de l&rsquo;aplicació</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-activitats-layouts-i-vistes">2. Activitats, Layouts i Vistes</a>
+      <ul>
+        <li><a href="#21-vinculació-o-bind-de-vistes">2.1. Vinculació o Bind de vistes</a></li>
+        <li><a href="#22-gestionant-els-esdeveniments-dentrada">2.2. Gestionant els Esdeveniments d&rsquo;entrada</a></li>
+        <li><a href="#23-activitats-i-el-seu-cicle-de-vida">2.3. Activitats i el seu cicle de vida</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-disseny-de-layouts">3. Disseny de Layouts</a></li>
+    <li><a href="#4-toasts-i-diàlegs">4. Toasts i Diàlegs</a>
+      <ul>
+        <li><a href="#41-toasts">4.1. Toasts</a></li>
+        <li><a href="#42-diàlegs">4.2. Diàlegs</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-navegació-entre-activitats-introducció-als-intents">5. Navegació entre activitats. Introducció als Intents.</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

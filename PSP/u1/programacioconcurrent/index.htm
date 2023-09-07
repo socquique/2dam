@@ -1,0 +1,848 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>2. Programació concurrent.</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../../pmdm/index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 1. Programació Concurrent</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="../processos/index.htm">1. Processos i eines del SO</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="index.htm">2. Programació concurrent.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>2. Programació concurrent.</h1>
+        </header>
+        <h2 id="1-conceptes">1. Conceptes</h2>
+<p>La programació concurrent és aquella en la que els programes poden tindre diversos processos o fils d&rsquo;execució, que col·laboren per tal de realitzar un treball, aprofitant al màxim el rendiment de sistemes amb diversos nuclis.</p>
+<p>La programació concurrent pot ser paral·lela i distribuïda:</p>
+<ul>
+<li>La <strong>programació paral·lela</strong> consisteix en la creació de programes que s&rsquo;executen en un sol ordinador, tinga o no diversos nuclis (si només té un nucli, reparteix el emos de procés entre diverses tasques)</li>
+<li>La <strong>programació distribuïda</strong> consisteix en la creació de programari que s&rsquo;executa en diferents ordinadors, i que es comuniquen a través d&rsquo;una xarxa.</li>
+</ul>
+<h2 id="2-creació-de-processos-en-java-la-classe-processbuilder">2. Creació de processos en Java: La classe processBuilder</h2>
+<p>En Java podem crear processos fent ús de la classe ProcessBuilder.</p>
+<p>Amb aquesta classe podem crear un procés de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProcessBuilder pb<span style="color:#f92672">;</span>
+pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span>ruta_al_programa_a_executar<span style="color:#f92672">);</span>
+pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+</code></pre></div><h5 id="exemple-1">Exemple 1</h5>
+<p>Veiem un exemple complet que llança per exemple el Firefox. El següent fitxer s&rsquo;anomena <strong>launcher.java</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">launcher</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            String app<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firefox&#34;</span><span style="color:#f92672">;</span>
+            ProcessBuilder pb<span style="color:#f92672">;</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Starting &#34;</span><span style="color:#f92672">+</span>app<span style="color:#f92672">);</span>
+            pb<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span>app<span style="color:#f92672">);</span>
+            pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>app<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; launch finished&#34;</span><span style="color:#f92672">);</span>
+            
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+ <span style="color:#f92672">}</span>
+</code></pre></div><p>Compilem i llancem el procés:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ javac launcher.java 
+joamuran@toki:~/java/processos$ java launcher 
+Starting firefox
+firefox launch finished
+</code></pre></div><p>I veurem com es llança el firefox.</p>
+<p>La classe ProcessBuilder és la classe recomanada des de Java 1.5 per a la creació de processos. Aquesta, en realitat, es tracta d&rsquo;una classe auxiliar de la classe <strong>Process</strong>. Quan creem un nou objecte de la classe ProcessBuilder, com el seu nom indica creem un &ldquo;Creador de Processos&rdquo;, amb unes característiques concretes (com és l&rsquo;ordre que es llançarà al procés, i els seus arguments). La instanciació de l&rsquo;objecte de la classe Process, es produeix quan invoquem al mètode start de Process Builder. D&rsquo;aquesta manera, si invoquem, per exemple dues vegades el mètode start, crearem dos instàncies de la classe Process (i.e. dos processos diferents.)</p>
+<h5 id="exemple-2">Exemple 2</h5>
+<p>Veiem el mateix exemple, però creant dos processos de Firefox (<strong>fitxer launcher2.java</strong>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">launcher2</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            String app<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;firefox&#34;</span><span style="color:#f92672">;</span>
+            Process p1<span style="color:#f92672">,</span> p2<span style="color:#f92672">;</span>
+            ProcessBuilder pb<span style="color:#f92672">;</span>
+
+            pb<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span>app<span style="color:#f92672">);</span>
+
+            p1<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            p2<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Primera instànicia de &#34;</span><span style="color:#f92672">+</span>app<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; amb PID &#34;</span><span style="color:#f92672">+</span>p1<span style="color:#f92672">.</span><span style="color:#a6e22e">pid</span><span style="color:#f92672">());</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Segona instància de &#34;</span><span style="color:#f92672">+</span>app<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; amb PID &#34;</span><span style="color:#f92672">+</span>p2<span style="color:#f92672">.</span><span style="color:#a6e22e">pid</span><span style="color:#f92672">());</span>
+  
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+ <span style="color:#f92672">}</span>
+</code></pre></div><p>Veiem alguns detalls del programa:</p>
+<ul>
+<li>
+<p>Hem declarat p1 i p2 com a objectes de la classe Process, però tingueu en compte que no els hem creat (no hem fet un <code>new Process</code>. Açò es deu a que la classe Process és una classe abstracta, i no pot ser instanciada. Quan fem la crida al mètode start, ja és aquest qui s&rsquo;encarrega d&rsquo;instanciar-lo amb la classe java.lang.ProcessImpl, que és una classe final.</p>
+</li>
+<li>
+<p>La classe <code>Process</code>, des de la versió 9 de java, disposa d&rsquo;un mètode anomenat <code>pid()</code>, que ens retorna l&rsquo;identificador del procés.</p>
+</li>
+<li>
+<p>Com podem comprovar doncs, s&rsquo;han creat dos processos, amb un pid diferent cadascun:</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ javac launcher2.java
+$ java launcher2
+Primera instànicia de firefox amb PID <span style="color:#ae81ff">7081</span>
+Segona instància de firefox amb PID <span style="color:#ae81ff">7085</span>
+</code></pre></div><h4 id="alguns-mètodes-més-de-processbuilder">Alguns mètodes més de ProcessBuilder</h4>
+<p>La classe ProcessBuilder admet diversos mètodes més, com podem veure a [https://docs.oracle.com/javase/9/docs/api/java/lang/ProcessBuilder.html]. Alguns dels més interessants són <code>directory()</code>, per tal d&rsquo;indicar el directori de treball en què s&rsquo;executarà l&rsquo;ordre que li indiquem, <code>command()</code>, per especificar l&rsquo;ordre a executar si no l&rsquo;hem indicat en la creació, i <code>environment()</code>, si volem especificar les variables d&rsquo;entorn de l&rsquo;execució.</p>
+<h2 id="3-les-classes-process-i-runtime">3. Les classes Process i Runtime</h2>
+<!-- raw HTML omitted -->
+<h3 id="31-la-classe-runtime">3.1. La classe <code>Runtime</code></h3>
+<p>L&rsquo;API de Java per a la gestió de processos, a banda de la classe ProcessBuilder i Process, es completa amb la classe Runtime. Veiem quina és la funcionalitat d&rsquo;aquestes.</p>
+<p>La classe <code>Runtime</code> encapsula l&rsquo;entorn d&rsquo;execució d&rsquo;un programa. Es tracta també d&rsquo;una classe abstracta, i no es pot instanciar. Si volem obtindre l&rsquo;entorn d&rsquo;execució d&rsquo;un programa, podem fer ús del mètode estàtic <code>Runtime.getRuntime()</code>. Veiem el seu ús en un exemple:</p>
+<h5 id="exemple-3">Exemple 3</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// package com.eljust.psp;
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RuntimeDemo</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#75715e">// r serà una referència a l&#39;entorn d&#39;execució actual
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">protected</span> Runtime r<span style="color:#f92672">=</span>Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">();;</span>
+
+
+   <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mostraInfo</span><span style="color:#f92672">(){</span>
+      <span style="color:#75715e">// r.availableProcessors() ens diu els processadors que tenim disponibles
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Processadors disponibles: &#34;</span><span style="color:#f92672">+</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">availableProcessors</span><span style="color:#f92672">());</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mostraEntorn</span><span style="color:#f92672">(){</span>
+      
+      <span style="color:#75715e">// r.totalMemory() ens indica la quantitat de memòria reservada per a la JVM
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Memòria Total: &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">totalMemory</span><span style="color:#f92672">());</span>
+      
+      <span style="color:#75715e">// r.freeMemory() ens indica la memòria lliure en la JVM
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Memòria Lliure: &#34;</span><span style="color:#f92672">+</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">freeMemory</span><span style="color:#f92672">());</span>
+      
+      <span style="color:#75715e">// Per calcular la memòria ocupada, restem la memòria lliure a la memòria total
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Memòria ocupada: &#34;</span><span style="color:#f92672">+(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">totalMemory</span><span style="color:#f92672">()-</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">freeMemory</span><span style="color:#f92672">()));</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NetejaFem</span><span style="color:#f92672">(){</span>
+      <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">.</span><span style="color:#a6e22e">gc</span><span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+
+      RuntimeDemo rd<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> RuntimeDemo<span style="color:#f92672">();</span>
+
+      rd<span style="color:#f92672">.</span><span style="color:#a6e22e">mostraInfo</span><span style="color:#f92672">();</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\nEstat inicial..&#34;</span><span style="color:#f92672">);</span>
+
+      <span style="color:#75715e">// Anem a crear uns quants objectes per plenar memòria
+</span><span style="color:#75715e"></span>      rd<span style="color:#f92672">.</span><span style="color:#a6e22e">mostraEntorn</span><span style="color:#f92672">();</span>
+      <span style="color:#66d9ef">for</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;=</span>10000<span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+            <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+      
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\nEstat després de crear 10.000 objectes..&#34;</span><span style="color:#f92672">);</span>
+      rd<span style="color:#f92672">.</span><span style="color:#a6e22e">mostraEntorn</span><span style="color:#f92672">();</span>
+      
+      <span style="color:#75715e">// I ara invoquem el recol·lector de fem, perquè ens netege les referències
+</span><span style="color:#75715e"></span>      rd<span style="color:#f92672">.</span><span style="color:#a6e22e">NetejaFem</span><span style="color:#f92672">();</span>
+
+      <span style="color:#75715e">// I tornem a obtindre les mateixes dades
+</span><span style="color:#75715e"></span>      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\nEstat després de cridar el recol·lector de fem..&#34;</span><span style="color:#f92672">);</span>
+      rd<span style="color:#f92672">.</span><span style="color:#a6e22e">mostraEntorn</span><span style="color:#f92672">();</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Compilem i executem el programa:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ javac RuntimeDemo.java
+$ java RuntimeDemo
+Processadors disponibles: <span style="color:#ae81ff">4</span>
+
+Estat inicial..
+Memòria Total: <span style="color:#ae81ff">132120576</span>
+Memòria Lliure: <span style="color:#ae81ff">130023424</span>
+Memòria ocupada: <span style="color:#ae81ff">2097152</span>
+
+Estat després de crear 10.000 objectes..
+Memòria Total: <span style="color:#ae81ff">132120576</span>
+Memòria Lliure: <span style="color:#ae81ff">129727760</span>
+Memòria ocupada: <span style="color:#ae81ff">2392816</span>
+
+Estat després de cridar el recol·lector de fem..
+Memòria Total: <span style="color:#ae81ff">10485760</span>
+Memòria Lliure: <span style="color:#ae81ff">9563448</span>
+Memòria ocupada: <span style="color:#ae81ff">922312</span>
+</code></pre></div><p>Com veiem, després de la creació de 10.000 objectes la memòria ocupada és major que l&rsquo;estat inicial, i posteriorment, després d&rsquo;invocar el recol·lector de fem, aquesta és considerablement menor.</p>
+<p>Per altra banda, cal dir també que la classe <code>Runtime</code> disposa d&rsquo;un mètode sobrecarregat anomenat <code>exec()</code> que permet llençar ordres en processos separats. Podeu donar-li un cop d&rsquo;ull a la documentació d&rsquo;aquesta classe per veure com funciona el mètode. De tota manera, i com ja hem comentat, la forma recomanada de crear processos és amb la classe ProcessBuilder.</p>
+<h3 id="32-la-classe-process">3.2. La classe <code>Process</code></h3>
+<p>Tornem a la classe Process, de la que ja hem parlat una mica abans. Com hem dit, la classe <code>Process</code> és una classe abstracta -no es pot instanciar- i està definida al paquet java.jang. Quan s&rsquo;invoca al mètode <code>exec</code> d&rsquo;una instància de la classe <code>Runtime</code>, es retorna un objecte de la classe <code>Process</code>, que encapsula la informació de l&rsquo;entorn d&rsquo;execució del procés. Així doncs, amb el mètode <code>exec</code> de <code>Runtime</code>, tenim una altra forma de crear processos, alternativa a <code>ProcessBuilder.start()</code>.</p>
+<p>La classe <code>Process</code> retornada per <code>Runtime.exec</code> i <code>ProcessBuilder.start()</code>, pot utilitzar-se per tal de realitzar operacions d&rsquo;entrada i eixida dels processos, comprovar l&rsquo;estat en què un procés ha finalitzat, esperar a què aquest acabe, o finalitzar-lo forçosament.</p>
+<p>Cal tindre en compte, que a diferència de Bash, els processos creats d&rsquo;aquesta forma no tenen una consola associada (tty), pel que no podem redirigir les entrades o eixides estàndard (stdin, stdout i stderr). Per a això, podem accedir a través de streams oferits per diversos mètodes de la classe Process. Alguns dels més comuns són:</p>
+<ul>
+<li><code>InputStream getErrorStream()</code>: Retorna el flux d&rsquo;entrada connectat a l&rsquo;eixida d&rsquo;error del procés.</li>
+<li><code>InputStream getInputStream()</code>: Retorna el flux d&rsquo;entrada connectat a l&rsquo;eixida estàndard del procés.</li>
+<li><code>OutputStream getOutputStream()</code>: Retorna el flux d&rsquo;eixida connectat a l&rsquo;entrada normal del procés.</li>
+</ul>
+<p><strong>Compte!</strong> Quan utilitzem aquestos tres mètodes, caldrà tindre en compte que els búffers d&rsquo;entrada i eixida tenen una longitud limitada, pel que si no es s&rsquo;escriuen i llegeixen tot seguit poden arribar a bloquejar el subprocés.</p>
+<ul>
+<li><code>int exitValue()</code>: Retorna el codi d&rsquo;eixida del procés executat.</li>
+<li><code>Boolean isAlive()</code>: Comprova si el procés fill segueix en execució.</li>
+<li><code>int waitFor()</code>: Espera que el procés fill finalitze. El valor enter que s&rsquo;obté és el codi d&rsquo;eixida del procés.</li>
+<li><code>Boolean waitFor(long timeOut, TimeUnit unit)</code>: Es tracta d&rsquo;una sobrecàrreca del mètode anterior, en la que podem especificar el temps d&rsquo;espera. Retornarà cert si el procés segueix en execució després del temps indicat i fals en cas contrari.</li>
+<li><code>void destroy()</code>, <code>Process destroyForcibly()</code>: Forcen la terminació del procés.</li>
+</ul>
+<h5 id="exemple-4">Exemple 4</h5>
+<p>Veiem una modificació de l&rsquo;Exemple 1 en què utilitzem algunes d&rsquo;aquestes funcions:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.util.concurrent.TimeUnit<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">launcher3</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            String app<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pluma&#34;</span><span style="color:#f92672">;</span>
+            ProcessBuilder pb<span style="color:#f92672">;</span>
+            Process p<span style="color:#f92672">;</span>
+            Boolean isProcessDead<span style="color:#f92672">;</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Iniciant &#34;</span><span style="color:#f92672">+</span>app<span style="color:#f92672">);</span>
+            pb<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span>app<span style="color:#f92672">);</span>
+
+            p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>app<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; s&#39;ha carregat. Esperant 3 segons&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// WaitFor retorna un booleà dient si el procés està en execució al cap dels segons que li diem
+</span><span style="color:#75715e"></span>            isProcessDead<span style="color:#f92672">=</span>p<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> TimeUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">SECONDS</span><span style="color:#f92672">);</span>
+
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>isProcessDead<span style="color:#f92672">){</span> 
+                <span style="color:#75715e">// Destruim el procés si aquest segueix &#34;viu&#34;
+</span><span style="color:#75715e"></span>                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Destruint l&#39;aplicació &#34;</span><span style="color:#f92672">+</span>app<span style="color:#f92672">);</span>
+                    p<span style="color:#f92672">.</span><span style="color:#a6e22e">destroy</span><span style="color:#f92672">();</span> 
+                <span style="color:#f92672">}</span>
+            
+            <span style="color:#75715e">// Esperem que el procés estiga destruit
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// per a això, cal comprovar el mètode isAlive
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// Mentre el procés estiga viu escriurem un missatge
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// El fet d&#39;utilitzar el comptador és per no 
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// sobrecarregar l&#39;eixida
+</span><span style="color:#75715e"></span>        
+            <span style="color:#66d9ef">int</span> comptador<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>p<span style="color:#f92672">.</span><span style="color:#a6e22e">isAlive</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                comptador<span style="color:#f92672">++;</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>comptador<span style="color:#f92672">==</span>10000<span style="color:#f92672">){</span>
+                    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El procés segueix viu..&#34;</span><span style="color:#f92672">);</span>
+                    comptador<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">};</span>
+
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;El procés s&#39;ha detsruit.&#34;</span><span style="color:#f92672">);</span>
+
+     
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">){</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+
+    <span style="color:#f92672">}</span>
+ <span style="color:#f92672">}</span>
+</code></pre></div><p>Veiem l&rsquo;eixida de la compilació i l&rsquo;execució:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ javac launcher3.java
+$ java launcher3
+Iniciant pluma
+pluma s<span style="color:#e6db74">&#39;ha carregat. Esperant 3 segons
+</span><span style="color:#e6db74">Destruint l&#39;</span>aplicació pluma
+El procés segueix viu..
+El procés segueix viu..
+El procés segueix viu..
+El procés segueix viu..
+El procés segueix viu..
+El procés segueix viu..
+El procés segueix viu..
+El procés s<span style="color:#960050;background-color:#1e0010">&#39;</span>ha detsruit.
+
+</code></pre></div><h2 id="4-gestionant-lentrada-i-eixida-dels-processos">4. Gestionant l&rsquo;entrada i eixida dels processos</h2>
+<p>Anem a veure un exemple de com treballar amb els streams d&rsquo;entrada i eixida dels processos. El següent exemple mostra com executar una ordre del sistema operatiu i redirigir l&rsquo;eixida del procés a l&rsquo;eixida estàndard:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StreamsIODemo</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span>
+         <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;------------- Calendari de l&#39;any 2019 -----------------&#34;</span><span style="color:#f92672">);</span>
+      <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// En primer lloc, creem l&#39;objecte ProcessBuilder, 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i l&#39;inicialitzem amb l&#39;ordre que anem a utilitzar.
+</span><span style="color:#75715e"></span>         ProcessBuilder pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span>
+            ProcessBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cal&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;2019&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// Llancem el procés, i recollim l&#39;objecte 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Process que ens retorna.
+</span><span style="color:#75715e"></span>         Process p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+         <span style="color:#75715e">// Llegim l&#39;eixida del procés amb getInputStream,
+</span><span style="color:#75715e"></span>         <span style="color:#75715e">// I la bolquem per pantalla, passant-la per InputStreamReader
+</span><span style="color:#75715e"></span>         BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+            <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+               p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+            String line<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+               System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+      <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+      System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span>
+         <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;-----------------------------------------------&#34;</span><span style="color:#f92672">);</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com podem vore, hem de fer ús de les classes java.io.BufferedReader i java.io.InputStreamReader. Com hem comentat, el mètode <code>getInputStream()</code> de la classe <code>Process</code>, ens retorna el flux d&rsquo;entrada connectat a l&rsquo;eixida del procés. És a dir, l&rsquo;eixida del procés, ens l&rsquo;ofereix com un flux de dades. Per tal de poder llegir-lo, necessitem un objecte de la classe <code>InputStreamReader</code> inicialitzat amb el flux que ens ofereix el procés. I finalment, un objecte de la classe <code>BufferedReader</code>, que llegeix d&rsquo;aquest <code>InputStreamReader</code>.</p>
+<p>Gràficament, quedaría així: El procés envía un flux de caràcters que connectem amb <code>InputStreamReader</code> a través del mètode <code>getInputStream</code> del procés. Aquest flux de caràcters va emmagatzemant-se en l&rsquo;objecte de tipus <code>BufferedReader</code>, fins que té una línia preparada, que llegim amb <code>readLine</code>.</p>
+<p><img src="../img/InputStreamReader.png" alt="InputStreamReader"></p>
+<h5 id="sobre-la-codificació-de-caràcters">Sobre la codificació de caràcters</h5>
+<p>Un aspecte a tindre en compte quan treballem amb streams és la codificació de la informació que s&rsquo;intercanvia entre els processos, i que depèn del sistema operatiu en què estiguem treballant. La majoría de sistemes (GNU/Linux, Mac OS, Android, iOS..) fan ús de la codificació UTF-8, basada en l&rsquo;estàndard Unicode. Per la seua banda, MS Windows utilitza els seus propis formats, incompatibles amb la resta, com Windows-Western. Així que per tractar les dades correctament en Java quan fem ús de mecanismes de comunicació entre processos més avançats, caldrà tindre en compte el tipus de codificació que el propi sistema utilitza.</p>
+<h3 id="41-redirecció-a-fitxers">4.1. Redirecció a fitxers</h3>
+<p>L&rsquo;eixida d&rsquo;un procés, també pot redirigit-se a un fitxer. Una forma de fer-ho és mitjançant la classe FileWriter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.BufferedWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.File<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.FileWriter<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StreamsIODemo2</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+      <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// En primer lloc, creem l&#39;objecte ProcessBuilder, 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i l&#39;inicialitzem amb l&#39;ordre que anem a utilitzar.
+</span><span style="color:#75715e"></span>         ProcessBuilder pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span>
+            ProcessBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cal&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;2019&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// Llancem el procés, i recollim l&#39;objecte 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// Process que ens retorna.
+</span><span style="color:#75715e"></span>         Process p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+         <span style="color:#75715e">// Llegim l&#39;eixida del procés amb getInputStream,
+</span><span style="color:#75715e"></span>         <span style="color:#75715e">// a través d&#39;InputStreamReader i BufferedReader
+</span><span style="color:#75715e"></span>         BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+            <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+               p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+
+               <span style="color:#75715e">// I bolquem l&#39;eixida a un nou fitxer, amb un 
+</span><span style="color:#75715e"></span>               <span style="color:#75715e">// BufferedWriter, i de forma molt similar
+</span><span style="color:#75715e"></span>               <span style="color:#75715e">// a l&#39;exemple anterior
+</span><span style="color:#75715e"></span>               BufferedWriter bw<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedWriter<span style="color:#f92672">(</span>
+                  <span style="color:#66d9ef">new</span> FileWriter<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;calendari2019.txt&#34;</span><span style="color:#f92672">)));</span>
+                  String line<span style="color:#f92672">;</span>
+                  <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+                     bw<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>line<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\n&#34;</span><span style="color:#f92672">);</span>
+                  <span style="color:#f92672">}</span>
+                  bw<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+      <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com podem comprovar, aquest exemple és molt paregut a l&rsquo;anterior, amb la diferència que en lloc de mostrar la línia que obtenim del BufferedReader per pantalla, l&rsquo;escrivim a través d&rsquo;un BufferedWriter a un fitxer anomenat &ldquo;calendari2019.txt&rdquo;.</p>
+<h3 id="42-redirecció-a-fitxers-amb-processbuilder">4.2. Redirecció a fitxers amb ProcessBuilder</h3>
+<p>La classe <code>ProcessBuilder</code> ens oferix una forma més senzilla de redirigir l&rsquo;eixida d&rsquo;un procés que hem creat a un fitxer: el mètode <code>redirectOutput</code>. Amb aquest mètode, simplement haurem d&rsquo;indicar en quin fitxer volem escriure l&rsquo;eixida d&rsquo;un procés.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.File<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StreamsIODemo3</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+      <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+
+        <span style="color:#75715e">// En primer lloc, creem l&#39;objecte ProcessBuilder, 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// i l&#39;inicialitzem amb l&#39;ordre que anem a utilitzar.
+</span><span style="color:#75715e"></span>        ProcessBuilder pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cal&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;2019&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// Redirigim l&#39;eixida del procés a un fitxer
+</span><span style="color:#75715e"></span>        pb<span style="color:#f92672">.</span><span style="color:#a6e22e">redirectOutput</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;calendari2019_v2.txt&#34;</span><span style="color:#f92672">));</span>
+
+        <span style="color:#75715e">// Llancem el procés
+</span><span style="color:#75715e"></span>         pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+      <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+         e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Com veiem, aquesta solució és bastant més senzilla que la de l&rsquo;exemple anterior.</p>
+<h2 id="5-programació-multiprocés">5. Programació multiprocés</h2>
+<p>Quan volem realitzar una aplicació en la que diferents processos col·laboren entre ells, intercanviant informació i sincronitzant-se, per tal de resoldre un problema, hem de tindre en compte les següents pautes:</p>
+<ol>
+<li>Identifica en primer lloc quina o quines funcions van a realitzar l&rsquo;aplicació i quina relació hi ha entre elles.</li>
+<li>Distribueix les diferents funcions en processos, i estableix els mecanismes de comunicació entre ells. Cal tindre en compte també, que aquesta comunicació implica certa pèrdua de temps, pel que és convenient que aquesta comunicació siga mínima.</li>
+<li>Una vegada hem descomposat i dividit el problema, realitzem la implementació de la solució plantejada.</li>
+</ol>
+<h5 id="exemple">Exemple</h5>
+<p>Veiem un exemple senzill. Volem calcular la suma de tots els números existents entre dos números concrets. Per exemple, si donem com a paràmetres d&rsquo;entrada 3 i 7, obtindrem la suma de 3+4+5+6+7. Com veiem, es tracta d&rsquo;un problema bastant senzill. Per tal de millorar el rendiment, anem a dividir el problema en dues parts iguals; és a dir, si volem fer la suma entre 1 i 100, farem la suma entre 1 i 50 en un procés i entre 51 i 100 en altre, realitzant la suma d&rsquo;ambdós resultats al final.</p>
+<p>Per a això, crearem dos classes en Java:</p>
+<ul>
+<li>Una classe que s&rsquo;encarregue de realitzar la suma pròpiament dita entre dos números.</li>
+<li>Una classe que s&rsquo;encarregue de dividir l&rsquo;entrada i crear els processos corresponents per realitzar les sumes.</li>
+</ul>
+<p>Hem incorporat el codi a un paquet anomenat com.psp.sumatori, i els fitxers creats són Suma.java i Runner.java.</p>
+<p><strong>Fitxer com/psp/sumatori/Suma.java</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.psp.sumatori<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Suma</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">suma</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> n1<span style="color:#f92672">,</span> <span style="color:#66d9ef">long</span> n2<span style="color:#f92672">){</span>
+            <span style="color:#75715e">/* Realitza la suma entre tots els números
+</span><span style="color:#75715e">               compresos entre n1 i n2
+</span><span style="color:#75715e">            */</span>
+            <span style="color:#66d9ef">long</span> result<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> i<span style="color:#f92672">=</span>n1<span style="color:#f92672">;</span>i<span style="color:#f92672">&lt;=</span>n2<span style="color:#f92672">;</span>i<span style="color:#f92672">++){</span>
+                    result<span style="color:#f92672">=</span>result<span style="color:#f92672">+</span>i<span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        Suma s<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Suma<span style="color:#f92672">();</span>
+        <span style="color:#75715e">// La llista d&#39;arguments és un vector d&#39;strings,
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// pel que cal convertir-los a enters llargs (LONG).
+</span><span style="color:#75715e"></span>        Long r<span style="color:#f92672">=</span>s<span style="color:#f92672">.</span><span style="color:#a6e22e">suma</span><span style="color:#f92672">(</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]),</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]));</span>
+
+        <span style="color:#75715e">// El resultat el bolcarem per l&#39;eixida estàndard
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>r<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>Fitxer com/psp/sumatori/Runner.java</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.psp.sumatori<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Runner</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> Long <span style="color:#a6e22e">run</span> <span style="color:#f92672">(</span>Long n1<span style="color:#f92672">,</span> Long n2<span style="color:#f92672">){</span>
+        <span style="color:#75715e">/* Aquesta classe s&#39;encarrega d&#39;invocar 
+</span><span style="color:#75715e">           la classe com.psp.sumatori.Suma en un
+</span><span style="color:#75715e">           procés, i retorna un enter llarg amb la suma.
+</span><span style="color:#75715e">           Per tal de comunicar-se amb Suma, 
+</span><span style="color:#75715e">           com que aquesta escriu per la seua eixida
+</span><span style="color:#75715e">           estàndard el resultat, l&#39;haurem de llegir amb
+</span><span style="color:#75715e">           el mètode getInputStream de la classe Process
+</span><span style="color:#75715e">           i processar-lo com un Stream d&#39;entrada, com 
+</span><span style="color:#75715e">           hem vist anteriorment.
+</span><span style="color:#75715e">        */</span>
+        ProcessBuilder pb<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Creem un objecte de la classe processBuilder
+</span><span style="color:#75715e"></span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;com.psp.sumatori.Suma&#34;</span><span style="color:#f92672">,</span>
+                                n1<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">(),</span>
+                                n2<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+
+            <span style="color:#75715e">// Llancem el procés
+</span><span style="color:#75715e"></span>            Process p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+
+            <span style="color:#75715e">// Llegim l&#39;eixida estàndard
+</span><span style="color:#75715e"></span>            BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+                                  <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+                                       p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+            String line<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+                <span style="color:#75715e">// Quan tenim una línia (que serà la única eixida)
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// la retornem al programa principal convertida en Long.
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+                <span style="color:#66d9ef">return</span> 0L<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        Runner r<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Runner<span style="color:#f92672">();</span>
+
+        <span style="color:#75715e">// Comprovem el nombre d&#39;arguments
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Nombre d&#39;arguments incorrecte.&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(</span>0<span style="color:#f92672">);</span> 
+        <span style="color:#f92672">};</span>
+
+        <span style="color:#75715e">// Convertim els paràmetres a números
+</span><span style="color:#75715e"></span>        Long index1<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+        Long index2<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+
+        <span style="color:#75715e">// Ordenem els índex, per si el primer és major que el segon
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index1<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">){</span>
+            Long tmp<span style="color:#f92672">=</span>index1<span style="color:#f92672">;</span>
+            index1<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+            index2<span style="color:#f92672">=</span>tmp<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Particionem el rang de valors en dos rangs iguals
+</span><span style="color:#75715e"></span>        Long meitat<span style="color:#f92672">=((</span>index2<span style="color:#f92672">-</span>index1<span style="color:#f92672">)/</span>2<span style="color:#f92672">)+</span>index1<span style="color:#f92672">;</span>
+
+        <span style="color:#75715e">// Invoquem els processos per realitzar els càlculs
+</span><span style="color:#75715e"></span>        Long sumand1<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>index1<span style="color:#f92672">,</span> meitat<span style="color:#f92672">);</span>
+        Long sumand2<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>meitat<span style="color:#f92672">+</span>1<span style="color:#f92672">,</span> index2<span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// Obtenim finalment el resultat
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>sumand1<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">+</span>sumand2<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;=&#34;</span><span style="color:#f92672">+(</span>sumand1<span style="color:#f92672">+</span>sumand2<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Fixem-nos en el codi. El mètode <code>main</code> de la classe <code>Runner</code> és qui s&rsquo;encarrega de capturar l&rsquo;entrada al programa i dividir el rang d&rsquo;entrada en dos subrangs, per invocar al mètode <code>run</code> amb cadascuna de les parts i després combinar els resultats.</p>
+<p>Anem a veure quin és el resultat. En primer lloc, compilem les dues classes (tinguem en compte que estem fent dues classes d&rsquo;un mateix maquet com.psp.sumatori, pel que cal tindre l&rsquo;estructura de directoris adeqüada):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$javac com/psp/sumatori/Suma.java
+$javac com/psp/sumatori/Runner.java
+</code></pre></div><p>Una vegada compilats, podem llençar el programa, donant-li, per exemple que ens calcule la suma de números de l'1 al 100:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$java com.psp.sumatori.Runner <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">100</span>
+1275+3775<span style="color:#f92672">=</span><span style="color:#ae81ff">5050</span>
+</code></pre></div><p>Com veiem, ha dividit el problema en dos parts, i hem obtingut el resultat, però&hellip; com afecta el paral·lelisme que hem aplicat a millorar la solució? Realment, obté temps d&rsquo;espera millors?</p>
+<p>Per a això, anem a fer ús de l&rsquo;ordre de Bash <code>time</code>, que ens dóna el temps que tarda en realitzar-se un programa. Com que la classe <code>Suma</code> també es pot llençar des de l&rsquo;intèrpret d&rsquo;ordres, mesurarem què tarda cada classe per al mateix rang de valors.</p>
+<p>Veiem què tarda en fer la suma del rang 1..100 la classe <code>Suma</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Suma <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">100</span>
+<span style="color:#ae81ff">5050</span>
+
+real	0m0,146s
+user	0m0,160s
+sys	0m0,033s
+</code></pre></div><p>No està malament&hellip; 0,146 segons. Veiem el mateix amb la classe Runner:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Runner <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">100</span>
+1275+3775<span style="color:#f92672">=</span><span style="color:#ae81ff">5050</span>
+
+real	0m0,500s
+user	0m0,723s
+sys	0m0,083s
+</code></pre></div><p>Com veiem, el resultat és el mateix, però el temps d&rsquo;execució (0,5s) ha segut considerablement superior. Com ens podem explicar açò?</p>
+<p>Una possible explicació pot ser el que coneixem com <em>canvi de context</em>. El canvi de context és el moment en què el processador passa d&rsquo;estar executant un procés a executar-ne altre. Al nostre cas, tenim un procés principal (Runner) i dos subprocessos més (Suma). El fet d&rsquo;haver de dividir el problema i gestionar més d&rsquo;un procés, és possible que faça que per a problemes relativament menuts es perda més temps realitzant aquestes tasques que resolent el problema en sí.</p>
+<p>Veiem què passa amb rangs més grans:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Suma <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">10000000</span>
+<span style="color:#ae81ff">50000005000000</span>
+
+real	0m0,147s
+user	0m0,171s
+sys	0m0,024s
+</code></pre></div><pre><code class="language-shel" data-lang="shel">$ time java com.psp.sumatori.Runner 1 10000000
+12500002500000+37500002500000=50000005000000
+
+real	0m0,542s
+user	0m0,770s
+sys	0m0,071s
+</code></pre><p>En aquest cas, sembla que segueix sent més lent el fet d&rsquo;utilitzar computació paral·lela&hellip; és possible que el problema siga un altre&hellip; Revisa el codi del mètode <code>run</code>. Veus alguna cosa estranya?</p>
+<p>Fixem-nos en el següent tros de codi:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">        <span style="color:#75715e">// Llegim l&#39;eixida estàndard
+</span><span style="color:#75715e"></span>        BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+                              <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+                                   p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+        String line<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+            <span style="color:#75715e">// Quan tenim una línia (que serà la única eixida)
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// la retornem al programa principal convertida en Long.
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+</code></pre></div><p>Es tracta de la lectura de l&rsquo;eixida del procés <code>suma</code>. Als fitxers d&rsquo;exemple de la unitat, disposes del fitxer <code>Runner.java</code> amb diversos missatges de depuració <code>(System.out.println)</code>, que indiquen el seguiment de l&rsquo;execució del programa.</p>
+<p>El codi de dalt, completat amb aquests missatges és el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    Process p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hem llançat el procés amb start&#34;</span><span style="color:#f92672">);</span>
+
+    <span style="color:#75715e">// Llegim l&#39;eixida estàndard
+</span><span style="color:#75715e"></span>    BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+                          <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+                               p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+    System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hem creat el búffer de lectura. Esperant que s&#39;ompliga&#34;</span><span style="color:#f92672">);</span>
+    String line<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Buffer preparat&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#75715e">// Quan tenim una línia (que serà la única eixida)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// la retornem al programa principal convertida en Long.
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+</code></pre></div><p>Executa la classe Runner amb els següents paràmetres i observa&rsquo;n el resultat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ java com.psp.sumatori.Runner <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">10000000000</span>
+Anem a llançar el primer run
+Anem a llançar el procés.
+Hem llançat el procés amb start
+Hem creat el búffer de lectura. Esperant que s<span style="color:#e6db74">&#39;ompliga  ---&gt; {..pausa..}
+</span><span style="color:#e6db74">Buffer preparat
+</span><span style="color:#e6db74">Anem a llançar el segon run
+</span><span style="color:#e6db74">Anem a llançar el procés.
+</span><span style="color:#e6db74">Hem llançat el procés amb start
+</span><span style="color:#e6db74">Hem creat el búffer de lectura. Esperant que s&#39;</span>ompliga  ---&gt; <span style="color:#f92672">{</span>..pausa..<span style="color:#f92672">}</span>
+Buffer preparat
+S<span style="color:#960050;background-color:#1e0010">&#39;</span>han finalitzat els dos processos. Calculant.
+-5946744071209551616+606511855080896768<span style="color:#f92672">=</span>-5340232216128654848
+</code></pre></div><p>Independentment de l&rsquo;error del resultat, ja que hem desbordar la capacitat dels enters llargs amb la suma, si ens fixem, el procés ha fet dues aturades, concretament, cadascuna d&rsquo;elles entre els missatges &ldquo;<em>Hem creat el búffer de lectura. Esperant que s&rsquo;ompliga</em>&rdquo; i &ldquo;<em>Buffer preparat</em>&rdquo;. Què ens indica açò? Doncs que l&rsquo;ordre <code>while((line=br.readLine())!=null)</code> que està a l&rsquo;espera que s&rsquo;òmpliga el búffer és una ordre <strong>bloquejant</strong>. Això significa que tot i que hajam dividit el problema en dos processos, fins que no es llegeix el búffer d&rsquo;eixida d&rsquo;un, no es llança el següent procés. Es tractaría doncs d&rsquo;un mal disseny, ja que realment, no llancem els processos en paral·lel, sinò que llancem el segon quan el primer ha acabat, ja que ens estem esperant a la resposta del segon.</p>
+<p>Una possible solució a açò és la que es mostra en la classe Runner2, i que consisteix a llançar el procés, i en lloc d&rsquo;esperar que el búffer estiga preparat, es retorna el BufferedReader corresponent al procés, de manera que es puga llençar el segon de forma simultània, i després llegir ja, un rere l&rsquo;altre els resultats dels búffers.</p>
+<p>Veiem el codi resultant:</p>
+<p><strong>Fitxer com/psp/sumatori/Runner2.java</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> com.psp.sumatori<span style="color:#f92672">;</span>
+
+<span style="color:#f92672">import</span> java.io.BufferedReader<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStreamReader<span style="color:#f92672">;</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Runner2</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> BufferedReader <span style="color:#a6e22e">run</span> <span style="color:#f92672">(</span>Long n1<span style="color:#f92672">,</span> Long n2<span style="color:#f92672">){</span>
+        <span style="color:#75715e">/* Aquesta classe s&#39;encarrega d&#39;invocar 
+</span><span style="color:#75715e">           la classe com.psp.sumatori.Suma en un
+</span><span style="color:#75715e">           procés, i retorna un enter amb la suma.
+</span><span style="color:#75715e">           Per tal de comunicar-se amb Suma, 
+</span><span style="color:#75715e">           com que aquesta escriu per la seua eixida
+</span><span style="color:#75715e">           estàndard el resultat, l&#39;haurem de llegir amb
+</span><span style="color:#75715e">           el mètode getInputStream de la classe Process
+</span><span style="color:#75715e">           i processar-lo com un Stream d&#39;entrada, com 
+</span><span style="color:#75715e">           hem vist anteriorment.
+</span><span style="color:#75715e">        */</span>
+        ProcessBuilder pb<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#75715e">// Creem un objecte de la classe processBuilder
+</span><span style="color:#75715e"></span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessBuilder<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;com.psp.sumatori.Suma&#34;</span><span style="color:#f92672">,</span>
+                                n1<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">(),</span>
+                                n2<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">());</span>
+
+            <span style="color:#75715e">// Llancem el procés
+</span><span style="color:#75715e"></span>            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Anem a llançar el procés.&#34;</span><span style="color:#f92672">);</span>
+            Process p<span style="color:#f92672">=</span>pb<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hem llançat el procés amb start&#34;</span><span style="color:#f92672">);</span>
+
+            <span style="color:#75715e">// Capturant l&#39;eixida estàndard
+</span><span style="color:#75715e"></span>            BufferedReader br<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span>
+                                  <span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>
+                                       p<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()));</span>
+            
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Es retorna el BufferedReader&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span> br<span style="color:#f92672">;</span>
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">readFromBuffer</span><span style="color:#f92672">(</span>BufferedReader br<span style="color:#f92672">){</span>
+        <span style="color:#75715e">/*
+</span><span style="color:#75715e">        Nova funció que llegeix del BufferedReader que li passem
+</span><span style="color:#75715e">        com a paràmetre i retorna l&#39;eixida del procés en format Long.
+</span><span style="color:#75715e">         */</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            
+            String line<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">while</span><span style="color:#f92672">((</span>line<span style="color:#f92672">=</span>br<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())!=</span><span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Esperant que es plene el buffer&#34;</span><span style="color:#f92672">);</span>
+                <span style="color:#75715e">// Quan tenim una línia (que serà la única eixida)
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// la retornem al programa principal convertida en Long.
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">return</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> 0L<span style="color:#f92672">;</span>
+
+            
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">){</span>
+        Runner2 r<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Runner2<span style="color:#f92672">();</span>
+
+        <span style="color:#75715e">// Comprovem el nombre d&#39;arguments
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>args<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">!=</span>2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Nombre d&#39;arguments incorrecte.&#34;</span><span style="color:#f92672">);</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">exit</span><span style="color:#f92672">(</span>0<span style="color:#f92672">);</span> 
+        <span style="color:#f92672">};</span>
+
+        <span style="color:#75715e">// Convertim els paràmetres a números
+</span><span style="color:#75715e"></span>        Long index1<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>0<span style="color:#f92672">]);</span>
+        Long index2<span style="color:#f92672">=</span>Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>args<span style="color:#f92672">[</span>1<span style="color:#f92672">]);</span>
+        
+
+        <span style="color:#75715e">// Ordenem els índex, per si el primer és major que el segon
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>index1<span style="color:#f92672">&gt;</span>index2<span style="color:#f92672">){</span>
+            Long tmp<span style="color:#f92672">=</span>index1<span style="color:#f92672">;</span>
+            index1<span style="color:#f92672">=</span>index2<span style="color:#f92672">;</span>
+            index2<span style="color:#f92672">=</span>tmp<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+
+        <span style="color:#75715e">// Particionem el rang de valors en dos rangs iguals
+</span><span style="color:#75715e"></span>        Long meitat<span style="color:#f92672">=((</span>index2<span style="color:#f92672">-</span>index1<span style="color:#f92672">)/</span>2<span style="color:#f92672">)+</span>index1<span style="color:#f92672">;</span>
+
+        <span style="color:#75715e">// Invoquem els processos per realitzar els càlculs
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Anem a llançar el primer run&#34;</span><span style="color:#f92672">);</span>
+        BufferedReader br1<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>index1<span style="color:#f92672">,</span> meitat<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Anem a llançar el segon run&#34;</span><span style="color:#f92672">);</span>
+        BufferedReader br2<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">run</span><span style="color:#f92672">(</span>meitat<span style="color:#f92672">+</span>1<span style="color:#f92672">,</span> index2<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;han finalitzat els dos processos. Esperant els búffers.&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#66d9ef">long</span> sumand1<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">readFromBuffer</span><span style="color:#f92672">(</span>br1<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha llegit el primer búffer. Esperant el segon.&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">long</span> sumand2<span style="color:#f92672">=</span>r<span style="color:#f92672">.</span><span style="color:#a6e22e">readFromBuffer</span><span style="color:#f92672">(</span>br2<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;S&#39;ha llegit el segon búffer. Calculant resultat.&#34;</span><span style="color:#f92672">);</span>
+        
+        <span style="color:#75715e">// Obtenim finalment el resultat
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>sumand1<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;+&#34;</span><span style="color:#f92672">+</span>sumand2<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;=&#34;</span><span style="color:#f92672">+(</span>sumand1<span style="color:#f92672">+</span>sumand2<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Si compilem i comprovem l&rsquo;eixida:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ javac com/psp/sumatori/Runner2.java
+$ java com.psp.sumatori.Runner2 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">10000000000</span>
+Anem a llançar el primer run
+Anem a llançar el procés.
+Hem llançat el procés amb start
+Es retorna el BufferedReader
+Anem a llançar el segon run
+Anem a llançar el procés.
+Hem llançat el procés amb start
+Es retorna el BufferedReader
+S<span style="color:#e6db74">&#39;han finalitzat els dos processos. Esperant els búffers.
+</span><span style="color:#e6db74">Esperant que es plene el buffer                        ---&gt; {..pausa..}
+</span><span style="color:#e6db74">S&#39;</span>ha llegit el primer búffer. Esperant el segon.       ---&gt; <span style="color:#f92672">{</span>..pausa..<span style="color:#f92672">}</span>
+Esperant que es plene el buffer
+S<span style="color:#960050;background-color:#1e0010">&#39;</span>ha llegit el segon búffer. Calculant resultat.
+-5946744071209551616+606511855080896768<span style="color:#f92672">=</span>-5340232216128654848
+</code></pre></div><p>Si executeu l&rsquo;exemple, veureu que es realitzen dues pauses més breus cap al final, per llegir els búffers, però no ha hagut bloqueig abans de llançar el segon procés. Hem aconseguit, doncs, llençar els processos en paral·lel, encara que al final ens hajam d&rsquo;hagut d&rsquo;esperar que els búffers estigueren preparats.</p>
+<p>Calculem ara el temps requerit per cada exemple, per comprovar-ne el funcionament. Farem la suma de tots els números entre 1 i 9.999.999.999:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Suma <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">9999999999</span>
+-5340232226128654848
+
+real	0m7,620s
+user	0m7,642s
+sys	0m0,028s
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Runner <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">9999999999</span>
+-5946744071209551616+606511845080896768<span style="color:#f92672">=</span>-5340232226128654848
+
+real	0m8,102s
+user	0m8,341s
+sys	0m0,076s
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ time java com.psp.sumatori.Runner2 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">9999999999</span>
+-5946744071209551616+606511845080896768<span style="color:#f92672">=</span>-5340232226128654848
+
+real	0m6,162s
+user	0m10,234s
+sys	0m0,088s
+</code></pre></div><p>Com ja hem comentat anteriorment, el resultat no és correcte, ja que hem desbordat la capacitat d&rsquo;emmagatzemament dels enters llargs, però el que ens interessa, el temps de resposta, hem pogut comprovar com, finalment, el paral·lelisme incorporat a la classe Runner2 és l&rsquo;opció més eficient, amb un temps de 6,162 segons front a 7,62 segons dels càlculs sense paral·lelisme, i de 8,102 segons de la suma paral·lelitzada amb un disseny ineficient.</p>
+<h2 id="6-conclussions">6. Conclussions</h2>
+<p>En aquest document hem vist com crear processos amb Java, mitjançant la classe ProcessBuilder, i hem vist les classes Runtime i Process per obtindre informació del sistema i per gestionar processos respectivament.</p>
+<p>També hem vist com comunicar processos a través de la redirecció dels fluxos d&rsquo;entrada i eixida d&rsquo;aquests. En temes posteriors veurem altres mecanismes més eficients de comunicació, com els sockets.</p>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-conceptes">1. Conceptes</a></li>
+    <li><a href="#2-creació-de-processos-en-java-la-classe-processbuilder">2. Creació de processos en Java: La classe processBuilder</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#3-les-classes-process-i-runtime">3. Les classes Process i Runtime</a>
+      <ul>
+        <li><a href="#31-la-classe-runtime">3.1. La classe <code>Runtime</code></a></li>
+        <li><a href="#32-la-classe-process">3.2. La classe <code>Process</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-gestionant-lentrada-i-eixida-dels-processos">4. Gestionant l&rsquo;entrada i eixida dels processos</a>
+      <ul>
+        <li></li>
+        <li><a href="#41-redirecció-a-fitxers">4.1. Redirecció a fitxers</a></li>
+        <li><a href="#42-redirecció-a-fitxers-amb-processbuilder">4.2. Redirecció a fitxers amb ProcessBuilder</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-programació-multiprocés">5. Programació multiprocés</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#6-conclussions">6. Conclussions</a></li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

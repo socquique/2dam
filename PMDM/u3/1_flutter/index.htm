@@ -1,0 +1,1188 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>1. Introducció a Flutter</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 3. Flutter</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="index.htm">1. Introducció a Flutter</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_flutter/index.htm">2. Desenvolupamentamb Flutter. Widgets i Futures.</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../3_flutter_i_firebase/index.htm">3. Desenvolupamentamb Flutter. Pràctica amb Firebase.</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>1. Introducció a Flutter</h1>
+        </header>
+        <h2 id="1-què-és-flutter">1. Què és Flutter?</h2>
+<p>A la unitat introductòria del curs vam parlar de diverses tecnologies a l&rsquo;hora d&rsquo;abordar el desenvolupament d&rsquo;aplicacions en dispositius mòbils, i vam descrobrir que hi havia un gran ventall de possibilitats. Des de les aplicacions natives, per a cada tipus de plataforma, que requereixen un desenvolupament específic, ja siga amb Kotlin per a Android o Swift per a iOS, i que ofereixen un gran rendiment, fins aplicacions web responsives o híbrides, que partint del mateix codi ens permeten desenvolupar aplicacions multiplataforma, a costa d&rsquo;un rendiment inferior.</p>
+<p>A mitjan camí, i amb molts dels avantatges d&rsquo;aquests extrems ens trobem tecnologíes com Flutter, que ens permeten, amb un mateix codi generar aplicacions que es compilen a format natiu per a diferents plataformes.</p>
+<p>Als següents vídeos, teniu una comparació entre diverses d&rsquo;aquestes tecnologies, que us van a ajudar a entendre una miqueta millor el perquè de Flutter i una breu introducció a aquest:</p>
+<ul>
+<li><a href="https://youtu.be/rf7wKiG-Jig">PWA vs Flutter vs React Native vs Ionic</a></li>
+<li><a href="https://youtu.be/k3YsT7IZb6w">Què és Flutter?</a></li>
+</ul>
+<p>Flutter poderm dir que és un framework creat per Google en 2018 per al desenvolupament d&rsquo;aplicacions multiplataforma (Android, iOS, escriptori, web), amb la idea d&rsquo;utilitzar el mateix codi base per generar aplicacions natives en els diferents dispositius. Abans de publicar-se, les aplicacions es compilen per a la plataforma corresponent.</p>
+<p>Flutter disposa d&rsquo;un motor propi de renderitzat d&rsquo;aplicacions basat en <em>Skia</em>, el que implica que no necessita cap webview o runtime per executar-se, a diferència d&rsquo;altres frameworks com Ionic o Phonegap.</p>
+<p>Tot i que el nucli està creat amb C++, Flutter utilitza el llenguatge de programació <em>Dart</em>, desenvolupat també per Google, i amb la idea de convertir-se en el successor de Javascript. Aquest llenguatge s&rsquo;executa directament sobre un servidor, i per utilitzar-se a la web es <em>transcompila</em> a Javacsript amb Dart2js.</p>
+<p>Dart s&rsquo;assembla estructuralment als llenguatges orientats a objectes comJava o C#, i amb aquest llenguatge s&rsquo;estan desenvolupant les aplicacions per a la nova plataforma Fuchsia de Google.</p>
+<p>Veiem alguns dels principals aspectes rellevants de Flutter:</p>
+<ul>
+<li>
+<p>Principi bàsic: Tot és un <em>widget</em>:</p>
+<ul>
+<li>Flutter segueix les bases de la POO fins la interfície d&rsquo;usuari. Aquesta consta de diferents widgets que poden estar anidats. Botons, textos, etc. són widgets, i tenen diferents propietats que es poden modificar.</li>
+<li>Una aplicació en Flutter estarà composta, per tant d&rsquo;un arbre de Widgets, amb una relació pare-fill.</li>
+<li>Aquests widgets poden interactuar entre ells i reaccionar a canvis d&rsquo;estat externs.</li>
+<li>Tots els elements importants d&rsquo;interfície inclouen widgets que es corresponen als dissenys d&rsquo;Android i iOS o a les aplicacions convencionals.</li>
+<li>Podem ampliar la funcionalitat dels widgets eixistents o crear-ne de nous, tot i que ja es disposa d&rsquo;una gran llibreria de <em>widgets</em> propis.</li>
+<li>Els widgets poden ser amb estat (<em>stateful</em>) o sense estat (<em>stateless</em>). Els widgets amb estat permeten la interacció amb l&rsquo;usuari (sliders, checkboxes, etc.) i poden canviar el seu estat i canviar l&rsquo;aparença en la UI.</li>
+<li>Aquesta característica de combinar Widgets i codi funcional del programa (no hi ha una separació clara entre la lògica del programa i la capa de presentació) pot tindre com a aspecte negatiu que s&rsquo;anide molta part de codi, i puga prestar-se a confussions.</li>
+</ul>
+</li>
+<li>
+<p>Proporciona <em>Hot Reload</em> als emuladors: Els canvis que realitzem en el codi es traslladen instantàniament a l&rsquo;emulador mentre s&rsquo;executa l&rsquo;aplicació.</p>
+</li>
+<li>
+<p>És un framework <em>reactiu</em>, és a dir, els canvis en els models es traslladen directament a la interfície d&rsquo;usuari. Es tracta del mateix concepte que treballàvem amb el patró <em>Observer</em> en Android.</p>
+</li>
+</ul>
+<h2 id="2-installació">2. Instal·lació</h2>
+<p>En els articles recomanats al final d&rsquo;aquesta secció i la documentació oficial s&rsquo;explica com fer la instal·lació en diferents plataformes.</p>
+<p>Al nostre cas, anem a seguir la documentació oficial (<a href="https://flutter.dev/docs/get-started/install">https://flutter.dev/docs/get-started/install</a>) per a Linux. Aquesta es pot fer de forma manual, descarregant els fonts i instal·lant-los, o bé directament a través d&rsquo;Snap. Utilitzarem aquesta segona opció, que resulta la més pràctica i còmoda:</p>
+<ul>
+<li>Per instal·lar Flutter:</li>
+</ul>
+<pre><code>$ sudo snap install flutter --classic
+</code></pre><p>Una vegada instal·lat, si necessitem saber el path d&rsquo;instal·lació, farem:</p>
+<pre><code>$ flutter sdk-path
+</code></pre><p>La primea vegada que l&rsquo;executem, sembla que descarrega i instal·la alguns paquets necessaris.</p>
+<ul>
+<li>Una vegada instal·lat Flutter, podem utilitzar Flutter Doctor per comprovar que tenim instal·lades totes les dependències necessàries:</li>
+</ul>
+<pre><code>$ flutter doctor
+</code></pre><p><img src="../img/flutterDoctor_1.png" alt="Flutter Doctor"></p>
+<p>Com veiem, ens dona encara alguns errors relacionats amb els paths i els plugins d&rsquo;Android Studio i VSCode, així com dels dispositius.</p>
+<p>De moment, anem a afegir Flutter al $PATH, i després acabarem de resoldre aquests errors.</p>
+<p>Per afegir Flutter al PATH, editem el fitxer <code>.bashrc</code> del nostre $HOME (<code>vim ~/.bashrc</code> o <code>vim $HOME/.bashrc</code>) i afegim al final:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$PATH<span style="color:#e6db74">:/home/usuari/snap/flutter/common/flutter/bin&#34;</span>
+</code></pre></div><p><strong>Sent el camí <code>/home/usuari/snap/flutter/common/flutter/</code> el que hem obtingut amb <code>flutter sdk-path</code></strong>.</p>
+<p>Els canvis en aquest fitxer s&rsquo;aplicaran en totes les noves terminals que obrim. Si volem aplicar-ho en la teminal actual, farem, des de l&rsquo;arrel del nostre <em>$HOME</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">source .bashrc
+</code></pre></div><p>Anem a seguir ara resolent els problemes que ens donava Flutter Doctor. El primer:</p>
+<pre><code>[x] Android toolchain - develop for Android devices
+    x ANDROID_HOME = /home/joamuran/.local/share/umake/android/android-studio
+      but Android SDK not found at this location.
+</code></pre><p>Indica que no troba l&rsquo;SDK d&rsquo;Android on l&rsquo;està buscant, ja que el busca en $ANDROID_HOME, que és on teniem instal·lat l&rsquo;Android. Al nostre cas (si vam instal·lar l&rsquo;Android Studio i l&rsquo;SDK seguint els passos per fer-ho amb Ubuntu Make indicats a la primera unitat d&rsquo;Android, el SDK el tenim en: /home/<em>usuari</em>/.local/share/Android/Sdk)</p>
+<p>Si no sabem on tenim instal·lat l&rsquo;SDK, podem consultar-ho en la configuració d&rsquo;Android Studio. Per a això, l&rsquo;obrim i anem a <em>Tools &gt; SDK Manager</em>, i ens fixem en el path indicat a <em>Android SDK Location</em>.</p>
+<p><img src="../img/sdk_Tools.png" alt="SDK Tools"></p>
+<p><strong>Per altra banda, per resoldre ara un problema que probablement tinguem posteriorment, anem a marcar, a la pestanya de SDK Tools les Android SDK Command Line Tools, fent clic en aplicar i acceptar.</strong></p>
+<p>Una vegada tenim localitzat el path de l&rsquo;SDK, modificarem la configuració de flutter per indicar-li la ubicació d&rsquo;aquest:</p>
+<pre><code>$ flutter config --android-sdk /home/_usuari_/.local/share/Android/Sdk
+Setting &quot;android-sdk&quot; value to &quot;/home/_usuari_/.local/share/Android/Sdk&quot;.
+
+You may need to restart any open editors for them to read new settings.
+
+</code></pre><p>Amb açò, resolem el primer dels problemes que ens mostrava *Flutter Doctor. Si el tornem a llançar, vorem que aquest error ja no apareix, però en canvi, apareixen nous errors, dient que no coneix l&rsquo;estat d&rsquo;algunes llicències. Per
+Ara ja ens canvia l&rsquo;error i ens diu que no coneix l&rsquo;estat d&rsquo;algunes llicències, per resoldre-ho ens suggereix que utilitzem l&rsquo;ordre:</p>
+<pre><code>$ flutter doctor --android-licenses
+4 of 6 SDK package licenses not accepted. 100% Computing updates...             
+Review licenses that have not been accepted (y/N)? y
+
+</code></pre><p>**Tal i com es comenta en <a href="https://stackoverflow.com/questions/61993738/flutter-doctor-android-licenses-gives-a-java-error">aquest enllaç d&rsquo;Stack Overflow</a>, hem de tindre instal·lades les <em>SDK Command Line Tools</em> per executar amb èxit aquesta ordre, ja que en cas contrari ens llençarà una excepció <em>NoClassDefFoundError</em> de Java.</p>
+<p>Una vegada acceptades les llicències, i tornant a llançar <code>flutter doctor</code>, és possible que ens diga que no tenim Android Studio instal·lat. Per indicar-li el directori d&rsquo;instal·lació, abans que res caldrà saber on es troba aquest. Al cas de la instal·lació per Ubuntu Make, aquest ens ha deixat la instal·lació en <em>/home/<em>usuari</em>/.local/share/umake/android/android-studio</em>.</p>
+<p>Per indicar-li a Flutter que aquest és el directori d&rsquo;Android Studio, farem ús també de <code>flutter config</code> de la següent manera:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ flutter config --android-studio-dir<span style="color:#f92672">=</span>/home/_usuari_/.local/share/umake/android/android-studio
+Setting <span style="color:#e6db74">&#34;android-studio-dir&#34;</span> value to
+<span style="color:#e6db74">&#34;/home/_usuari_/.local/share/umake/android/android-studio&#34;</span>.
+
+You may need to restart any open editors <span style="color:#66d9ef">for</span> them to read new settings.
+
+
+$flutter doctor
+
+Doctor summary <span style="color:#f92672">(</span>to see all details, run flutter doctor -v<span style="color:#f92672">)</span>:
+<span style="color:#f92672">[</span>✓<span style="color:#f92672">]</span> Flutter <span style="color:#f92672">(</span>Channel stable, 1.22.5, on Linux, locale ca_ES.UTF-8<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span>✓<span style="color:#f92672">]</span> Android toolchain - develop <span style="color:#66d9ef">for</span> Android devices <span style="color:#f92672">(</span>Android SDK version 30.0.2<span style="color:#f92672">)</span>
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Android Studio
+    ✗ Flutter plugin not installed; this adds Flutter specific functionality.
+    ✗ Dart plugin not installed; this adds Dart specific functionality.
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> VS Code <span style="color:#f92672">(</span>version 1.52.1<span style="color:#f92672">)</span>
+    ✗ Flutter extension not installed; install from
+      https://marketplace.visualstudio.com/items?itemName<span style="color:#f92672">=</span>Dart-Code.flutter
+<span style="color:#f92672">[</span>!<span style="color:#f92672">]</span> Connected device
+    ! No devices available
+
+! Doctor found issues in <span style="color:#ae81ff">3</span> categories.
+</code></pre></div><p>Fet açò, ja només ens quedarà instal·lar els plugins de Flutter per a l&rsquo;IDE que volguem utilitzar.</p>
+<h3 id="21-configuració-de-plugins-a-lide">2.1. Configuració de plugins a l&rsquo;IDE</h3>
+<p>Al <a href="https://flutter.dev/docs/get-started/editor">lloc web de Flutter</a> se&rsquo;n explica com configurar Flutter en Android Studio, IntelliJ i VSCode.</p>
+<p>En aquest cas, utilitzarem VSCode, però podeu utilitzar l&rsquo;IDE que desitgeu.</p>
+<p>En VSCode, senzillament hem d&rsquo;accedir a la secció d&rsquo;extensions i buscar l&rsquo;extensió de Flutter. Una vegada la instal·lem, aquesta ens arrossegarà també l&rsquo;extensió de Dart necessària.</p>
+<p><img src="../img/flutter_vscode.png" alt="Flutter per a VSCode"></p>
+<h3 id="22-dispositius-i-emuladors">2.2. Dispositius i emuladors</h3>
+<p>Com hem vist, <em>flutter doctor</em> ens diu que no hi ha dispositius connectats. Per veure els dispositius connectats farem ús de <code>flutter devices</code>:</p>
+<pre><code>$ flutter devices
+No devices detected.
+
+Run &quot;flutter emulators&quot; to list and start any available device emulators.
+
+If you expected your device to be detected, please run &quot;flutter doctor&quot; to
+diagnose potential issues. You may also try increasing the time to wait for
+connected devices with the --device-timeout flag. Visit
+https://flutter.dev/setup/ for troubleshooting tips.
+</code></pre><p>Com veiem, aquesta eixida ens diu que no tenim dispositius instal·lats, però que podem comprovar si tenim algun dispositiu emulat.</p>
+<p>Si el que volem és configurar el nostre dispositiu Android, aquest ha de disposar d&rsquo;una versió d&rsquo;Android posterior a la 4.1. Per connectar el nostre dispositiu, podem seguir les instruccions <a href="https://flutter.dev/docs/get-started/install/linux#set-up-your-android-device">descrites a la documentació de Flutter</a>.</p>
+<p>Al nostre cas, anem a utilitzar l&rsquo;emulador que ja teníem configurat en Android. Per veure la llista d&rsquo;emuladors, farem:</p>
+<pre><code>$ flutter emulators
+1 available emulator:
+
+Pixel_3_API_29 • Pixel 3 API 29 • Google • android
+
+To run an emulator, run 'flutter emulators --launch &lt;emulator id&gt;'.
+To create a new emulator, run 'flutter emulators --create [--name xyz]'.
+
+You can find more information on managing emulators at the links below:
+  https://developer.android.com/studio/run/managing-avds
+  https://developer.android.com/studio/command-line/avdmanager
+
+</code></pre><p>Com veiem, podem executra l&rsquo;emulador o crear-ne un de nou. Per llançar el Pixel 3 que tenim configurat farem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">flutter emulators --launch Pixel_3_API_29
+</code></pre></div><blockquote>
+<p><em><strong>Alguns articles interessants sobre Flutter i la seua instal·lació</strong></em></p>
+<ul>
+<li>
+<p><a href="https://www.ionos.es/digitalguide/paginas-web/desarrollo-web/que-es-flutter/">Flutter: framework multiplataforma para desarrollar apps</a></p>
+</li>
+<li>
+<p><a href="https://www.desarrollolibre.net/blog/flutter/primeros-pasos-con-flutter-desde-cero-mi-primera-aplicacion?/blog/android/primeros-pasos-con-flutter-desde-cero-mi-primera-aplicacion#.X_VbU9bOGUl">Primeros pasos con Flutter desde cero: Mi primera aplicación</a></p>
+</li>
+<li>
+<p><a href="https://www.imaginaformacion.com/tutorial/aprende-flutter-tutorial-de-primeros-pasos/">Aprende Flutter – Tutorial de Primeros Pasos</a></p>
+</li>
+<li>
+<p><a href="https://www.adictosaltrabajo.com/2019/04/30/primeros-pasos-con-flutter/">Primeros Pasos con Flutter</a></p>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><em><strong>Articles sobre Flutter per a l&rsquo;escriptori</strong></em></p>
+<ul>
+<li><a href="https://www.muylinux.com/2020/07/09/canonical-google-flutter-linux/">Canonical y Google anuncian la llegada de Flutter a Linux</a></li>
+</ul>
+<p>*<a href="https://www.androidpolice.com/2020/07/08/google-is-teaming-up-with-ubuntu-to-bring-flutter-apps-to-linux/">Google is teaming up with Ubuntu to bring Flutter apps to Linux</a></p>
+</blockquote>
+<blockquote>
+<p><em><strong>Documentació oficial</strong></em></p>
+<p><a href="https://flutter.dev/">https://flutter.dev/</a></p>
+</blockquote>
+<h2 id="3-programació-bàsica-amb-dart">3. Programació bàsica amb Dart</h2>
+<p>Com hem comentat, Flutter utilitza com a llenguatge de programació de base Dart, pel que abans d&rsquo;entrar amb la programació amb Flutter, anem a familiaritzar-nos una mica amb aquest llenguatge.</p>
+<p>Per executar els exemples que veurem a continuació, només hem d&rsquo;escriure&rsquo;ls en un fitxer de text amb extensió <em>.dart</em>, i llançar-los amb:</p>
+<pre><code>$ dart nom_de_fitxer.dart
+</code></pre><h3 id="31-conceptes-bàsics-colleccions">3.1. Conceptes bàsics. Col·leccions.</h3>
+<p>Com molts altres llenguatges, Dart utilitza la funció <em>main</em> com a punt d&rsquo;entrada a un programa. Partirem del clàssic <em>Hola Món ampliat</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main(List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> args){
+  <span style="color:#75715e">// Exemple d&#39;Hola Món
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">if</span> (args.length<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>) 
+  print (<span style="color:#e6db74">&#34;Hola &#34;</span><span style="color:#f92672">+</span>args[<span style="color:#ae81ff">0</span>]);
+<span style="color:#66d9ef">else</span> 
+  print(<span style="color:#e6db74">&#34;Hola món!&#34;</span>);
+
+}
+</code></pre></div><p>Veiem alguns detalls de Dart en aquest codi:</p>
+<ul>
+<li>La funció <code>main</code> no torna cap valor, i tot i qu el <code>void</code> no és obligatori posar-lo, sol ser una bona pràctica fer-ho.</li>
+<li>Aquesta funció principal, pot rebre arguments, en forma de llista d&rsquo;strings. Fixeu-vos en la sintaxi de definir aquests. En cas que no anem a utilitzar els arguments, podem utilitzar directament <code>void main()</code>.</li>
+<li>Els comentaris s&rsquo;expressen com en altres llenguatges, amb <code>//</code> i <code>/* ... */</code>.</li>
+<li>Per mostar un missatge per pantalla utilitzem l&rsquo;ordre <code>print()</code>.</li>
+<li>Les sentències en Dart acaben amb punt i coma <code>;</code>.</li>
+<li>Per accedir a les llistes, ho podem fer directament amb l&rsquo;operador <code>[]</code>.</li>
+</ul>
+<p><em><strong>Variables</strong></em></p>
+<p>Per declarar una variable amb Dart podem utilitzar <code>var</code>, de manera que el tipus de dada s&rsquo;assigne de forma automàtica, o bé indicar directament el tipus:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">var</span> dia<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;dijous&#39;</span>;       <span style="color:#75715e">// Infereix el tipus a String
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">String</span> dia<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;dimarts&#39;</span>;   <span style="color:#75715e">// Definim un String
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> numero<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>;          <span style="color:#75715e">// Definim un enter
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> tenim_classe<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>; <span style="color:#75715e">// Definim un valor lògic
+</span></code></pre></div><p>Per definir constants utilitzarem la paraula reservada <code>const</code>, amb la que declarem un valor en temps de compilació que serà immutable i no podrà ser reassignat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">const</span> modul<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;PMDM&#39;</span> 
+</code></pre></div><p>A més, també podem declarar dades com a <code>final</code>, que no podran ser reassignades, però a diferència de les constants, sí que són mutables (poden canviar les propietats internes):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">final</span> _llista <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span>[];
+</code></pre></div><p><em><strong>Llistes</strong></em></p>
+<p>Dart utilitza el principi del <em>mateix nivell d&rsquo;abstracció</em>, que indica que un codi net no ha de mesclar instruccions d&rsquo;alt nivell amb instruccions de baix nivell en la implementació de la lògica, de manera que el codi generat puga ser llegir fàcilment.</p>
+<p>Dart podem dir que és un llenguatge d&rsquo;alt nivell, i que no recorre a estructures de baix nivell com puguen ser els vectors, sinò que directament utilitza llistes per representar col·leccions ordenades d&rsquo;elements.</p>
+<p>Tot i que podrem utilitzar les llistes en Dart com si es tractara de vectors, hi ha funciona de més alt nivell que ens permeten treballar més còmodament amb elles.</p>
+<p>Veiem algunes formes de definir llistes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">/// Llista nul·la
+</span><span style="color:#75715e"></span>List llista_nula;
+
+<span style="color:#75715e">// Llista Buida
+</span><span style="color:#75715e"></span>List llistaBuida<span style="color:#f92672">=</span>[];
+
+<span style="color:#75715e">// Llista amb valors
+</span><span style="color:#75715e"></span>List laborals<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;dilluns&#39;</span> , <span style="color:#e6db74">&#39;dimarts&#39;</span>, <span style="color:#e6db74">&#39;dimecre&#39;</span>, <span style="color:#e6db74">&#39;dijous&#39;</span>, <span style="color:#e6db74">&#39;divendres&#39;</span>];
+
+<span style="color:#75715e">// Llista amb valors especificant el tipus
+</span><span style="color:#75715e"></span>List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> festius<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;dissbte&#39;</span>, <span style="color:#e6db74">&#39;diumenge&#39;</span>];
+</code></pre></div><p>I ara algunes formes d&rsquo;accedir i manipular-les:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Accés a una posició
+</span><span style="color:#75715e"></span>print(laborals[<span style="color:#ae81ff">3</span>]);
+
+<span style="color:#75715e">// Afegint elements a la llista
+</span><span style="color:#75715e"></span>llistaBuida.add(<span style="color:#e6db74">&#34;Element&#34;</span>);
+
+<span style="color:#75715e">// Modificant un element existent a la llista
+</span><span style="color:#75715e">// Compte! Aquest element ha d&#39;existir! No afig elements!
+</span><span style="color:#75715e"></span>llistaBuida[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Element 2&#34;</span>;
+
+<span style="color:#75715e">// Eliminant l&#39;últim element de la llista
+</span><span style="color:#75715e"></span>laborals.removeLast();
+
+<span style="color:#75715e">// Eliminant un element qualsevol de la llista
+</span><span style="color:#75715e"></span>laborals.removeAt(posicio);
+
+<span style="color:#75715e">// Ampliant una llista completa al final d&#39;altra
+</span><span style="color:#75715e"></span>List diesSetmana<span style="color:#f92672">=</span>[];
+diesSetmana.addAll(laborals);
+diesSetmana.addAll(festius);
+print (diesSetmana);
+</code></pre></div><p>En aquest últim punt, per tal de poder utilitzar <code>addAll</code>, necesitem que la llista estiga inicialitzada (no siga nul·la). Si haverem definit aquest llista com a <code>List diaSetmana;</code>, ens havera donat error.</p>
+<p><em><strong>Sets (Conjunts)</strong></em></p>
+<p>Altra col·lecció d&rsquo;elements interessant en Dart són els <em>Sets</em> o conjunts, que a diferència de les llistes, no mantenen els elements indexats i eviten elements duplicats.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Declarem un conjunt i l&#39;inicialitzem amb Set.from([])
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> moduls <span style="color:#f92672">=</span> Set.from([<span style="color:#e6db74">&#34;PMDM&#34;</span>, <span style="color:#e6db74">&#34;AD&#34;</span>, <span style="color:#e6db74">&#34;PSP&#34;</span>, <span style="color:#e6db74">&#34;DI&#34;</span>, <span style="color:#e6db74">&#34;SGI&#34;</span>]);
+
+<span style="color:#75715e">// Per afegir elements, fem ús d&#39;add:
+</span><span style="color:#75715e"></span>moduls.add(<span style="color:#e6db74">&#34;EIE&#34;</span>);
+
+<span style="color:#75715e">// I els eliminem amb remove:
+</span><span style="color:#75715e"></span>moduls.remove(<span style="color:#e6db74">&#34;EIE&#34;</span>);
+
+<span style="color:#75715e">// Per saber si existeix un element al conjunt: contains
+</span><span style="color:#75715e"></span>print (moduls.contains(<span style="color:#e6db74">&#34;EIE&#34;</span>));
+</code></pre></div><p><em><strong>Maps (Diccionaris)</strong></em></p>
+<p>Un diccionari és una estructura de dades que emmagatzema parells clau-valor, de manera semblant als JSON.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Definició d&#39;un mapa i assignació de valors
+</span><span style="color:#75715e"></span>Map notes;
+notes<span style="color:#f92672">=</span>{ <span style="color:#e6db74">&#34;PMDM&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8</span>, <span style="color:#e6db74">&#34;AD&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9</span>, <span style="color:#e6db74">&#34;PSP&#34;</span><span style="color:#f92672">:</span><span style="color:#ae81ff">9</span>, <span style="color:#e6db74">&#34;DI&#34;</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>};
+<span style="color:#75715e">// Accés
+</span><span style="color:#75715e"></span>print(notes[<span style="color:#e6db74">&#34;PMDM&#34;</span>]);
+notes[<span style="color:#e6db74">&#34;DI&#34;</span>]<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>;
+
+<span style="color:#75715e">// Definició del mapa especificant els tipus:
+</span><span style="color:#75715e"></span>Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mapa2;
+
+<span style="color:#75715e">// Definició del mapa especificant un tipus dinàmic per al valor
+</span><span style="color:#75715e"></span>Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">dynamic</span><span style="color:#f92672">&gt;</span> mapa3;
+
+<span style="color:#75715e">// Afegint nous elements al mapa
+</span><span style="color:#75715e"></span>notes[<span style="color:#e6db74">&#34;EIE&#34;</span>]<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>;
+
+<span style="color:#75715e">// Eliminant elements
+</span><span style="color:#75715e"></span>notes.remove(<span style="color:#e6db74">&#34;PMDM&#34;</span>);
+
+<span style="color:#75715e">// Per saber si un element existeix
+</span><span style="color:#75715e"></span>print (notes.containsKey(<span style="color:#e6db74">&#34;PMDM&#34;</span>));
+
+</code></pre></div><p><em><strong>Mapat d&rsquo;estructures</strong></em></p>
+<p>Dart permet utilitzar el mètode <em>map</em> per transformar col·leccions en altres. Amb aquest mètode, obtenim un altre mapa amb cadascun dels elements transformats. Per a això, caldrà proporcionar-li una funció anònima que aplicarà a cadascun dels elements:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main(){
+
+  <span style="color:#75715e">// Definim un conjunt d&#39;elements
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> moduls <span style="color:#f92672">=</span> Set.from([<span style="color:#e6db74">&#34;PMDM&#34;</span>, <span style="color:#e6db74">&#34;AD&#34;</span>, <span style="color:#e6db74">&#34;PSP&#34;</span>, <span style="color:#e6db74">&#34;DI&#34;</span>, <span style="color:#e6db74">&#34;SGI&#34;</span>]);
+  print(moduls);
+
+  <span style="color:#75715e">// I are utilitzem el mètode map per processar
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// cadascun dels elements del conjunt
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// (En aquest cas, els convertim a minúscula)
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> moduls2<span style="color:#f92672">=</span>moduls.map((item) {
+    <span style="color:#66d9ef">return</span> item.toString().toLowerCase();
+    });
+
+    print (moduls2);
+}
+</code></pre></div><h3 id="32-programació-estructurada-en-dart">3.2. Programació estructurada en Dart</h3>
+<p>En Dart declarem les funcions de forma molt semblant a C o Kotlin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Funció sense arguments i sense valor de retorn
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> funcio(){
+  <span style="color:#75715e">// Cos de la funció
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// Funció amb arguments i sense valor de retorn
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> funcio(tipus1 argument1, ..., tipusN argumentN){
+  <span style="color:#75715e">// Cos de la funció
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// Funció amb arguments i amb valor de retorn
+</span><span style="color:#75715e"></span>tipusREtorn funcio(tipus1 argument1, ..., tipusN argumentN){
+  <span style="color:#75715e">// Cos de la funció
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p><em><strong>Funcions anònimes i fletxa</strong></em></p>
+<p>Dart admet funcions sense nom o funcions anònimes, que no poden ser invocades, però que es poden utilitzar com a <em>callbacks</em>, és a dir, com a arguments per a altres funcions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">
+<span style="color:#66d9ef">void</span> main(){
+  <span style="color:#66d9ef">int</span> valor<span style="color:#f92672">=</span>funcio(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, (arg1, arg2){
+    <span style="color:#75715e">// Estem dins de la funció anònima
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> (arg1<span style="color:#f92672">+</span>arg2);
+  });
+  print(valor);
+}
+
+<span style="color:#75715e">// Funció que rep dos arguments i una
+</span><span style="color:#75715e">// funció anònim que fa de callback
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> funcio(arg1, arg2, callback){
+  <span style="color:#66d9ef">int</span> valor<span style="color:#f92672">=</span>callback(arg1, arg2);
+  <span style="color:#66d9ef">return</span> valor;
+
+}
+</code></pre></div><p>Per la seua banda, les funcions fletxa o <em>arrow functions</em> ens permeten abreviar la declaració d&rsquo;una funció que consta només d&rsquo;una línia, de manera que no utilitzen ni les claus ni la paraula return:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main(){
+  print (funcio(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, (arg1, arg2) <span style="color:#f92672">=&gt;</span> arg1<span style="color:#f92672">+</span>arg2));
+}
+
+<span style="color:#66d9ef">int</span> funcio(arg1, arg2, callback) <span style="color:#f92672">=&gt;</span> callback(arg1, arg2);
+</code></pre></div><p><em><strong>Arguments obligatoris, opcionals i amb nom</strong></em></p>
+<p>Les funcions en Dart admeten arguments <em><strong>obligatoris</strong></em>, <em><strong>opcionals</strong></em>, que indicarem amb <code>[]</code>, i que poden tindre o no valor per defecte (si no s&rsquo;especifica serà <code>null</code>), i <em><strong>opcionals amb nom</strong></em>, que necessitarem indicar el nom a l&rsquo;hora de la invocació, i són bastant utilitzats en Flutter. Veiem-ho amb un exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> f1(<span style="color:#66d9ef">int</span> obligatori, [<span style="color:#66d9ef">int</span> opcional<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>]){
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>obligatori<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>opcional<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+}
+
+<span style="color:#66d9ef">void</span> f2(<span style="color:#66d9ef">int</span> obligatori, {<span style="color:#66d9ef">int</span> opcionalAmbNom<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>}){
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>obligatori<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>opcionalAmbNom<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>);
+}
+
+<span style="color:#66d9ef">void</span> main(){
+  <span style="color:#75715e">//f1(); // Error: Context: Found this candidate, but the arguments don&#39;t match.
+</span><span style="color:#75715e"></span>  f1(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">// -&gt;  1, 0
+</span><span style="color:#75715e"></span>  f1(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>); <span style="color:#75715e">// -&gt;  1, 2
+</span><span style="color:#75715e"></span>  f2(<span style="color:#ae81ff">1</span>); <span style="color:#75715e">// -&gt; 1, 0
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// f2(1, 2); // Error: Context: Found this candidate, but the arguments don&#39;t match.
+</span><span style="color:#75715e"></span>  f2(<span style="color:#ae81ff">1</span>, opcionalAmbNom: <span style="color:#ae81ff">3</span>); <span style="color:#75715e">// 1, 3
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p><em><strong>Estructures de control</strong></em></p>
+<p>Les estructures de contorl són pràcticament les mateixes que amb Java: <em>if..else</em>, <em>switch</em>, <em>for</em>, <em>forEach</em>, <em>while</em>, i algunes coses interessants de Kotlin com l&rsquo;operador <code>??</code>. Veiem un senzill exemple</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> main() {
+  <span style="color:#66d9ef">var</span> temperatura <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#75715e">// Exemple d&#39;if
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (temperatura <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">21</span>)
+    print(<span style="color:#e6db74">&#34;Fa calor&#34;</span>);
+  <span style="color:#66d9ef">else</span>
+    print(<span style="color:#e6db74">&#34;Fa fred&#34;</span>);
+
+<span style="color:#75715e">// Exemple d&#39;if abreviat
+</span><span style="color:#75715e"></span>  temperatura <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">21</span> <span style="color:#f92672">?</span> print(<span style="color:#e6db74">&#34;Fa calor&#34;</span>) <span style="color:#f92672">:</span> print(<span style="color:#e6db74">&#34;Fa fred&#34;</span>);
+
+<span style="color:#75715e">// Exemple d&#39;if abreviat com a expressió (assignat a una variable)
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> text <span style="color:#f92672">=</span> temperatura <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">21</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;Fa calor&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Fa fred&#34;</span>;
+ 
+<span style="color:#75715e">// Comprovació de nul
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> nom;
+  print(nom <span style="color:#f92672">??</span> <span style="color:#e6db74">&#34;Anònim&#34;</span>);
+
+<span style="color:#75715e">// Exemple de switch
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> diaSetmana <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dijous&#34;</span>;
+
+  <span style="color:#66d9ef">switch</span> (diaSetmana) {
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;dimarts&#34;</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;dijous&#34;</span><span style="color:#f92672">:</span>
+      print(<span style="color:#e6db74">&#34;Tenim classe&#34;</span>);
+      <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+      print(<span style="color:#e6db74">&#39;No hi ha classe&#39;</span>);
+  }
+
+<span style="color:#75715e">// Exemple de for
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>; i<span style="color:#f92672">++</span>) {
+    <span style="color:#75715e">//Comprovem si és parell
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (i.isEven)
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> és parell&#34;</span>);
+    <span style="color:#66d9ef">else</span>
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> és imparell&#34;</span>);
+  }
+
+<span style="color:#75715e">// Recorregut de llistes
+</span><span style="color:#75715e"></span>  List laborals <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;dilluns&#39;</span>, <span style="color:#e6db74">&#39;dimarts&#39;</span>, <span style="color:#e6db74">&#39;dimecre&#39;</span>, <span style="color:#e6db74">&#39;dijous&#39;</span>, <span style="color:#e6db74">&#39;divendres&#39;</span>];
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">String</span> dia <span style="color:#66d9ef">in</span> laborals) {
+    print(dia);
+  }
+
+<span style="color:#75715e">// O bé amb foreach, que necessita una funció de callback per
+</span><span style="color:#75715e">// determinar què fer en cada element (en aquest cas, mostrar-lo)
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// Amb funció anònima
+</span><span style="color:#75715e"></span>  laborals.forEach((color) {
+    print(color);
+  });
+
+<span style="color:#75715e">// Amb funció fletxa
+</span><span style="color:#75715e"></span>  laborals.forEach((color) <span style="color:#f92672">=&gt;</span> print(color));
+
+<span style="color:#75715e">// Exemple de While i do..While
+</span><span style="color:#75715e"></span>
+  <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>) {
+    <span style="color:#66d9ef">if</span> (i.isEven)
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> és parell&#34;</span>);
+    <span style="color:#66d9ef">else</span>
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> és imparell&#34;</span>);
+    i<span style="color:#f92672">++</span>;
+  }
+
+<span style="color:#75715e">// do while
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">do</span> {
+    <span style="color:#66d9ef">if</span> (j.isEven)
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>j<span style="color:#e6db74">}</span><span style="color:#e6db74"> és parell&#34;</span>);
+    <span style="color:#66d9ef">else</span>
+      print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>j<span style="color:#e6db74">}</span><span style="color:#e6db74"> és imparell&#34;</span>);
+    j<span style="color:#f92672">++</span>;
+  } <span style="color:#66d9ef">while</span> (j <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">10</span>);
+}
+</code></pre></div><h3 id="33-programació-orientada-a-objectes">3.3. Programació orientada a objectes</h3>
+<p>La creació de classes en Dart és molt semblant a altres llenguatges com Java. Veiem els detalls el següent exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// El nom de les classes ha de començar amb majúscula
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Persona</span> {
+  <span style="color:#75715e">// Amb _ declarem directament els atributs com a privats
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">String</span> _nom;
+
+  <span style="color:#75715e">// Creem setter i getter per al nom:
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">String</span> <span style="color:#66d9ef">get</span> nom {
+    <span style="color:#66d9ef">return</span> _nom;
+  }
+
+  <span style="color:#66d9ef">void</span> <span style="color:#66d9ef">set</span> nom(<span style="color:#66d9ef">String</span> nom) {
+    _nom <span style="color:#f92672">=</span> nom;
+  }
+
+  <span style="color:#75715e">// En principi, si no definim un constructor, n&#39;agafa un buit
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">// Si volem utilitzar un constructor amb el què passar-li un argument
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// podem bé utilitzar un constructor amb arguments opcionals,
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// o bé utilitzar *Constructors amb nom*, de la següent manera:
+</span><span style="color:#75715e"></span>
+  Persona.fromString(<span style="color:#66d9ef">String</span> nom) {
+    <span style="color:#66d9ef">this</span>._nom <span style="color:#f92672">=</span> nom;
+  }
+
+  <span style="color:#75715e">// I per a que funcione l&#39;herència, necessitarem
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// també un constructor buit
+</span><span style="color:#75715e"></span>  Persona() {} <span style="color:#75715e">// Constructor buit
+</span><span style="color:#75715e"></span>
+}
+
+<span style="color:#75715e">// Per definir una classe filla, utilitzem *extends*
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Alumne</span> <span style="color:#66d9ef">extends</span> Persona {
+  Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> _moduls;
+
+  <span style="color:#75715e">// Els constructors no s&#39;hereten!
+</span><span style="color:#75715e"></span>
+  <span style="color:#75715e">// Constructors de la subclasse
+</span><span style="color:#75715e"></span>  Alumne() {
+    _moduls<span style="color:#f92672">=</span>{};
+  }
+  <span style="color:#75715e">// Constructor amb nom que invoca el constructor de la classe pare
+</span><span style="color:#75715e"></span>  Alumne.fromString(<span style="color:#66d9ef">String</span> nom) <span style="color:#f92672">:</span> <span style="color:#66d9ef">super</span>.fromString(nom){
+    _moduls<span style="color:#f92672">=</span>{};
+  }
+
+<span style="color:#75715e">// I ara creem un parell de mètodes per afegir i consultar notes
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">void</span> afigNota(<span style="color:#66d9ef">String</span> modul, <span style="color:#66d9ef">int</span> nota) {
+    <span style="color:#66d9ef">this</span>._moduls[modul] <span style="color:#f92672">=</span> nota;
+  }
+
+  <span style="color:#66d9ef">int</span> getNota(modul) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>._moduls.containsKey(modul)) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>._moduls[modul];
+  }
+}
+
+<span style="color:#66d9ef">void</span> main() {
+  <span style="color:#66d9ef">var</span> alumne <span style="color:#f92672">=</span> Alumne(); <span style="color:#75715e">// No cal utilitzar new
+</span><span style="color:#75715e"></span>  alumne.nom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Pep&#34;</span>;
+  alumne.afigNota(<span style="color:#e6db74">&#34;PMDM&#34;</span>, <span style="color:#ae81ff">9</span>);
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>alumne.nom<span style="color:#e6db74">}</span><span style="color:#e6db74"> té un </span><span style="color:#e6db74">${</span>alumne.getNota(<span style="color:#e6db74">&#34;PMDM&#34;</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> );
+
+  <span style="color:#66d9ef">var</span> alumne2 <span style="color:#f92672">=</span> Alumne.fromString(<span style="color:#e6db74">&#34;Maria&#34;</span>);
+  alumne2.afigNota(<span style="color:#e6db74">&#34;PMDM&#34;</span>, <span style="color:#ae81ff">10</span>);
+  print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>alumne2.nom<span style="color:#e6db74">}</span><span style="color:#e6db74"> té un </span><span style="color:#e6db74">${</span>alumne2.getNota(<span style="color:#e6db74">&#34;PMDM&#34;</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> );
+}
+
+</code></pre></div><p><em><strong>Classes abstractes i interfícies</strong></em></p>
+<p>Com sabem, les classes abstrctes no poden ser instanciades, i s&rsquo;utilitzen per definir classes filles, que han d&rsquo;implementar necessàriament els mètodes indicats en la classe abstracta. Per indicar una classe abstracta, utilitzem la paraula clau <code>abstract</code>. Per exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Figura</span>{
+  <span style="color:#66d9ef">int</span> posx;
+  <span style="color:#66d9ef">int</span> posy;
+  
+  <span style="color:#66d9ef">void</span> calculaArea(){
+    print(<span style="color:#e6db74">&#39;Calcul per defecte&#39;</span>);
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Rectangle</span> <span style="color:#66d9ef">extends</span> Figura {
+  <span style="color:#66d9ef">int</span> base;
+  <span style="color:#66d9ef">int</span> altura;
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  <span style="color:#66d9ef">void</span> calculaArea() {
+    print (<span style="color:#66d9ef">this</span>.base<span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>.altura);
+  }
+}
+</code></pre></div><p>Recordeu que per implementar un mètode de la classe pare hem d&rsquo;utilitzar <code>@override</code>.</p>
+<p>Pel que fa a les <em>interfícies</em>, Dart disposa d&rsquo;una paraula reservada per definir-les, però en canvi, qualsevol classe pot funcionar com a interfície, de manera que altres classes sí que poden fer ús de la paraula reservada <em>implements</em> per utilitzar els mètodes d&rsquo;altra classe, però havent de redefinir o sobreescriure els mètodes i atributs de les classes que implementa.</p>
+<p>Finalment, cal dir que Dart tampoc suporta l&rsquo;herència múltiple, i la seua forma d&rsquo;implementar-la és fent ús dels <em>Mixins</em>, una espècie de classe abstracta, ja que no es pot instanciar, i que els mètodes de la qual poden ser sobreescrits. Veiem un exemple:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">
+
+<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vehicle</span> {
+  <span style="color:#66d9ef">String</span> nom;
+}
+
+<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Imperial</span> <span style="color:#66d9ef">extends</span> Vehicle {}
+<span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Rebelde</span> <span style="color:#66d9ef">extends</span> Vehicle {}
+
+mixin Nau {
+  <span style="color:#66d9ef">void</span> vola(){
+    print(<span style="color:#e6db74">&#34;Estic volant&#34;</span>);
+  }
+}
+
+mixin Caminant{ 
+  <span style="color:#66d9ef">void</span> camina(){
+    print(<span style="color:#e6db74">&#34;Estic caminant&#34;</span>);
+  }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TieFighter</span> <span style="color:#66d9ef">extends</span> Imperial <span style="color:#66d9ef">with</span> Nau {}
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">XWing</span> <span style="color:#66d9ef">extends</span> Rebelde <span style="color:#66d9ef">with</span> Nau {}
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AT_AT</span> <span style="color:#66d9ef">extends</span> Imperial <span style="color:#66d9ef">with</span> Caminant {}
+</code></pre></div><blockquote>
+<p><em><strong>Documentació d&rsquo;interès</strong></em></p>
+<ul>
+<li><a href="https://andygeek.com/category/mis-apuntes-de-dart/">Mis apuntes de Dart</a></li>
+<li><a href="https://dev.to/alfredobs97/conociendo-las-listas-en-dart-401m">Conociendo las listas en Dart</a></li>
+<li><a href="https://medium.com/@corinaalenima/dart-fundamentos-b%C3%A1sicos-abf7f666aad8">Dart. Fundamentos Básicos</a></li>
+</ul>
+</blockquote>
+<h2 id="4-programant-amb-flutter">4. Programant amb Flutter</h2>
+<p>Per a aquest apartat, anem a seguir el codelab <a href="https://flutter.dev/docs/get-started/codelab">Write your first Flutter app</a>, on es mostra com crear una aplicació que suggereix noms d&rsquo;Startups. El funcionament és senzill, i consisteix en una llista d&rsquo;elements que creix dinàmicament (com els RecyclerView d&rsquo;Android), i que va mostrant diferents parells de termes.</p>
+<p>Al Codelab s&rsquo;explica com fer-ho en Android Studio, però ho farem amb VSCode, per tant, a banda de la documentació del Codelab farem ús de la <a href="https://flutter.dev/docs/development/tools/vs-code">documentació de Flutter per a VSCode</a></p>
+<h3 id="41-creació-del-projecte">4.1. Creació del projecte</h3>
+<p>Per tal de crear un nou projecte Flutter en VSCode, obrirem la paleta d&rsquo;ordres (<em>Command Palette</em>) amb <code>Ctrl</code>+<code>Shift</code>+<code>P</code>, i triarem <em>Flutter: New Application Project</em>.</p>
+<p>Ens demanarà la carpeta on crear els projectes, i el nom del projecte en qüestió. Al nostre cas, hem afegitr de nom d&rsquo;aplicació <em>startup_names</em>. Si ens fixem, a la part inferior, a la pestanya d'<em>Output</em> veurem que l&rsquo;ordre realment executada per crear el projeta ha estat:</p>
+<pre><code>[startup_names] flutter create --ios-language swift --android-language kotlin .
+</code></pre><p>On especifica el llenguatge de programació utilitzat en cada plataforma. A les línies seguents podem veure l&rsquo;estructura de directoris que genera, on destaquem el fitxer <code>lib/main.dart</code> que ve a ser el fitxer principal, una estructura de projecte d&rsquo;Android i altra d&rsquo;iOS.</p>
+<p>Al final d&rsquo;aquesta instal·lació ens diu que podem executar l&rsquo;aplicació des de dins el directori de l&rsquo;aplicació amb <code>flutter run</code>.</p>
+<p>Si provem a executar-la, veurem que tarda un temps en compilar-la i empaquetar-la. Quan estiga instal·lada, podrem comprovar que es tracta d&rsquo;una aplicació amb un <em>comptador</em> de clics en un botó.</p>
+<p><img src="../img/app_exemple.png" alt="Aplicació per defecte"></p>
+<p><em><strong>Hola Món</strong></em></p>
+<p>Per tal de veure un codi més senzill, reemplacem el contingut del fitxer <em>lib/main.dart</em> per un clàssic &ldquo;Hola Món&rdquo;:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Copyright 2018 The Flutter team. All rights reserved.
+</span><span style="color:#75715e">// Use of this source code is governed by a BSD-style license that can be
+</span><span style="color:#75715e">// found in the LICENSE file.
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+
+<span style="color:#66d9ef">void</span> main() <span style="color:#f92672">=&gt;</span> runApp(MyApp());
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(<span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>),
+        ),
+        body: Center(
+          child: Text(<span style="color:#e6db74">&#39;Hello World&#39;</span>),
+        ),
+      ),
+    );
+  }
+}
+</code></pre></div><p>Anem a analitzar una mica el codi <em>Dart</em> utilitzat:</p>
+<ul>
+<li>Com veiem, la primera línia importa la llibrería <em>Material</em> de la següent forma:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+</code></pre></div><p>Material és un <strong>llenguatge de disseny visual</strong> creat per Google que s&rsquo;ha convertit en un estàndard del web i les aplicacions mòbils. L&rsquo;aplicació que estem fent, serà doncs una aplicació que segueix aquests estàndards de disseny <em>Material</em>. Flutter, a més, ens ofereix un bon conjunt de <em>widgets</em> que segueixen aquests dissenys. Per tal d&rsquo;utilitzar aquestes característiques, al fitxer de configuració <em>pubspec.yaml</em> es configura automàticament de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">flutter</span>:
+
+  <span style="color:#75715e"># The following line ensures that the Material Icons font is</span>
+  <span style="color:#75715e"># included with your application, so that you can use the icons in</span>
+  <span style="color:#75715e"># the material Icons class.</span>
+  <span style="color:#f92672">uses-material-design</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><ul>
+<li>Ara veiem la <strong>funció principal</strong>. Com ja hem comentat, un programa en Dart, comença per la funció princiapal <em>main</em>. Aquesta es pot definir tant amb notació tradicional amb les claus o amb notació fletxa, si es tracta d&rsquo;una funció d&rsquo;una línia, com és el cas de l&rsquo;exemple:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">// Notació amb claus
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> main() {
+     runApp(MyApp())
+};
+
+<span style="color:#75715e">// Notació fletxa
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> main() <span style="color:#f92672">=&gt;</span> runApp(MyApp());
+</code></pre></div><p>Com veiem, aquesta funció principal executa la funció <em>runApp</em>, proporcionant-li un objecte de tipus <em>MyApp</em>, que creem en la mateixa línia. Fixeu-vos que per instanciar el nou objecte de tipus <em>myApp</em> hem utilitzat directament el nom de la classe (constructor) sense utilitzar <code>new</code>.</p>
+<ul>
+<li>La classe de l&rsquo;aplicació <em>MyApp</em> es defineix de la següent forma:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  ...
+  }
+</code></pre></div><p>Com podem veure, utilitzem una sintaxi semblant a Java, amb la paraula <code>class</code> per definir una classe, i <code>extends</code> per definir l&rsquo;herència. La nostra aplicació descendirà doncs de la classe <code>StatelessWidget</code>, amb la qual definim l&rsquo;aplicació com a un Widget sense estat. Recordem que en <em>Flutter</em> pràcticament tot són widgets, fins i tot, aspectes com l&rsquo;aliniament, el padding o els dissenys. Recordeu que Dart, a l&rsquo;igual que Java i Kotlin no suporta herència múltiple, i a diferència d&rsquo;estos que utilitzen interfícies, <em>Dart</em> fa ús d&rsquo;una espècies de classes abstractes anomenades <em>mixins</em>.</p>
+<ul>
+<li>Per tal de definir la interfície, la nostra classe <em>MyApp</em> ha de sobreescriure el mètode <code>build</code>, heretat de la classe <em>StatelessWidget</em>:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    ...
+  }
+</code></pre></div><p>Com veiem, aquest mètode retorna un objecte de tipus <em>Widget</em>. Per tal de retornar aquest Widget, anem a tornar un objecte de tipus <em>MaterialApp</em>, definit de la següent forma:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">return</span> MaterialApp(
+    title: <span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>,
+    home: Scaffold(
+        appBar: AppBar(
+          title: Text(<span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>),
+        ),
+        body: Center(
+          child: Text(<span style="color:#e6db74">&#39;Hello World&#39;</span>),
+        ),
+      ),
+    );
+</code></pre></div><p>Com veiem, el constructor de <code>MaterialApp</code> rep dos paràmetres amb nom: <code>title</code> i <code>home</code>. Aquest últim és altre widget: <code>Scaffold</code>, pertanyent a la llibería Material, i representa un <em>contenidor</em> d&rsquo;aplicació a nivell d&rsquo;interfície, oferint-nos una barra d&rsquo;aplicació per defecte(propietat <em>appBar</em>) i el cos principal, com a propietat <em>body</em> amb l&rsquo;arbre de widgets d&rsquo;aquesta pantalla principal (<em>home</em>). Aquest arbre pot ser bastant complex. Fixeu-vos que fins i tot, per centrar el text, s&rsquo;utilitza un widget de tipus <em>Center</em>, que al seu temps conté un <em>widget</em> fill de tipus <em>Text</em>.</p>
+<p>Com veiem, el principal treball d&rsquo;un Widget consisteix en proveïr un mètode <code>build()</code> que descriu com mostrar aquest en termes d&rsquo;altres widgets de més baix nivell.</p>
+<p>Fixem-nos també en la forma de declarar les interfícies. Centremnos, per exemple en el el widget:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"> Center( child: Text(<span style="color:#e6db74">&#39;Hello World&#39;</span>), )
+</code></pre></div><p>Aci, per tal de definir el contingut del widget <em>Center</em>, estem utilitzant el constructor d&rsquo;aquest, i passant-li com a argument amb nom <em>child</em> el widget fill d&rsquo;aquest. Aquesta forma de definir les interfícies, segueix un model declaratiu, que confronta amb la definició imperativa (com XML). Aquest model declaratiu, també s&rsquo;utilitza en altres frameworks com ReactJS. Podeu trobar més informació en <a href="http://xurxodev.com/estado-en-frameworks-declarativos/">el següent enllaç sobre frameworks declaratius</a></p>
+<h3 id="42-afegint-llibreríes">4.2. Afegint llibreríes</h3>
+<p>En aquest pas, anem a veure com utilitzar llibreríes externes al nostre paquet. De la mateixa manera que per a Maven teníem MavenCentral o npmjs.com per a node, per a Dart/Flutter tenim <a href="https://pub.dev/">pub.dev</a>.</p>
+<p>Per al nostre projecte, anem a utilitzar el paquet <a href="https://pub.dev/packages/english_words">english_words</a>, que conté paraules en anglès per utilitzar als nostres projectes i algunes utilitats addicionals.</p>
+<p>El fitxer que controla el projecte i les seues dependències en Flutter és <em>pubspec.yaml</em>, que com l&rsquo;extensió indica, es troba en format <a href="https://es.wikipedia.org/wiki/YAML">YAML</a>.</p>
+<blockquote>
+<p><em><strong>YAML</strong></em></p>
+<p>YAML (<em>YAML Ain’t Markup Language</em>) és un llenguatge pensat per a la seriació d&rsquo;objectes, més senzill i legible que XML o JSON, ja que es basa en la indentació i en l&rsquo;ús de símbols per representar dades tan simples com complexes.</p>
+</blockquote>
+<p>Si obrim el fitxer <em>pubspec.yaml</em> veurem el següent contingut (eliminem els comentaris per millorar la legibilitat):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">name</span>: <span style="color:#ae81ff">startup_names</span>
+<span style="color:#f92672">description</span>: <span style="color:#ae81ff">A new Flutter project.</span>
+
+<span style="color:#f92672">publish_to</span>: <span style="color:#e6db74">&#39;none&#39;</span>
+
+<span style="color:#f92672">version</span>: <span style="color:#ae81ff">1.0.0+1</span>
+
+<span style="color:#f92672">environment</span>:
+  <span style="color:#f92672">sdk</span>: <span style="color:#e6db74">&#34;&gt;=2.7.0 &lt;3.0.0&#34;</span>
+
+<span style="color:#f92672">dependencies</span>:
+  <span style="color:#f92672">flutter</span>:
+    <span style="color:#f92672">sdk</span>: <span style="color:#ae81ff">flutter</span>
+  <span style="color:#f92672">cupertino_icons</span>: <span style="color:#ae81ff">^1.0.0</span>
+
+<span style="color:#f92672">dev_dependencies</span>:
+  <span style="color:#f92672">flutter_test</span>:
+    <span style="color:#f92672">sdk</span>: <span style="color:#ae81ff">flutter</span>
+
+<span style="color:#f92672">flutter</span>:
+  <span style="color:#f92672">uses-material-design</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>Com veiem, utilitza diferents graus d&rsquo;indentació per indicar quins elements van dins d&rsquo;altres. Per exemple, al cas que ens interessa, ens centrem en l&rsquo;apartat <code>dependencies:</code>. Dins d&rsquo;aquest, tenim una susecció de <code>flutter:</code>, que indica que depèn de l'<em>SDK</em> de Flutter, i a més, el paquet <code>cupertino_icons</code> a partir de la versió 1.0.0.</p>
+<p>Per afegir doncs el paquet <em>english_words</em> com a dependència, afegirem en aquest apartat:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">dependencies</span>:
+  <span style="color:#f92672">flutter</span>:
+    <span style="color:#f92672">sdk</span>: <span style="color:#ae81ff">flutter</span>
+  <span style="color:#f92672">cupertino_icons</span>: <span style="color:#ae81ff">^1.0.0</span>
+  <span style="color:#f92672">english_words</span>: <span style="color:#ae81ff">^3.1.5</span>
+</code></pre></div><p>Una vegada hem afegit la dependència, quan guardem el fitxer, aquesta es descarrega automàticament, o si tenim algun error de sintaxi al YAML ens avisa.</p>
+<p>Si volem realitzar aquesta descàrrega manualment, haurem de llançar l&rsquo;ordre <code>flutter pub get</code> des de la línia d&rsquo;ordres:</p>
+<pre><code>$ flutter pub get
+Running &quot;flutter pub get&quot; in startup_names...                    0,4s
+</code></pre><p>Amb aquesta operació, es genera, a més el fitxer <em>pubspec.lock</em> amb una llista dels paquets que s&rsquo;han descarregar al projecte junt amb el seu número de versió.</p>
+<blockquote>
+<p>*<strong>On estan les llibreríes?</strong></p>
+<p>Tal i com s&rsquo;indica <a href="https://dart.dev/tools/pub/cmd/pub-get#the-system-package-cache">a la documentació oficial de Dart</a>, i a diferència d&rsquo;altres plataformes com nodejs o Java, les les dependències no es guarden en el propi projecte, sinò en una caché de paquets del sistema.</p>
+<p>La idea és que, com hi ha diversos paquets que poden utilitzar la mateixa versió d&rsquo;una dependència, aquesta només es descarregue una vegada, i quede emmagatzemada en una caché del sistema.</p>
+</blockquote>
+<p>Una vegada tenim descarregada la llibreria, editarem el fitxer principal <em>lib/main.dart</em>, i importarem el paquet:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:english_words/english_words.dart&#39;</span>;
+</code></pre></div><p>Ara, anem a utilitzar el mètode <code>random()</code> de la classe <code>WordPair</code> del paquet, per inicialitzar una constant <code>wordPair</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">final</span> wordPair <span style="color:#f92672">=</span> WordPair.random();
+</code></pre></div><p>I reemplacem el text <em>Hello World</em> pel contingut d&rsquo;aquesta variable dins el Widget <em>Center</em>, convertint les paraules en notació <em>Pascal Case</em>, és a dir, tot en minúscula llevat la primera lletra de cada paraula, inclosa la primera (<em>Upper Camel Case</em>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">child: Text(wordPair.asPascalCase)
+</code></pre></div><p>En general, la classe quedaria:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">final</span> wordPair <span style="color:#f92672">=</span> WordPair.random();
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(<span style="color:#e6db74">&#39;Welcome to Flutter&#39;</span>),
+        ),
+        body: Center(
+          child: Text(wordPair.asPascalCase)
+        ),
+      ),
+    );
+  }
+}
+</code></pre></div><p>Ara, si teniem l&rsquo;aplicació engegada, podem prémer, des de la mateixa terminal on hem fet el <code>flutter run</code>, la tecla <code>r</code>, per tal de fer un <em>Hot Reload</em>, i carregar l&rsquo;aplicació quasi a l&rsquo;instant:</p>
+<pre><code>Syncing files to device Android SDK built for x86...               979ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h Repeat this help message.
+d Detach (terminate &quot;flutter run&quot; but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+An Observatory debugger and profiler on Android SDK built for x86 is available at: http://127.0.0.1:37903/UzbhxxmPpqM=/
+...
+[r]
+Performing hot reload...                                                
+Reloaded 1 of 582 libraries in 632ms.
+</code></pre><p>Fixeu-vos també que quan tenim l&rsquo;aplicació en marxa, podem depurar-la al navegador mitjançant l&rsquo;enllaç que se&rsquo;ns proporciona.</p>
+<h3 id="43-afegint-un-widget-amb-estat">4.3. Afegint un widget amb estat</h3>
+<p>Fins ara, hem utilitzar Widgets sense estat (Stateless), o el que és el mateix, widgets, les propietats dels quals són immutables.</p>
+<p>En canvi, als widgets amb estat (Stateful), aquests cavien les seues propeitats al llarg del seu temps de vida. Per tal de treallar amb widgets amb estat necessitarem dues classes:</p>
+<ul>
+<li>Una classe de tipus <em>StatefulWidget</em>, i</li>
+<li>Una classe que representa l&rsquo;estat (State), i que és instanciada per la classe <em>StatefulWidget</em>.</li>
+</ul>
+<p>En principi, la classe <em>StatefulWidget</em> és per ella mateixa immutable, sent la classe <em>State</em> la que perviu al llarg del temps de vida del component. La classe <em>StatefulWidget</em> pot ser destruïda i regenerada.</p>
+<p>En aquest apartat, creem un widget amb estat, anomenat <code>RandomWords</code>, que crearà la seua classe <em>State</em> <code>_RandomWordsState</code>. Aquest widget amb estat l&rsquo;inclourem com a widget fill dins el widget sense estat MyApp</p>
+<p>Per a això creem l&rsquo;esquelet de la classe amb l&rsquo;ajuda del propi IDE. Si ens ubiquem en una línia buida al final del fitxer <em>lib/main.dart</em> i escrivim <em>stful</em>, VSCode ens dona l&rsquo;opció de Flutter d&rsquo;afegir un widget amb estat:</p>
+<p><img src="../img/stful.png" alt="Afegint un widget Stateful"></p>
+<p>Quan fem clic en <em>Enter</em> per utilizar aquesta plantilla, se&rsquo;ns crearan les dues classes de què parlàvem: el propi widget i la classe que representa l&rsquo;estat. A més, l&rsquo;IDE ens posiciona diversos cursors dins aquestes classes, per tal que introduim el nom. Escriurem doncs <em>RandomWords</em>, de manera que aquest tros de codi quede:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RandomWords</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  _RandomWordsState createState() <span style="color:#f92672">=&gt;</span> _RandomWordsState();
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_RandomWordsState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>RandomWords<span style="color:#f92672">&gt;</span> {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> Container(
+      
+    );
+  }
+}
+</code></pre></div><p>Com veiem, la classe <em>RandomWords</em> deriva de <em>StatefulWidet</em>, i sobrescriu el mètode <em>createState</em>, que la única cosa que fa és obtenir l&rsquo;estat mitjançant el constructor de <em>_RandomWordsState</em>. Aquesta última classe, per la seua banda, és una subclasse d'<em>State</em> amb tipus base <em>RandomWords</em>. En Dart, per tal de declarar variables privades s&rsquo;utilitza el guió baix (<code>_</code>). El fet d&rsquo;utilitzar aci aquest símbol per al nom de la classe <em>State</em> reforça la idea de bones pràctiques de definir com a privats els objectes que representen un estat.</p>
+<p>La major part de la lògica de l&rsquo;aplicació es trobarà en aquestes classes de tipus <em>State</em>, ja que són elles les que mantenen l&rsquo;estat dels <em>widgets</em>. En aquesta classe emmagatzemarem la llista dels parells de paraules generats, que creixerà de manera infinita a mesura que l&rsquo;usuari es desplaça cap avall en la pantalla. Més endavant, vorem com donar la possibilitat que l&rsquo;usuari seleccione els seus parells de paraules favorits.</p>
+<p>Ara, anem a modificar el codi del mètode <code>build</code> de la classe d&rsquo;estat <code>_RandomWordsState</code>, de manera que en lloc de retornar un contenidor buit (<code>return Container();</code>) ens torne un widget de tipus text amb el parell de paraules:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_RandomWordsState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>RandomWords<span style="color:#f92672">&gt;</span> {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">final</span> wordPair <span style="color:#f92672">=</span> WordPair.random();
+      <span style="color:#66d9ef">return</span> Text(wordPair.asPascalCase);
+  }
+}
+</code></pre></div><p>I ara, modificarem la classe aplicació, de manera que utilitzarem el widget amb estat que hem definit en lloc de l&rsquo;element de tipus <code>Text</code> amb la variable <code>final WordPair</code>. Concretament, farem els reemplaçaments següents:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff">class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+<span style="color:#f92672">-   final wordPair = WordPair.random();
+</span><span style="color:#f92672"></span>    return MaterialApp(
+      title: &#39;Welcome to Flutter&#39;,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(&#39;Welcome to Flutter&#39;),
+        ),
+        body: Center(
+<span style="color:#f92672">-          child: Text(wordPair.asPascalCase)
+</span><span style="color:#f92672"></span><span style="color:#a6e22e">+          child: RandomWords()
+</span><span style="color:#a6e22e"></span>        ),
+      ),
+    );
+  }
+}
+</code></pre></div><p>Una vegada fet açò, si tornem a llançar l&rsquo;aplicació, el resultat, visualment serà el mateix, però ara utilitzant aquest widget amb estat internament, de manera que podrem modificar el seu aspecte modificant el propi estat.</p>
+<h3 id="44-creació-duna-llista-infinita-de-termes">4.4. Creació d&rsquo;una llista infinita de termes</h3>
+<p>El següent pas serà generar la llista infinita de parells de paraules, que es traduirà un un widget de tipus <em>ListView</em> que creix infinitament.</p>
+<blockquote>
+<p><em><strong>ListView en Flutter</strong></em></p>
+<p>En Flutter, podem definir dos tipus de llistes fent ús del widget <em>ListView</em>:</p>
+<ul>
+<li>Llistes estàtiques, on definim tots els elements a dins, i seria aproximadament com un <em>ScrollView</em> d&rsquo;Android:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">ListView(
+</code></pre></div></blockquote>
+<p>children: <!-- raw HTML omitted -->[
+Text(&ldquo;Element 1&rdquo;),
+Text(&ldquo;Element 2&rdquo;)
+]
+)</p>
+<blockquote>
+<pre><code></code></pre></blockquote>
+<blockquote>
+<ul>
+<li>Llistes dinàmiques, on definim un element que es repeteix al llarg de la llista, i que seria l&rsquo;equivalent al <em>RecyclerView</em> d&rsquo;Android, però bastant més senzill. Per generar estes llistes, utilitzem el constructor <code>ListView.builder()</code>. Per exemple, per retornar <em>Cards</em> a partir d&rsquo;un vector:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">ListView.builder(
+</code></pre></div></blockquote>
+<pre><code>  itemBuilder: (context, posicio) {
+    return Card(
+      child: Text(vector[posicio])
+    );
+  },
+  itemCount: vector.length,
+</code></pre>
+<p>)</p>
+<blockquote>
+<pre><code></code></pre></blockquote>
+<blockquote>
+<p>Com veiem, hi ha dues propietats: <code>itemCount</code>, que indica el número d&rsquo;elements que mostrarem a la llista, i <code>itemBuilder</code>, que retorna cadascun dels ítems que volem retornar. A l&rsquo;exemple, hem retornat un widget de tipus text. Com veiem, <code>itemBuilder</code> espera una funció lambda que rep com a paràmetres el context i la posició que indica l&rsquo;índex en lallista. <strong>Tingueu en compte que aquesta lambda s&rsquo;aplicarà a tots els elements de la llista</strong>, des del primer fins el que ens indique <em>itemCount</em>.</p>
+</blockquote>
+<p>El primer que farem per continuer el nostre exemple és afegir una propietat privada per als noms suggerits a la classe estat que anomenarem <code>_suggestions</code>, així com altra propietat <code>_biggerFont</code> que aplica un estil de text amb una font més gran.</p>
+<p>A més, afegirem dos mètodes nous:</p>
+<ul>
+<li><code>_buildRow()</code>: Que retornarà un widget de tipus element de llista (<em>ListTile</em>) amb el text corresponent a l&rsquo;element de la llista i en el format especificat per <code>_biggerFont</code>, i</li>
+<li><code>_buildSuggestions()</code>, que construeix el widget <em>ListView</em> amb els parells de paraules fent ús del mètode anterior.</li>
+</ul>
+<p>I finalment, modificarem el mètode <code>build</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_RandomWordsState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>RandomWords<span style="color:#f92672">&gt;</span> {
+  <span style="color:#75715e">// Vector de parells de paraules
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> _suggestions <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span>WordPair<span style="color:#f92672">&gt;</span>[];
+
+  <span style="color:#75715e">// Estil de font més gran
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> _biggerFont <span style="color:#f92672">=</span> TextStyle(fontSize: <span style="color:#ae81ff">18.0</span>);
+
+  Widget _buildRow(WordPair pair) {
+    <span style="color:#75715e">// Generem un element de llista, proporcionant-li
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// l&#39;argument title per al contingut.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> ListTile(
+      title: Text(
+        <span style="color:#75715e">// Aquest serà un widget de tipus text,
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// amb el contingut que li proporcioem com a
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// argument `Wordpair pair`, i aplicant-li
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// l&#39;estil definit
+</span><span style="color:#75715e"></span>        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+
+  Widget _buildSuggestions() {
+    <span style="color:#75715e">// Creem el ListView fent ús del ListView.builder
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> ListView.builder(
+        <span style="color:#75715e">// Apliquem un marge
+</span><span style="color:#75715e"></span>        padding: EdgeInsets.all(<span style="color:#ae81ff">16.0</span>),
+        <span style="color:#75715e">// callback/lambda per constuir l&#39;element
+</span><span style="color:#75715e"></span>        itemBuilder: (context, i) {
+          <span style="color:#75715e">// Si l&#39;índex és imparell, retorna una línia divisòria
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">if</span> (i.isOdd) <span style="color:#66d9ef">return</span> Divider();
+
+          <span style="color:#75715e">// Calculem l&#39;índex real en el vector (ja que la llista
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// tindrà el doble d&#39;elements, al afegir les línies
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// divisòries com elements de la llista)
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// Per a això utilitzem l&#39;expressió i~/2, que ens retorna
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// la part entera de la divisió.
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">final</span> index <span style="color:#f92672">=</span> i <span style="color:#f92672">~/</span> <span style="color:#ae81ff">2</span>;
+          <span style="color:#75715e">// Si aquest índex calculat supera la grandària del vector
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// afegim 10 elements més:
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;=</span> _suggestions.length) {
+            <span style="color:#75715e">// El mètode `take` de `generateWordPairs`, crea
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// tants elements nous com li indiquem.
+</span><span style="color:#75715e"></span>            _suggestions.addAll(generateWordPairs().take(<span style="color:#ae81ff">10</span>));
+          }
+          <span style="color:#75715e">// Finalment, retornem per a cada posició real del
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// vector la fila corresponent.
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">return</span> _buildRow(_suggestions[index]);
+        });
+  }
+
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">// Reemplacem el Text que creàvem anteriorment
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// per un disseny bàsic de Material Design (fent ús d&#39;Scaffold)
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// afegint com a cos el widget de tipus listView retornat
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// per _BuildSuggestions().
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">return</span> Scaffold(
+      appBar: AppBar(
+        title: Text(<span style="color:#e6db74">&#39;Startup Name Generator&#39;</span>),
+      ),
+      body: _buildSuggestions(),
+    );
+  }
+}
+</code></pre></div><p>Una vegada fet açò, i com que amb aquest Widget ja tenom l&rsquo;esquelet de l&rsquo;aplicació, modificarem la classe principal <em>MyApp</em> amb el següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#75715e">//final wordPair = WordPair.random();
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> MaterialApp(
+        title: <span style="color:#e6db74">&#39;Startup Name Generator&#39;</span>,
+       home: RandomWords(), 
+    );
+  }
+}
+</code></pre></div><p>Una vegada fet açò, podem tornar a llançar l&rsquo;aplicació, o fer una recàrrega en calent (<em>hot reload</em>) si la tenim en marxa per veure el resultat:</p>
+<blockquote>
+<p><em><strong>On està l&rsquo;itemCount?</strong></em></p>
+<p>Adoneu-vos que a l&rsquo;hora de construir la llista, en aquest cas, no hem especificat l&rsquo;atribut <code>itemCount</code>. Segons la <a href="https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html">documentació de Flutter</a>, no és necessari incorporar aquest paràmetre al constructor, però si l&rsquo;afegim, ajuda al ListView a estimar l&rsquo;extensió màxima que ha de mostrar. Així que podríem afegir:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">itemCount: _suggestions.length,
+</code></pre></div><p>Podeu també provar a modificar manualment aquest mètode i tornar un número fix (per exemple 10), i veure com afecta al renderitzat de la llista.</p>
+</blockquote>
+<p>Fins aci arriba la primer apart del Codelab inicial de Flutter, en el què s&rsquo;ha creat un widget <em>ListView</em> qe conté elements de tipus <em>ListTile</em> i que agafa els elements a mostar d&rsquo;un vector que creix dinàmicamen a mesura que ens desplacem cap avall en la pantalla. Si s&rsquo;adoneu, per fer això, ha utilitzat el doble de posicions en la llista que elements té el vector de suggerències, ja que intercala elements de tipus <em>Divider</em> entre els elements de la llista.</p>
+<p>Una alternativa a mostrar la llista així havera estat fent ús dels Widgets de tipus <em>Card</em>, com hem vist a l&rsquo;exemple anterior, de manera que cada parell de noms es mostrara en una d&rsquo;estes targetes. Per fer això, modificaríem el codi de <code>_buildRow()</code> i <code>_buildSuggestions()</code> de la classe <code>_RandomWordsState</code> amb el codi següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">    Widget _buildRow(WordPair pair) {
+    <span style="color:#66d9ef">return</span> Card(
+      child: Padding(
+        padding: EdgeInsets.all(<span style="color:#ae81ff">16.0</span>),
+        child: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+      )
+    );
+  }
+  Widget _buildSuggestions() {
+    <span style="color:#66d9ef">return</span> ListView.builder(
+        padding: EdgeInsets.all(<span style="color:#ae81ff">16.0</span>),
+        itemCount: _suggestions.length,
+        itemBuilder: (context, i) {
+          <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;=</span> _suggestions.length) {
+            _suggestions.addAll(generateWordPairs().take(<span style="color:#ae81ff">10</span>));
+          }
+          <span style="color:#66d9ef">return</span> _buildRow(_suggestions[i]);
+        });
+  }
+</code></pre></div><p>Com veiem, el codi de <code>_buildSuggestions</code> s&rsquo;ha simplificat bastant, i no hem de distingir si es tracta d&rsquo;un índex parell o imparell el que anem a renderitzar. Pel que fa al mètode <code>_buildRow</code>, hem utilitzat com a element principal un widget de tipus Card, que a dins té el <em>Text</em>. Aquest text, l&rsquo;hem embolicat dins un altre Widget de tipus <em>Padding</em>, que ens aporta la propietat <em>padding</em> per afegir un espaiat a dins l&rsquo;element.</p>
+<h3 id="45-afegint-icones-a-la-llista-de-suggerències">4.5. Afegint icones a la llista de suggerències</h3>
+<p>En aquest punt, anem a afegir una icona a cada element de la llista, que podem clicar pe marcar com a favorit.</p>
+<p>La gestió dels noms preferits per l&rsquo;usuari, es farà mitjançant un conjunt (<em>Set</em>) que anomenarem <code>_saved</code> a la classe d&rsquo;estat <code>_RandomWordState</code>, i al mètode <code>_buildRow()</code>, utilitzarem també una variable que comprove si el parell que es va a dibuixar existeix o no a la llista, i segons aquest, afisca la icona amb forma de cor a l&rsquo;element <em>ListTile</em>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_RandomWordsState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>RandomWords<span style="color:#f92672">&gt;</span> {
+  ...
+  <span style="color:#75715e">// Conjunt d&#39;elements favorits
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> _saved <span style="color:#f92672">=</span> Set<span style="color:#f92672">&lt;</span>WordPair<span style="color:#f92672">&gt;</span>(); 
+  ...
+  
+  Widget _buildRow(WordPair pair) {
+
+  <span style="color:#75715e">// Cmprovem si es troba en favorits
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">final</span> alreadySaved <span style="color:#f92672">=</span> _saved.contains(pair);
+    ...
+    <span style="color:#66d9ef">return</span> ListTile(
+      title: Text(...),
+      <span style="color:#75715e">// Afegim la icona amb el cor
+</span><span style="color:#75715e"></span>      trailing: Icon( 
+      alreadySaved <span style="color:#f92672">?</span> Icons.favorite <span style="color:#f92672">:</span> Icons.favorite_border,
+      color: alreadySaved <span style="color:#f92672">?</span> Colors.red <span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+    ),     
+    );
+  }
+  ...
+}
+
+</code></pre></div><p>A més, per tal de detectar els <em>Taps</em> en la pantalla (un <em>tap</em> és un <em>click</em> quan parlem de pantalles tàctils), afegirem el paràmetre <code>onTap</code>, que demana una funció de <em>callback</em> que es llançarà quan es produisca quest event:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">      onTap: () {
+        <span style="color:#75715e">// Gestió de l&#39;event tap. Si l&#39;element actual (pair)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// està en la llista de favorits, l&#39;eliminem, i si no
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// està, l&#39;afegim:
+</span><span style="color:#75715e"></span>        setState(() {
+          <span style="color:#66d9ef">if</span> (alreadySaved) {
+            _saved.remove(pair);
+          } <span style="color:#66d9ef">else</span> {
+            _saved.add(pair);
+          }
+        
+</code></pre></div><p>El fet d&rsquo;utilitzar la funció <code>setState</code> dins de l'<em>onTap</em> i que Flutter siga un framework reactiu, invoca indirectament el mètode <code>build()</code> de l&rsquo;objecte <em>State</em>, amb el que fem que es redibuixe de nou la interfície.</p>
+<h3 id="46-afegint-una-nova-finestra">4.6. Afegint una nova finestra</h3>
+<p>Ara anem a veure com afegir una pàgina nova que mostre els favorits. En Flutter, el concepte de navegació entre activitats és lleugerament diferent. Les diferents pantalles o pàgines, en Flutter reben el nom de <em>rutes</em> (<em>route</em>), que s&rsquo;organitzen en forma de <strong>pila</strong> gestionada per l&rsquo;objecte <em>Navigator</em>. Quan s&rsquo;apila una nova ruta aquesta estuctura, el <em>Navigator</em>, s&rsquo;encarrega de mostrar-la, i quan es desapila un element, el <em>Navigator</em> mostra la ruta anterior.</p>
+<p>El primer que haurem de fer és afegir una icona a la barra de navegació per tal d&rsquo;obrir la pantalla que ens mostre els favorits. Per a això, el que fem és afegir a l&rsquo;element <code>appBar</code> l&rsquo;element <code>actions</code>, amb una llista de botons amb icona (<em>IconButtons</em>), de la manera següent:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"> appBar: AppBar(
+        title: Text(<span style="color:#e6db74">&#39;Startup Name Generator&#39;</span>),
+        actions: [
+          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+        ],
+      ),
+</code></pre></div><p>I afegirem el mètode <code>_pushSaved()</code> a la classe, amb el següent codi:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">  <span style="color:#66d9ef">void</span> _pushSaved() {
+    <span style="color:#75715e">// Amb Navigator.push afegim una nova ruta a la pila
+</span><span style="color:#75715e"></span>    Navigator.of(context).push(
+      <span style="color:#75715e">// Creem una nova vista (ruta) amb MaterialPageRoute
+</span><span style="color:#75715e"></span>      MaterialPageRoute<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span>(
+        <span style="color:#75715e">// Component builder de la nova pàgina per 
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// construir la interfície
+</span><span style="color:#75715e"></span>        builder: (BuildContext context) {
+          <span style="color:#75715e">// Convertim la llista de parell guardats
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// en una llista d&#39;elements de tipus ListTile.
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">final</span> tiles <span style="color:#f92672">=</span> _saved.map(
+            (WordPair pair) {
+              <span style="color:#66d9ef">return</span> ListTile(
+                title: Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+
+          <span style="color:#75715e">// El mètode ListTile.divideTiles afig una línia
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// de separació entre ele elements d&#39;una llista
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// iterable de widgets
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">final</span> divided <span style="color:#f92672">=</span> ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          <span style="color:#75715e">// Retornem un esquelet de pantalla que conté el 
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// títol a la barra superior, i com a cos un ListView
+</span><span style="color:#75715e"></span>          <span style="color:#75715e">// a parit de la llista creada anteriorment.
+</span><span style="color:#75715e"></span>          <span style="color:#66d9ef">return</span> Scaffold(
+            appBar: AppBar(
+              title: Text(<span style="color:#e6db74">&#39;Saved Suggestions&#39;</span>),
+            ),
+            body: ListView(children: divided),
+          );
+        }, 
+      ),
+    );
+  }
+</code></pre></div><h3 id="47-canviant-el-tema">4.7. Canviant el tema</h3>
+<p>Finalment, l&rsquo;últim punt del Codelab consisteix a modificar la temàtica de l&rsquo;aplicació. Per a això, caldrà configurar la classe <code>ThemeData</code>. Si no s&rsquo;indica res, s&rsquo;utilitza el tema en blau per omissió, però podem modificar, al constructor de <em>MaterialApp</em> aquest amb:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;Startup Name Generator&#39;</span>,
+      theme: ThemeData(          <span style="color:#75715e">// Add the 3 lines from here... 
+</span><span style="color:#75715e"></span>        primaryColor: Colors.white,
+      ),                         <span style="color:#75715e">// ... to here.
+</span><span style="color:#75715e"></span>      home: RandomWords(),
+    );
+  }
+}
+</code></pre></div>
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-què-és-flutter">1. Què és Flutter?</a></li>
+    <li><a href="#2-installació">2. Instal·lació</a>
+      <ul>
+        <li><a href="#21-configuració-de-plugins-a-lide">2.1. Configuració de plugins a l&rsquo;IDE</a></li>
+        <li><a href="#22-dispositius-i-emuladors">2.2. Dispositius i emuladors</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-programació-bàsica-amb-dart">3. Programació bàsica amb Dart</a>
+      <ul>
+        <li><a href="#31-conceptes-bàsics-colleccions">3.1. Conceptes bàsics. Col·leccions.</a></li>
+        <li><a href="#32-programació-estructurada-en-dart">3.2. Programació estructurada en Dart</a></li>
+        <li><a href="#33-programació-orientada-a-objectes">3.3. Programació orientada a objectes</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-programant-amb-flutter">4. Programant amb Flutter</a>
+      <ul>
+        <li><a href="#41-creació-del-projecte">4.1. Creació del projecte</a></li>
+        <li><a href="#42-afegint-llibreríes">4.2. Afegint llibreríes</a></li>
+        <li><a href="#43-afegint-un-widget-amb-estat">4.3. Afegint un widget amb estat</a></li>
+        <li><a href="#44-creació-duna-llista-infinita-de-termes">4.4. Creació d&rsquo;una llista infinita de termes</a></li>
+        <li><a href="#45-afegint-icones-a-la-llista-de-suggerències">4.5. Afegint icones a la llista de suggerències</a></li>
+        <li><a href="#46-afegint-una-nova-finestra">4.6. Afegint una nova finestra</a></li>
+        <li><a href="#47-canviant-el-tema">4.7. Canviant el tema</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>

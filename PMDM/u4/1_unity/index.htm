@@ -1,0 +1,648 @@
+﻿<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../../../../css?family=Noto+Sans+JP">
+    <link rel="stylesheet" href="../../../css/main.css">
+
+    
+    <title>Introducció a Unity</title>
+</head>
+
+<body>
+    
+    <div class="header-container">
+        
+        
+        
+        <nav>
+            <ul>
+                
+                <li class="mainNavigation">
+                    <a href="../../../psp/index.htm" title="PSP">
+                        PSP
+                    </a>
+                </li>
+                
+                <li class="mainNavigation">
+                    <a href="../../index.htm" title="PMDM">
+                        PMDM
+                    </a>
+                </li>
+                
+            </ul>
+        </nav>
+        
+    </div>
+
+    
+    <div class="main-container">
+<nav>
+    <h3>
+        <a href="../index.htm">
+        Unitat 4. Unity 3d</a>
+    </h3>
+    
+        
+        
+        <div class="unitat">
+            <a href="index.htm">Introducció a Unity</a>
+        </div>
+        
+        <div class="unitat">
+            <a href="../2_unity2d/index.htm">Jocs de plataformes amb Unity</a>
+        </div>
+        
+    
+</nav>
+    <article>
+        <header> 
+            <h1>Introducció a Unity</h1>
+        </header>
+        <h2 id="1-presentació">1. Presentació</h2>
+<p>En aquest últim bloc del curs anem a fer una introducció al desenvolupament de videojocs amb Unity. Per a aquestes sessions, tindrem com a referència principal els següents cursos que podeu trobar a la plataforma openWebinars:</p>
+<ul>
+<li><a href="https://openwebinars.net/academia/portada/unity/">Curso de Unity, de David Erosa</a></li>
+<li><a href="https://openwebinars.net/academia/portada/unity-videojuegos-2d/">Curso de Unity 5: Programación de videojuegos 2D, de José Vázquez</a></li>
+</ul>
+<p>En estos cursos, se us explica més en detall molts dels aspectes que veurem en aquest bloc. Tot i que les versions amb què treballarem i documentarem aci són més actuals, els continguts són totalment vàlids. Al llarg de les unitats, trobareu les referències a les seccions d&rsquo;aquests cursos de les que estem parlant per si voleu ampliar coneixements.</p>
+<h2 id="2-introducció-a-unity">2. Introducció a Unity</h2>
+<p>Unity és una eina per a la creació de videojocs desenvolupada per Unity Technologies, el motor de la qual engloba diferents mòduls per gestionar la física tant en 2d com en 3d, l&rsquo;àudio, les animacions i el renderitzat.</p>
+<p>L&rsquo;eina permet generar projectes per a diverses plataformes, tant mòbils com d&rsquo;escriptori, web o videonsoles, i ofereix diversos serveis i una ampla documentació i comunitat d&rsquo;usuaris.</p>
+<p>El llenguatge de programació que utilitza és C#, molt semblant a Java i desenvolupat per Microsoft. Amb el temps, el llenguatge s&rsquo;ha entandarditzat, i s&rsquo;han creat implementacions lliures. Una d&rsquo;aquestes implementacions, Mono, és en la que es basa Unity.</p>
+<p>En la secció <a href="https://unity.com/madewith">Made With de la seua web</a> podeu trobar diversos projectes creats amb aquest motor, on no només trobareu videojocs, sinò també altres propostes experiències de realitat virtual o realitat augmentada.</p>
+<h3 id="21-plataformes">2.1. Plataformes</h3>
+<p>L&rsquo;editor de Unity està disponible en els sistemes operatius més comuns: Widows, MacOS i Linux (encara que experimental). Els requeriments de maquinari i programari per a la versió 2019.4(LTS) els podeu trobar a la <a href="https://docs.unity3d.com/Manual/system-requirements.html">documentació de Unity</a>. Deixem aci una captura d&rsquo;aquests:</p>
+<p><img src="../img/requeriments.png" alt="Requeriments de Unity 2019.4 LTS"></p>
+<p>En general, es demana targeta gràfica amb suport de DirectX10 (Shader Model 4.0) per a Windows; OpenGL 3.2 o superior en Linux, i processador amb el joc d&rsquo;instruccions SSE2.</p>
+<p>En sistemes Linux, per comprovar la versió d&rsquo;openGL necessitarem l&rsquo;eina <code>glxinfo</code> del paquet <code>mesa-utils</code>:</p>
+<ul>
+<li>Si nl el tenim instal·lat:</li>
+</ul>
+<pre><code>sudo apt install mesa-utils
+</code></pre><ul>
+<li>I per comprovar la versió:</li>
+</ul>
+<pre><code>$ glxinfo | grep &quot;OpenGL version&quot;
+OpenGL version string: 4.6 (Compatibility Profile) Mesa 20.2.6
+</code></pre><p>I per vore si el processador suporta sse2, podem consultar cpuinfo:</p>
+<pre><code>$ cat /proc/cpuinfo  | grep sse2
+flags           : ... sse sse2 s....
+</code></pre><p>Pel que fa a les plataformes a les què és capaç d&rsquo;exportar, podem consultar el llistat complet a <a href="https://unity.com/features/multiplatform">https://unity.com/features/multiplatform</a>. Com ja hem comentat, és capaç d&rsquo;exportar a diversos entorns d&rsquo;escriptori, mòbils, videoconsoles, així com a Android TV, per a la web (amb WebGL) o dispositius de realitat virtual o augmentada.</p>
+<blockquote>
+<p><strong>Referències als cursos</strong></p>
+<ul>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5451/">https://openwebinars.net/academia/aprende/unity/5451/</a></p>
+</li>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5452/">https://openwebinars.net/academia/aprende/unity/5452/</a></p>
+</li>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5453/">https://openwebinars.net/academia/aprende/unity/5453/</a></p>
+</li>
+</ul>
+</blockquote>
+<h3 id="22-creació-dun-compte">2.2. Creació d&rsquo;un compte</h3>
+<p>Per tal de treballar amb Unity i utilitzar les seues eines necessitem disposar d&rsquo;un compte d&rsquo;usuari, al qual, també vincularem serveis i compres o descàrregues que realitzem.</p>
+<p>Pal que fa les llicències, Unity disposa d&rsquo;un model de subscripció, al qual tenim les següents opcions:</p>
+<ul>
+<li><strong>Llicència personal</strong>: gratuita fins a 100.000$ d&rsquo;ingresos. Aquesta versió obliga a posar l&rsquo;Splash de Unity en els projectes i ens limita al tema clar de l&rsquo;IDE;</li>
+<li><strong>Llicència Plus</strong>: fins a 200.000$ d&rsquo;ingresos, i</li>
+<li><strong>Llicència Pro</strong>: sense límit d&rsquo;ingresos.</li>
+</ul>
+<p>Aquestes llicències es podran gestionar a través dels <em>Seats</em> en la pròpia plataforma de Unity.</p>
+<p>Els passos a seguir per crear el nostre compte són:</p>
+<ol>
+<li>Accedim a la web <a href="https://id.unity.com">https://id.unity.com</a>, i ens registrem, bé mitjançant el link corresponent o bé vinuclant el compte de Unity al nostre compte amb Google, Facebook o Apple.</li>
+</ol>
+<p><img src="../img/registre1.png" alt="Registre a Unity"></p>
+<ol start="2">
+<li>
+<p>Una vegada completat el registre, acceptem els termes i la política de privacitat.</p>
+</li>
+<li>
+<p>Fet açò, accedirem ja al nostre espai a la plataforma de Unity. Inicialment, ens trobarem en la secció amb la informació del nostre compte (<em>My Account Settings</em>).</p>
+</li>
+</ol>
+<p>Tots els detalls del nostre compte, des de la informació personal, seguretat, etc. ho podem gestionar des de <a href="https://id.unity.com/">https://id.unity.com/</a>.</p>
+<p>Per altra banda, des del menú de la dreta, podem accedir al <em>Unity Dashboard</em>:</p>
+<p><img src="../img/registre2.png" alt="Registre a Unity"></p>
+<p>Que ens portarà <a href="https://dashboard.unity3d.com/landing">https://dashboard.unity3d.com/landing</a> desd&rsquo;inja gestionarem els nostres projectes.</p>
+<blockquote>
+<p><strong>Referències als cursos</strong></p>
+<ul>
+<li><a href="https://openwebinars.net/academia/aprende/unity/5454/">https://openwebinars.net/academia/aprende/unity/5454/</a></li>
+</ul>
+</blockquote>
+<h2 id="3-unity-hub">3. Unity Hub</h2>
+<p>Unity Hub és una eina que ens permet gestionar, de manera centralitzada, el nostre compte de Unity, les llicències i els nostres projectes i diferents instal·lacions (versions) de l&rsquo;editor de Unity, junt amb els diferents mòduls d&rsquo;aquest.</p>
+<h3 id="31-descàrrega-i-installació">3.1. Descàrrega i instal·lació</h3>
+<p>Per tal de descarregar Unity Hub, ho farem a través de la secció de <a href="https://unity3d.com/es/get-unity/download">descàrregues de la web de Unity</a>, amb el botó <em>Descarga Unity Hub</em>:</p>
+<p><img src="../img/unityhub1.png" alt="Descàrrega de Unity Hub"></p>
+<p>Per a Windows, disposeu d&rsquo;un fitxer executable que realitza la instal·lació mitjançant un assistent.</p>
+<p>Al cas de sistemes Linux, es tracta d&rsquo;un fitxer de tipus autocontingut <em>AppImage</em>, de manera que només cal executar-lo i acceptar la llicència per accedir a l&rsquo;aplicació.</p>
+<h3 id="32-primers-pasos-amb-unity-hub">3.2. Primers pasos amb Unity Hub</h3>
+<p>En iniciar-se ens dirigirà directament a la pantalla de gestió de llicències, ja que no tenim cap llicència instal·lada:</p>
+<p><img src="../img/unityhub2.png" alt="Unity Hub"></p>
+<p>Per tal d&rsquo;activar una llicència, hem d&rsquo;estar logats amb el nostre usuari. Per a això, obrirem el menú de gestió del compte, ubicat a la part superior dreta i seleccionarem <em>Sign in</em>:</p>
+<p><img src="../img/unityhub3.png" alt="Unity Hub"></p>
+<p>Una vegada finalitzat el procés d&rsquo;autenticació, ja podem activar la nostra llicència. Veurem que també ha canviat el menú del nostre usuari, i des d&rsquo;ell podrem realitzar diferents accions relacionades amb el nostre compte.</p>
+<p>Com que ja estem logats, anem a poder activar una nova llicència. Per a això fem clic en el botó <em>Activate New License</em>, i seleccionem la llicència <em>Personal</em>, indicant que no som professionals del sector:</p>
+<p><img src="../img/unityhub4.png" alt="Unity Hub"></p>
+<p>Amb la llicència acceptada, fem clic a l&rsquo;opció <em>General</em> de les preferències, i aci podem editar el Path on s&rsquo;intal·laran els diferents editors de Unity. Trieu un disc on tingueu bastant capacitat d&rsquo;emmagatzemament, ja que els editors solen ser bastant pesats, i com més plataformes necessitem incrementen el seu pes.</p>
+<p><img src="../img/unityhub5.png" alt="Unity Hub"></p>
+<p>Per tal d&rsquo;anar a la finestra principal de Unity Hub, farem clic en la fletxa d&rsquo;anar enrere, ubicada a la part superior esquerra, al costat de Preferences. En aquesta finestra principal tenim quatre opcions:</p>
+<ul>
+<li><strong>Projects</strong>, amb els nostres projectes,</li>
+<li><strong>Learn</strong>, amb diversos projectes i tutorials per aprendre,</li>
+<li><strong>Community</strong>, amb enllaços a blogs i documentació de la comunitat de Unity, i</li>
+<li><strong>Installs</strong>, des d&rsquo;on gestionem les diferents versions de l&rsquo;editor que tenim instal·lades.</li>
+</ul>
+<h3 id="33-installant-editors">3.3. Instal·lant editors</h3>
+<p>Anem ara a instal·lar l&rsquo;editor. Per a això, farem clic en el botó <strong>Add</strong>, per tal d&rsquo;obrir la finestra de descàrregues:</p>
+<p><img src="../img/unityhub6.png" alt="Unity Hub"></p>
+<p>La instal·lació es divideix en dos pasos. En primer lloc seleccionarem la versió de Unity, i en segon els mòduls que volguem instal·lar.</p>
+<p>En el primer pas, se&rsquo;ns suggereix la instal·lació de la versió 2019.4.18f1, que és LTS, però que també tenim disponibles altres versions, tant oficials (LTS més antigues, o no LTS més modernes), i versions en versió pre-release. Seleccionarem aquesta opció proposada i fem clic en <em>Next</em>.</p>
+<p>El segon punt de la instal·lació, ens dóna a triar entre diferents mòduls, o sistemes als què exportar els nostres projectes, la documentació i idiomes addicionals. Al nostre cas, seleccionem la versió d&rsquo;escriptori en què estem treballant (<em>Linux/Mac/Windows Build Support</em>), i <em>Android Build Support</em>, per exportar projectes a Android. Com que ja disposem d&rsquo;un SDK instal·lat, només deixarem seleccionat l'<em>Android Build Support</em>, i configurarem l&rsquo;SDK posteriorment. A més, si volem estalviar espai, també podem desmarcar la instal·lació de la documentació.</p>
+<p><img src="../img/unityhub7.png" alt="Unity Hub"></p>
+<p>Una vegada seleccionat, fem clic en <em>Done</em> per començar la instal·lació. A la finestra d'<em>Installs</em> vorem una targeta amb la informació de la instal·lació i amb xicoteta barra a la part superior amb el progrés de la instal·lació.</p>
+<p>Una vegada feta la instal·lació, podem afegir més mòduls, marcar com a predeterminada alguna instal·lació o desinstal·lar-les.</p>
+<p><img src="../img/unityhub8.png" alt="Descàrrega, instal·lació i opcions després de la instal·lació">{ width=&ldquo;500px&rdquo; }</p>
+<blockquote>
+<p><strong>Referències als cursos</strong></p>
+<ul>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5455/">https://openwebinars.net/academia/aprende/unity/5455/</a></p>
+</li>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5456/">https://openwebinars.net/academia/aprende/unity/5456/</a></p>
+</li>
+</ul>
+</blockquote>
+<h3 id="34-creant-i-obrint-projectes">3.4. Creant i obrint projectes</h3>
+<p>Unity Hub s&rsquo;encarrega de centralitzar també la gestió dels nostres projectes. Així, per tal de crar un projecte nou, des de la secció de <em>Projects</em>, farem clic en <em>New</em>. Al costat d&rsquo;aquest botó, tenim un desplegable amb les diferents versions que tenim disponibles de Unity. Si fem clic en <em>New</em> directament, crearà el projecte amb la que tingam marcada com a preferida.</p>
+<p>Quan fem clic en <em>New</em>, se&rsquo;ns obri la finestra de creació del projecte, on haurem d&rsquo;indicar:</p>
+<ul>
+<li>La plantilla amb la que iniciarem el projecte (2D, 3D&hellip;), amb la possibilitat de  descarregar-ne de noves. Aquestes plantilles dependran de la versió de Unity que hajam triat. Si volem informació sobre cada plantilla, frem clic en la icona d&rsquo;informació que tenim a la part superior esquerra.</li>
+<li>El nom del projecte (es crearà una carpeta per a ell).</li>
+<li>La carpeta on es guardarà la carpeta del projecte.</li>
+</ul>
+<p><img src="../img/projectenou.png" alt="Creació d&rsquo;un projecte nou"></p>
+<p>Una vegada tinguem les propietats del projecte indicades, fem clic en <strong>Create</strong> per crear el projecte. Veurem la finestra d&rsquo;Splash de l&rsquo;aplicació, i en uns instants se&rsquo;ns obrirà l&rsquo;editor segons el tipus de projete que hem triat.</p>
+<p><img src="../img/editor3dInicial.png" alt="Aspecte de l&rsquo;editor per a un projecte 3D"></p>
+<p><img src="../img/editor2dInicial.png" alt="Aspecte de l&rsquo;editor per a un projecte 2D"></p>
+<p><strong>Apertura d&rsquo;un projecte</strong></p>
+<p>Quan ja tenim un projecte creat, per tal d&rsquo;obrir-lo, ho farem directament a través de Unity Hub. Els projectes que tinguem creats ens apareixeran a la pestanya <em>Projects</em>:</p>
+<p><img src="../img/obrirProjecte.png" alt="Obrint projectes"></p>
+<p>Com veiem, en la part central ens apareix una taula amb els diferents projectes que tenim, informant-nos de la ubicació d&rsquo;aquests i la seua plataforma. Per obrir el projecte només haurem de fer clic en ells.</p>
+<p>Par altra banda, des d&rsquo;aquesta mateixa taula, podrem fer una apertura avançada del projecte, i triar tant la versió de Unity amb el què volem obrir-lo, com la plataforma de destí (<em>Target Platform</em>). Per defecte, quan creem el projecte, la plataforma actual serà la pròpia de l&rsquo;ordinador en què estem. Si volguérem generar-lo pera Android, només caldria seleccionar-lo en la plataforma.</p>
+<blockquote>
+<p>Com a norma general, l&rsquo;ideal és mantindre la mateixa versió de Unity en el mateix projecte. Els canvis de versió, sobretot entre versions grans poden ser problemàtics.</p>
+</blockquote>
+<blockquote>
+<p><strong>Referències als cursos</strong></p>
+<ul>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5457/">https://openwebinars.net/academia/aprende/unity/5457/</a></p>
+</li>
+<li>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5458/">https://openwebinars.net/academia/aprende/unity/5458/</a></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="4-interfície-de-unity">4. Interfície de Unity</h2>
+<h3 id="41-vistes-de-unity">4.1. Vistes de Unity</h3>
+<p>La interfície de Unity presenta el següent aspecte general, dividit en diverses pestanyes o vistes:</p>
+<p><img src="../img/uippal.png" alt="Interfície de Unity"></p>
+<ol>
+<li>
+<p><strong>Vista d&rsquo;herència (<em>Hierarchy View</em>)</strong>: Conté l&rsquo;arbre de l&rsquo;escena, amb tots els elements que la componen ordenats de forma jeràrquica. Si un component és pare de diversos components, els canvis que fem al pare afectaran tots els nodes fills. Podem afegir elements (tant abm el botó <code>+</code> com amb el botó dret del ratolí), ordenar-los entre ells, establint relacions jeràrquiques o ocultar-los i tornar a mostrar-los (icona de l&rsquo;ull). Per defecte sempre ens apareix una escena d&rsquo;exemple (Sample Scene), amb l&rsquo;objecte càmera principal (<em>Main Camera</em>) i, si ens trobem en un projecte 3D, un objecte de llum direccional (<em>Directional Light</em>). En cas dels projectes 2D, només tindrem la càmera.</p>
+</li>
+<li>
+<p><strong>Vista d&rsquo;escena</strong> (<em>Scene View</em>): En ella apareixen renderitzats els elements que componen l&rsquo;escena, de forma interactiva. Permet la navegació per l&rsquo;escena mitjançant les tecles WASD+QE (com un joc ne primera persona), el ratolí i algunes tecles addicionals (Shift, Alt). Fent clic en els elements de l&rsquo;arbre, també ens centra aquesta vista en l&rsquo;objecte seleccionat. En aquesta vista tenim algunes eines addicionals:</p>
+<ul>
+<li>
+<p><strong>2.a) Gizmo:</strong> Es tracta d&rsquo;una eina que mostra la relació entre el sistema de coordenades del món que estem creant i la càmera. Aquesta eina permet canviar entre les diferents vistes de l&rsquo;escena, fent clic sobre els eixos, així com canviar la projecció de la càmera.</p>
+</li>
+<li>
+<p><strong>2.b) Modes de visualització de l&rsquo;escena</strong>: La vista d&rsquo;escena conté aquest desplegable amb diversos modes de visualització de l&rsquo;escena.</p>
+<ul>
+<li><em><strong>Shading mode</strong></em>: Estableix el tipus d&rsquo;ombrejat que volem. Tenim tres possibles opcions: <em>Shaded</em>, amb les superfícies visibles, <em>Wireframe</em>, amb les malles 3D, i <em>Saded Wireframe</em> amb les superfícies visibles i les malles 3D superposades.</li>
+<li>*<strong>Miscellaneous</strong>: Mostra diverses opcions de la visualització, com l&rsquo;activació de llums direccionals, el canal alfa (transparència), la superposició de superfícies, textures.</li>
+<li><strong>Deferred</strong>:</li>
+<li><strong>Global Illumination</strong>:</li>
+<li><strong>Material Validator</strong>:</li>
+</ul>
+</li>
+<li>
+<p><strong>2.c) Opcions de vista.</strong> Seguint amb la barra de control de la vista de l&rsquo;escena, tenim diverseseines pertreballar de diferent manera amb la vista:</p>
+<ul>
+<li>Botó <strong>2D</strong> per commutar entre la vista 2D i 3D,</li>
+<li>Botó per canviar entre la <strong>il·luminació</strong> de l&rsquo;escena (amb les llums que tinguem definides) o utilitzar un il·luminació per defecte,</li>
+<li>Botó per habilitar o deshabilitar els efectes d'<strong>àudio</strong> a l&rsquo;escena,</li>
+<li>Botó per mostrar o ocultar <strong>altres aspectes de visualització</strong> com el cel artificial (<em>skybox</em>), partícules, boira (fog), o materials animats, com puga ser l&rsquo;aigua. Podem habilitar-los i deshabilitar-los de forma individual, amb la fletxeta desplegable, o bé en el seu conjunt, fent ús del botó.</li>
+<li>Botó per habiitar o deshabilitar les <strong>opcions de visibilitat de la jerarquia</strong>. Quan en l&rsquo;arbre de l&rsquo;escena ocultem alguns elements, des d&rsquo;aci sabem quants elements tenim ocults i tenim la possibilitat d&rsquo;habilitar o inhabilitar aquesta ocultació.</li>
+<li>Botó per ajustar les opcions de <strong>visualització de la graella del sòl</strong>.</li>
+<li>Botó per mostrar el <strong>panell d&rsquo;eines de l&rsquo;editor de components</strong> (inicialment buit).</li>
+<li>Menú d'<strong>ajustos de la càmera</strong>, on ajustar els plànols llunyà i proper, el camp de visió, la velocitat, etc.</li>
+<li><strong>Menú de Gizmos</strong>. Els <em>gizmos</em> són icones i representacions dels objectes de l&rsquo;escena, com puguen ser la càmera o les llums. Des d&rsquo;aquest menú podem desactivar-los, canviar-losde mode o ajustar algunes propietats.</li>
+<li><strong>Caixa de cerca</strong> per buscar elements a l&rsquo;escena, per nom i/o tipus.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>Documentació</strong></p>
+<p>Teniu informació més detallada sobre la barra de control de l&rsquo;escena, amb els modes de visualització i les opcions de la vista a la secció corresponent en la <a href="https://docs.unity3d.com/es/2019.4/Manual/ViewModes.html">documentació de Unity</a>.</p>
+</blockquote>
+<ol start="3">
+<li><strong>Eines de transformació</strong>: Ens permeten realitzar diverses transformacions sobre els objectes i ajustar diverses opcions sobre aquestes transformacions.</li>
+</ol>
+<p><img src="../img/barraeines.png" alt="Barra d&rsquo;eines de trnasformació"></p>
+<ol start="4">
+<li>
+<p><strong>Botons de reproducció</strong>, que ens permeten executar o aturar el joc, pausar-lo, o avançar-lo frame a frame. Durant l&rsquo;execució del joc, cal tenir en compte que estarem en la vista de Joc, no en la d&rsquo;escena, pel que tots els canvis que fem, afecten a l&rsquo;execució, però no a l&rsquo;escena en sí.</p>
+</li>
+<li>
+<p><strong>Atres opcions</strong>, sobre control de versions, eines i serveis de Unity, informació del nostre compte, capes i selecció de la disposició de la interfície de Unity.</p>
+</li>
+<li>
+<p><strong>Vista de joc</strong>: És una representació del que vorà el jugador. Tenim tres opcions principals:</p>
+<ul>
+<li>
+<p><strong>Diaplay</strong>, per mostrar la vista de diferents pantalles (Displays) associades a diferents càmares. Quan afegim una càmera nova, és útil aliniar aquesta amb la vista actual, cosa que podem fer amb <code>Ctrl + Shift + F</code>.</p>
+</li>
+<li>
+<p><strong>Aspect Ratio</strong>: Determina la relació entre l&rsquo;alt i l&rsquo;ample en la càmera. Per defecte, utilitza <em>Free Aspect</em>, de manera que s&rsquo;ajusta a la finestra de l&rsquo;editor en què estem treballant. Aquesta opció no és recomanable, i el més habitual és treballar amb una relació d&rsquo;aspecte que concordeamb el dispositiu sobre el que anem a llançar l&rsquo;aplicació (per exemple 16:9 per apaïssat, 9:16 per vertical&hellip;).</p>
+</li>
+<li>
+<p><strong>Escalat</strong>: Per seleccionar l&rsquo;escala que es mostra en la finestra de joc. És útil quan utilitzem una resolució major que la que permet el nostre monitor o finestra.</p>
+</li>
+<li>
+<p><strong>Maximize on Play</strong>: Maximitza la pantalla de joc quan fem click en Play.</p>
+</li>
+<li>
+<p><strong>Mute</strong>: Silencia els efectes de so de l&rsquo;escena,</p>
+</li>
+<li>
+<p><strong>Vsync</strong>: Permet forçar que s&rsquo;utilitze la sincronització vertical en la finestra del joc, de manera que s&rsquo;eviten imatges <em>esgarrades</em>. Amb aquesta opció activada, no es dibuixa un <em>frame</em> fins que la pantalla no ha acabat de dibuixar l&rsquo;anterior.</p>
+</li>
+<li>
+<p><strong>Estadístiques</strong>: Ens mostra informació estadística sobre el rendiment del joc.</p>
+</li>
+<li>
+<p><strong>Gizmos</strong>: Com en la vista d&rsquo;escena, però aplicat ala finestra del joc. Podem vore els gizmos de llum, col·lissionadors, etc.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="../img/vistajoc.png" alt="Vista de joc"></p>
+<ol start="7">
+<li>
+<p><strong>Vista de projecte</strong>: Mostra els recursos (<em>assets</em>) que tenim disponibles en el joc. S&rsquo;organitza en carpetes, i es corresponen al directori <em>Assets</em> del projecte del joc. Si examinem les carpetes físiques del nostre projecte, vorem que hi ha més carpetes i fitxers. Dins la carpeta d&rsquo;Assets, tindrem també fitxers de tipus <em>Meta</em> amb metainformació que gestiona Unity sobre els objectes, amb informació diversa com la versió del fitxer, l&rsquo;identificador. És important realitzar la gestió de fitxers del projecte des del propi Unity, i no des del sistema de fitxer, ja que Unity necessita gestionar tota aquesta informació.</p>
+</li>
+<li>
+<p><strong>Inspector</strong>: Es tracta d&rsquo;un panell dinàmic on el contingut canvia en funció de l&rsquo;objecte que tinguem seleccionat. Segons els objectes amb què estem treballant, l&rsquo;inspector es mostrarà d&rsquo;una o altra forma. Per exemple:</p>
+<ul>
+<li>Si es tracta d&rsquo;objectes de la jerarquia/escena, podem mostrar els seus components, per poder activar-los, desactivar-los, seleccionar gizmos per als objectes, fer-los estàtics (per exemple il·luminació),, canviar-los el nom, assignar etiquetes o capes, entre moltes altres.</li>
+<li>Si es tracta de models o textures des de la vista del projecte, tindre, opcions de la importació.</li>
+<li>Si es tracta d&rsquo;un material, podem ajustar les seues propietats.</li>
+</ul>
+</li>
+<li>
+<p><strong>Consola</strong>: Ens mostra els missatges de registre de Unity i del nostre programa. Presenta les següents opcions:</p>
+</li>
+</ol>
+<p><img src="../img/consolaunity.png" alt="Consola de Unity"></p>
+<h3 id="42-personalització-de-lentorn">4.2. Personalització de l&rsquo;entorn</h3>
+<p>Com tota aplicació, podem ajustar l&rsquo;entorn a les nostres preferències i necessitats. Algunes de les opcions interessants que trobarem són:</p>
+<ul>
+<li><strong>Maximitzar una de les finestres</strong>, amb el botó dret sobre el títol i seleccionant <em>Maximize</em>, o bé amb <code>Shift</code>+<code>Espai</code>. Per tornar a la vista normal, a la dreta de la finestra tindrem un botó d&rsquo;opcions (tres puntets), amb el què podrem desactivar la maximització, o bé mitjançant el menú contextual del botó dret sobre la interfície,</li>
+<li><strong>Tancar la pestanya seleccionada</strong>, amb el mateix menú des d&rsquo;on podem maximitzar. Per tornar a obrir-la, amb el botó dret sobre altra pestanya podem obrir el menú contextual i buscar la pestanya en l&rsquo;opció <em>Add Tab</em>.</li>
+<li>Unity ens permet també <em>Arrossegar les pestanyes</em>, per ubicar-les en altres parts o bé deixar-les com a flotants.</li>
+</ul>
+<p>Si volem guardar la disposició que hem configurat, podem fer-ho amb <em>Save Layout</em> en el menú de <em>Layout</em> que ja haviem vist, ubicat a la part superior dreta.</p>
+<h3 id="43-barra-de-menú">4.3. Barra de menú</h3>
+<p>A la part superior de la interfície de Unity disposem d&rsquo;un menú general. Moltes de les opcions que contenen ja estan integrades en els diferents panells per facilitar-ne l&rsquo;accés. Les diferents opcions generals d&rsquo;aquest menu seran:</p>
+<ul>
+<li><strong>File</strong>: Per gestionar els projectes i les escenes, així com realitzar els ajustos de la construcció del joc (Build Settings),</li>
+<li><strong>Edit</strong>: Amb les opcions d&rsquo;edició habituals (copiar, apegar&hellip;), junt amb opcions de reproducció, gestionar seleccions de múltiples elements, o accedir a la configuració general i del projecte,</li>
+<li><strong>Assets</strong>: Serveix per gestionar els recursos (Assets) del nostre projecte. El menú és pràcticament el mateix que el menú contextual que obtenim en prémer el botó dret sobre la vista dels recursos</li>
+<li><strong>GameObject</strong>: Conté les mateixes possibilitats que el menú contextual de la vista de l&rsquo;escena per afegir objectes, així com opcions per organitzar aquests.</li>
+<li><strong>Component</strong>: Mostra classificat per categories els diferents components que podem associar als nostres objectes (físiques, etc.),</li>
+<li><strong>Window</strong>: Amb els diferents panells i finestres de Unity, organitzats per categories,</li>
+<li><strong>Help</strong>: Amb enllaços a la documentació.</li>
+</ul>
+<h3 id="44-gestió-de-les-preferències-generals-i-del-projecte">4.4. Gestió de les preferències generals i del projecte</h3>
+<p>Al menú <em>Edit</em> tenim dues entrades per tal de gestioner, per una banda les preferències de Unity, i per altra la configuració del projecte:</p>
+<p><img src="../img/settings_prefs.png" alt="Preferències de Unity i configuració del projecte"></p>
+<h3 id="45-altres-opcions-de-la-interfície">4.5. Altres opcions de la interfície</h3>
+<p>Altres opcions que podem trobar interessants a Unity són el gestor de paquets <em>Window &gt; Package Manager</em> des d&rsquo;on podrem actualitzar els paquets instal·lats (publicitat, realitat virtual, físiques, etc) o bé instal·lar altres eines en forma de paquets. Com en tot sistema de paquests, estos poden tindre dependències uns d&rsquo;altes.</p>
+<blockquote>
+<p><strong>Informació més detallada al curs de David Erosa (OpenWebinars)</strong></p>
+<p>Al curs d&rsquo;OpenWebinars de David Erosa podeu trobar informació més detallada sobre la interfície d&rsquo;usuari, a la secció <em>Interfaz de usuario de Unity</em>:</p>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5459/">https://openwebinars.net/academia/aprende/unity/5459/</a></p>
+</blockquote>
+<h2 id="5--conceptes-i-funcionament-de-unity">5.  Conceptes i funcionament de Unity</h2>
+<p>En aquesta secció anem a veure alguns del principals conceptes que gestiona Unity</p>
+<h3 id="51-gameobjects-components-etiquetes-i-capes">5.1. GameObjects, components, etiquetes i capes</h3>
+<ul>
+<li>
+<p><strong>GameObjects</strong>: Són els elements bàsics que componen el joc. Compren tots els elements que ens apareixen en l&rsquo;escena, incloent la càmera i les llums. Un GameObject actúa com a contenidor dels components del joc.</p>
+</li>
+<li>
+<p><strong>Components</strong>: Es tracta de peces codi que implementa una funcionalitat concreta als GameObjects. Els components es poden combinar per generar altres components amb diferent funcionalitat.</p>
+<ul>
+<li>Els diferents GameObjects que tindrem a l&rsquo;escena tindran diferents components, que podrem vore a l'<em>Inspector</em>. Per exemple, si afegim un cub, podem veure que tenim els components:
+<ul>
+<li><em><strong>Transform</strong></em>: Amb les transformacions aplicades a l&rsquo;objecte (desplaçaments, escalats i rotacions). Aquest component estarà present en tots els GameObjects.</li>
+<li><em><strong>Mesh Filter</strong></em> que llegeix la informació d&rsquo;un model 3D i el passa al <em><strong>Mesh Renderer</strong></em> que s&rsquo;encarrega del procés de renderitzat tenint en compte llums, etc.</li>
+<li><em><strong>Box Collider</strong></em>, que s&rsquo;encarrega de detectar les col·lissions amb altrs objectes,</li>
+<li><em><strong>SkyBox</strong></em>, per al renderitzat del <em>cel</em> de fons</li>
+</ul>
+</li>
+<li>Podem afegir components mitjançant el botó <em>Add Component</em> a l&rsquo;Inspector o des del menú de <em>Components</em>. Per exemple, el component <em>Rigibody</em> serveix per a que s&rsquo;aplique el motor de física sobre l&rsquo;objecte.</li>
+<li>Els valors d&rsquo;un component es poden modificar. Si volem tornar als valors per defecte, podem <em>ressetejar</em> el component mitjançant l&rsquo;opció Reset.</li>
+<li>Els components seran recursos més que tindrem al nostre projecte, pel que podrem crear un component nou programant l&rsquo;script i deixant-lo a la carpeta <em>Assets &gt; Scripts</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Dependències i conflictes entre components</strong>: Hi ha components que depenen d&rsquo;altres per tal de realitzar el seu treball. Per exemple, els components de tipus <em>Joint</em> (per exemple <em>Fixed Joint</em>) depenen dels components <em>Rigibody</em>. En canvi, hi ha altres components que creen <em>conclictes</em> amb altres, per exemple, un <em>Rigibody 2D</em> amb un <em>Rigibody</em>.</p>
+</li>
+<li>
+<p><strong>Objecte Buit</strong>: És aquell que no té cap component, a excepció de l&rsquo;objecte Transform.</p>
+</li>
+<li>
+<p>Les <strong>Etiquetes</strong> ens permeten etiquetar objectes, per tal de diferenciar-los d&rsquo;altres mitjançant aquest codi. Quan fem una còpia d&rsquo;un objecte, el seu nom canvia, però les etiquetes permanéixen, de manera que és més fàcil identificar així totes les còpies d&rsquo;un mateix tipus d&rsquo;objectes. Per tal d&rsquo;assignar una etiqueta, des de l&rsquo;inspector, i amb l&rsquo;objecte seleccionat, podem seleccionar el <em>tag</em>. Si el que volem és gestionar etiquetes ho podem fer des d'<em>Edit &gt; Project Settings &gt; Tags and Layers</em>, o des del mateix desplegable d&rsquo;assignar etiqueta, amb l&rsquo;opció <em>Add Tag</em>. Les etiquetes no es podran renomenar, però podem esborrar-les i crea-les de nou.</p>
+</li>
+</ul>
+<p>Una forma d&rsquo;utilitzar les etiquetes es pot vore al següent Script:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#66d9ef">using</span> System.Collections;
+<span style="color:#66d9ef">using</span> System.Collections.Generic;
+<span style="color:#66d9ef">using</span> UnityEngine;
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">elMeuComponent</span> : MonoBehaviour
+{
+    <span style="color:#75715e">// Start is called before the first frame update
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> Start()
+    {
+        Debug.Log(<span style="color:#e6db74">&#34;Iniciant Script&#34;</span>);
+    }
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> OnCollisionEnter(Collision other){
+        Debug.Log(<span style="color:#e6db74">&#34;Detecte col·lissió&#34;</span>);
+        Debug.Log(other.gameObject.name);
+        <span style="color:#66d9ef">if</span>(other.gameObject.CompareTag(<span style="color:#e6db74">&#34;enemic&#34;</span>)){
+            Debug.Log(<span style="color:#e6db74">&#34;Destruint Enemic: &#34;</span> + other.gameObject.name);
+            Destroy(other.gameObject);
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(other.gameObject.CompareTag(<span style="color:#e6db74">&#34;amic&#34;</span>)){
+            Debug.Log(<span style="color:#e6db74">&#34;Hola amic!&#34;</span>);
+        }
+    }
+
+}
+</code></pre></div><p>Aquest script el generarem a la carpeta del projecte, dins d'<em>Assets/Scripts</em>, amb el nom <em>ElMeuComponent.cs</em>. Tenim la següent escena:</p>
+<p><img src="../img/escena.png" alt="Escena d&rsquo;exemple"></p>
+<p>En la que tenim tres esferes i tres cubs. Per a les esferes hem creat una etiqueta &ldquo;amic&rdquo;, i per alc cubs <em>enemic</em>. A més, hem generat un plànol, i a aquest li hem afegit com a component <em>ElMeuComponent</em>. Amb aquest script, el que fem és que quan el plànol detecte una col·lissió amb algun dels objectes (esdeveniment <em>OnCollisionEnter</em>), detectarà amb qui ha col·lissionat (a través de l&rsquo;objecte <code>Collision other</code>), i si aquest té l&rsquo;etiqueta <code>enemic</code> l&rsquo;eliminarà i en cas contrari, si té <code>amic</code> mostrarà un missatge per la consola.</p>
+<ul>
+<li>Les <strong>capes</strong> ens permeten, d&rsquo;una forma semblant a les etiquetes, agrupar objectes per categoríes, i a més, ens permeten definir a quins objectes afecten determinats sistemes, tals com la il·luminació, la navegació o la física. La interacció entre capes es determinarà amb la matriu de col·lissions, ubicada en la configuració del projecte.</li>
+</ul>
+<p><img src="../img/matriuColisions.png" alt="Matru de col·lissions"></p>
+<h3 id="52-escenes">5.2. Escenes</h3>
+<p>Les escenes els elements de l&rsquo;entorn i els elements del joc, i seria l&rsquo;equivalent a un nivell del joc. Una escena pot se també la pantalla d&rsquo;inici del joc.</p>
+<p>Inicialment, se&rsquo;ns crea una Escena d&rsquo;exemple <em>Sample Scene</em>, on anem afegint els diversos elements.</p>
+<p>Les escenes són un recurs més del nostre projecte, pel que es guarden a la carpeta <em>Assets</em> del projecte, dins la subcarpeta <em>Scenes</em>.</p>
+<p>Quan creem una escena nova (Botó <code>+</code> a la part superior esquerra de l&rsquo;arbre d&rsquo;escena i <em>Crete Empty</em>), aquesta no tindrà nom, i haurem de guardar-la per afegir-li un nom.</p>
+<p>Sovint necessitem tindre vàries escenes al mateix projecte, bé perquè necessitem una escena d&rsquo;inici, o per facilitar la càrrega o el treball simultani. Per afegir una escena nova a l&rsquo;actual podem fer clic amb el botó dret sobre l&rsquo;escena actual i seleccionant <em>Add New Scene</em>, o bé arrossegant-la des de la carpeta de recursos.</p>
+<p>En el moment que creem una escena nova, també es crea una llum per defecte i una altra càmera, que podem eliminar per tal que no quede l&rsquo;escena tan il·luminada.</p>
+<p>Les escenes les podem carregar o descarregar, per tal de treballar de forma simultània amb diversos desenvolupadors. En temps d&rsquo;execució, també pot ser útil, mitjançant codi carregar unes o altres escenes, en funció de la ubicació del jugador.</p>
+<blockquote>
+<p><strong>Informació més detallada al curs de David Erosa (OpenWebinars)</strong></p>
+<p>Al curs d&rsquo;OpenWebinars de David Erosa podeu trobar informació més detallada sobre tots aquests conceptes:</p>
+<p><a href="https://openwebinars.net/academia/aprende/unity/5481/">https://openwebinars.net/academia/aprende/unity/5481/</a></p>
+</blockquote>
+<h2 id="6-asset-store">6. Asset Store</h2>
+<p>L'<a href="https://assetstore.unity.com/">Asset Store</a> és una tenda de recursos de diferents tipus: de codi, textures, materials, models, animacions, utilitats, tant de pagament com gratuits. A banda de la web, també podem accedir a ella a través del menú <em>Window &gt; Asset Store</em> de l&rsquo;editor de Unity.</p>
+<p>Dins el lloc, podem troar diverses seccions, entr les que podem destacar els recursos més populars, ordenats per <em>top</em> de vendes, novetats o <em>top</em> gratuits, navegar per categoríes de recursos (3D, 2D, eines, àudio, plantilles, efectes&hellip;), o pels creadors millor valorats.</p>
+<p>A més, si accedim amb el nostre compte, a la part superior, tindrem un menú des d&rsquo;on podrem accedir als assets que hem descarregat, als nostres favorits (encara que no els hajam descarregat), o accedir al carret i a la resta d&rsquo;eines de Unity.</p>
+<p>Per tal d&rsquo;incorporar un Asset al nostre projecte des de l&rsquo;Asset Store, podem fer-ho tant des de la part web com des del propi Unity. Si el busquem al portal web de l&rsquo;Asset Store, tindrem l&rsquo;enllaç per obrir-lo en Unity, i una vegada a la finestra de l&rsquo;Asset Store en Unity, ja podem descarregar-lo i instal·lar-lo.</p>
+<p>Veiem tot el procés per fer la instal·lació del l&rsquo;Asset <em>3D Game Kit</em> de <em>Unity Technologies</em> que incorpora un bon grapat de recursos per a la creació de jocs en 3D.</p>
+<p><img src="../img/descarregaAssets.png" alt="Procés de descàrrega d&rsquo;Assets"></p>
+<p>El primer que fem és buscar l&rsquo;Asset a l&rsquo;Asset Store, ja siga des de la web, i si estem registrats el podrem afegir als nostres Assets i obrir-lo amb Unity, o directament des del propi Unity. Una vegada el descarreguem (és un paquet bastant pesat), podem comença la importació.</p>
+<p>Quan descarreguem un Asset, tindrem una còpia en el nostre ordinador, i haurem d&rsquo;importar-lo en el projecte, de manera que puguem utilitzar-lo en diversos projectes sense haver de descarregar-lo cada vegada. Només hauriem de descarregar-lo si l&rsquo;esborrem o si apareix una nova versió de l&rsquo;Asset.</p>
+<p>Cal tindre en compte que alguns Assets ja tenen preferències del projecte incorporades, pel que podria que desaparegueren les nostres. Unity ens avisa d&rsquo;això. Una vegada comencem la importació, també es descarrega algunes dependències de paquets. Finalment, podrem seleccionar quins components volem importar al projecte (al nostre cas hem agafat alguns models, tant de pesonatges com de terreny i la documentació de l&rsquo;Asset). Una vegada comencem la importació, exporta els components seleccionats per utilitzar-los de forma òptima en la plataforma per a la que estiguem fent el joc.</p>
+<h2 id="7-prefabs">7. Prefabs</h2>
+<p>El sistema de prefabs de Unity ens permet crear, configurar i guardar, en forma d&rsquo;Asset reutilitzable, GameObjects complets, amb tots els fills, i amb tots els components i propietats que li hajam afegit.</p>
+<p>Bàsicament, es tracta de convertir en una plantilla (o una classe) el Gameobject que creem, i fer altres còpies a partir d&rsquo;ell. Quan fem una còpia a partir d&rsquo;un prefab, el que fem és crear una nova instància del GameObject. Açò ens és d&rsquo;utilitat quan anem a reutilitzar diverses vegades un objecte (elements d&rsquo;entorn, enemics, projectils, sistemes de partícules, etc).</p>
+<p>Un dels principals avantatges dels prefabs és que els canvis que fem al prefab es transmeten de forma automàtica a totes les instàncies d&rsquo;aquest.</p>
+<h3 id="treballant-amb-prefabs">Treballant amb Prefabs</h3>
+<p>Per tal de crear un prefab, partirem d&rsquo;un objecte creat a l&rsquo;escena, que arrossegarem a la finestra del projecte. Tot i que podrem guardar-lo en qualsevol lloc, és preferible generar-lo en una carpeta de prefabs, i dins d&rsquo;aquesta, tindre&rsquo;ls organitzats per categories.</p>
+<p>Veiem-ho amb un exemple, creem una esfera i un cilindre amb les segünts característiques:</p>
+<ul>
+<li>Esfera (renomenat com a <em>head</em>)
+<ul>
+<li>Posició (0,0,0)</li>
+<li>Rotació (0,0,0)</li>
+<li>Escalat (1,1,1)</li>
+</ul>
+</li>
+<li>Cilindre (renomenat com a <em>body</em>):
+<ul>
+<li>Posició (0,-0.5,0)</li>
+<li>Rotació (0,0,0)</li>
+<li>Escalat (1,0.5,1)</li>
+</ul>
+</li>
+</ul>
+<p>També crearem un GameObject buit, que anomenarem <em>BaseDroid</em>, i afegirem el l&rsquo;esfera i el cilindre com a fills seus.</p>
+<p>Una vegada creat el cap i el cos i junts dins de <em>BaseDreoid</em>, creem també una carpta <em>prefabs</em> al projecte, seleccionem el <em>BaseDroid</em> per arrossegar-lo dins la carpeta.</p>
+<p>En eixe moment, veurem que tenim dins la carpeta de prefabs un nou fitxer <em>BaseDroid.prefab</em>, i que a l&rsquo;arbre de l&rsquo;escena, ha canviat la icona de l&rsquo;element a color blau, indicant que ara és una instància d&rsquo;un prefab. També tindrem una fletxeta al costa en aquesta vista, des d&rsquo;on podrem editar al <em>Mode Prefab</em> per editar i modificar el propi <em>prefab</em>.</p>
+<p>Si volem crear noves instàncies d&rsquo;aquest prefab, només haurem d&rsquo;arrossegar-ho des de la carpeta a l&rsquo;escena.</p>
+<p><img src="../img/prefab1.png" alt="Creació d&rsquo;un prefab"></p>
+<p>Si ara volem editar el prefab, ho fem des del <em>mode prefab</em>, que és un mode especial de l&rsquo;editor que ens permet fer les modificacions centrant-nos en el prefab, i de forma independent a l&rsquo;escena.</p>
+<p>Per tal d&rsquo;accedir a aquest mode ho fem bé amb la fletxeta del costat del prefab a l&rsquo;arbre de l&rsquo;escena, com hem comentat més amunt, fent doble clic a l&rsquo;Asset del prefab, des de la carpeta on es troba, o bé tenint aquest seleccionat i fent clic al botó <em>Open Prefab</em> des de l&rsquo;Inspector.</p>
+<p><img src="../img/prefab2.png" alt="Obrint l&rsquo;editor de prefabs"></p>
+<p>Per exemple, obrim l&rsquo;editor de prefabs per tal de canviar el seu color. Obrim l&rsquo;editor de qualsevol dels tres modes, i si encara no tenim una carpeta de Materials creada als Assets del projecte la creem (Botó dret al projecte i <em>Create</em> &gt; <em>Folder</em>). De manera semblant, creem un nou material (<em>Botó dret</em> &gt; <em>Create</em> &gt; <em>Material</em>), i l&rsquo;assignem tant a l&rsquo;esfera com al cub, bé arrossegant-lo a la jerarquia, als objectes o a l&rsquo;inspector.</p>
+<p><img src="../img/prefab3.png" alt="Aplicació del nou material"></p>
+<p>Una vegada aplicat el material, podem afegir un parell més d&rsquo;esferes per crear els ulls:</p>
+<ul>
+<li>
+<p>Ull1 (esfera):</p>
+<ul>
+<li>Posició: (0, 0.25, 0.4)</li>
+<li>Rotació: (0, 0, 0)</li>
+<li>Escalat: (0.2, 0.2, 0.2)</li>
+</ul>
+</li>
+<li>
+<p>Ull2 (esfera):</p>
+<ul>
+<li>Posició: (-0,333, 0.25, 0.2210191)</li>
+<li>Rotació: (0, 0, 0)</li>
+<li>Escalat: (0.2, 0.2, 0.2)</li>
+</ul>
+</li>
+</ul>
+<p>Una vegada hem aplicat el material i hem creat les esferes, podem tornar al mode d&rsquo;escena mitjançant la fletxa de tornar enrere que apareix en la jerarquia al costat del nom del prefab.</p>
+<p><strong>Instance Override</strong></p>
+<p>En l&rsquo;escena, podrem vore que els canvis que hem fet s&rsquo;han aplicat a totes les instàncies que teniem generades. Ara bé&hellip; hi ha manera de modificar una instància del prefab sense perdre la referència al prefab original?</p>
+<p>La resposta és mitjançant <strong>variacions entre les instàncies</strong>, amb les quals podem canviar valors de les propietats, afegir components, eliminar components o afegir objectes fills. Les restriccions són que no podem eliminar GameObjects que siguen fills d&rsquo;un <em>prefab</em> ni modificar el pare d&rsquo;un fill en un <em>prefab</em>.</p>
+<p>Al nostre cas, simplement, anem a afegir, en el mode escena, com a fill de la primera còpia del <em>BaseDroid</em> (<em>BaseDroid 1</em>) dos Càpsules amb les propietats:</p>
+<ul>
+<li>
+<p>Cama1 (<em>Capsule</em>):</p>
+<ul>
+<li>Posició: (0.18, -1.11, 0.08)</li>
+<li>Rotació: (0, 0, 0)</li>
+<li>Escalat: (0.25, 0.25, 0.25)</li>
+</ul>
+</li>
+<li>
+<p>Cama2 (<em>Capsule</em>):</p>
+<ul>
+<li>Posició: (-0.21, -1.1, -0.1)</li>
+<li>Rotació: (0, 0, 0)</li>
+<li>Escalat: (0.25, 0.25, 0.25)</li>
+</ul>
+</li>
+</ul>
+<p>I els afegirem també el component del material verd que hem creat abans.</p>
+<p>A la finestra de l&rsquo;arbre d&rsquo;objectes vorem com els objectes nous que hem afegit al <em>GameObject</em> que estem modificant aparéixen amb un  &ldquo;+&rdquo;, indicant que no són part del prefab. Si havérem afegit components nous se&rsquo;ns indicaría amb una línia blava a l&rsquo;inspector, i en cas que havérem modificat la posició d&rsquo;algun element, aquesta apareixeria en negreta a l&rsquo;inspector.</p>
+<p><img src="../img/prefab4.png" alt="Modificant una instància del prefab"></p>
+<p>A més, si desitgem que les modificacions que hem incorporat a una instància del <em>prefab</em> s&rsquo;apliquen, total o parcialment al <em>prefab</em> original, podem fer-ho mitjançant les diferents opcions que tenim disponibles a la part superior de l&rsquo;Inspector, per revertir els canvis que hem fet, o aplicar-los a tot el <em>prefab</em>, de manera que s&rsquo;estenguen a les altres instàncies:</p>
+<p><img src="../img/prefab5.png" alt="Afegint les modificacions al prefab"></p>
+<p><strong>Prefabs anidats</strong></p>
+<p>Des de la versió de Unity 2018.3, podem afegir prefabs dins d&rsquo;altres, arrossegant-los, com si es tractara d&rsquo;un <em>GameObject</em> més. Una vegada anidem els prefabs, estos estaran enllaçats, però podran seguir modificant-se de forma independent.</p>
+<p>Per exemple, anem a crear un altre prefab, que anomenarem <em>braços</em> i que consistirà en dos càpsules més, que també pintarem de color verd:</p>
+<ul>
+<li><strong>Braços</strong>:
+<ul>
+<li>Posició: (-0.498, -0.402, -0.323)</li>
+<li>Rotació: (0,0,0)</li>
+<li>Escalat: (1, 1, 1)</li>
+<li><strong>Braç1</strong>:
+<ul>
+<li>Posició (0,0,0)</li>
+<li>Rotació: (0,0,0)</li>
+<li>Escalat: (0.2, 0.4, 0.2)</li>
+</ul>
+</li>
+<li><strong>Braç2</strong>:
+<ul>
+<li>Posició (0.976,0,0.675)</li>
+<li>Rotació: (0,0,0)</li>
+<li>Escalat: (0.2, 0.4, 0.2)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Una vegada ho tenim construit, arrosseguem el GameObject pare (Braços) fins la carpeta de <em>Prefabs</em>. Veiem el procés complet:</p>
+<p><img src="../img/prefab6.png" alt="Anidant prefans"></p>
+<ol>
+<li>Arrosseguem el conjunt <em>braços</em> a la carpeta <em>Assets/Prefabs</em>,</li>
+<li>Quan fem açò, el conjunt <em>braços</em> es mostrarà amb la incona blava i en color blau, mostrant que es tracta d&rsquo;una instància d&rsquo;un prefab, ja no d&rsquo;un GameObject.</li>
+<li>Arrosseguem el prefab <em>braços</em>, dins de la instància de BaseDroid, i comprovem com s&rsquo;afig com un objecte més dins d&rsquo;aquest (amb el símbol &ldquo;+&quot;), però marcant que és un prefab, amb la icona blava corresponent i la fletxa que indica que podem passar al mode prefab.</li>
+</ol>
+<p>Per altra banda també cap la possibilitat que volguem que un prefab tinga xicotetes variacions respecte d&rsquo;altre, com una espècie de <em>prefab</em> que <em>herete</em> d&rsquo;un altre, però que afisca algunes variacions. Fins ara hem vist com afegir personalització a les instàncies d&rsquo;un prefab i anidar prefabs. Si parlàrem en termes de programació orientada a objectes, seria, com crear objectes amb identitat pròpia i crear objectes com a combinació d&rsquo;altres. Ara el que voldríem és crear subclasses d&rsquo;unes altres.</p>
+<p>Això ho aconseguim amb el concepte de <em>variant</em>. Les variants són <em>prefabs</em> que tenen certes diferències respecte al <em>prefab</em> de base. És semblant als overrides de les instàncies, però amb els <em>prefabs</em>.</p>
+<p>La utilitat de les variants és òbiva.. ja que és el mitjà amb el qual podem crear, per exemple enemics o personatges de diferents tipus i amb diferent comportament.</p>
+<p>Per tal de crear una variant d&rsquo;un prefab, una vegada tinguem afegides les noves propietats, simplement l&rsquo;arrossegarem a la carpeta de <em>Prefabs</em>, de manera que el sistema ens pregunte què volem fer, si crear una variant, o bé modificar el prefab original.</p>
+<p>Al nostre exemple, arrossegarem tot el <em>BaseDroid</em> amb els braços ja afegits a la carpeta d&rsquo;Assets, i quan ens pregunte direm que volem crear una nova variant. Veurem com canvia la icona de la variant per indicar-ho.</p>
+<p><img src="../img/prefab7.png" alt="Creant una variant"></p>
+<p><strong>Desempaquetat de prefabs</strong></p>
+<p>Finalment, si volem, a partir d&rsquo;un prefab afegir a l&rsquo;escena els diferents <em>GameObjects</em> que componen un prefab; és a dir, el que sería <em>desempaquetar</em> un prefab i afegir els objectes que el componene, com a objectes independents a l&rsquo;escena; el que farem és seleccionar l&rsquo;opció <em>Unpack Prefab</em> per desempaquetar el prefab pare, o bé <em>Unpack Prefab Completely</em>, per desempaquetar-lo per complet, tant pare com fills.</p>
+<p><img src="../img/prefab7.png" alt="Creant una variant"></p>
+
+        </article>
+<aside class="table-of-contents">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-presentació">1. Presentació</a></li>
+    <li><a href="#2-introducció-a-unity">2. Introducció a Unity</a>
+      <ul>
+        <li><a href="#21-plataformes">2.1. Plataformes</a></li>
+        <li><a href="#22-creació-dun-compte">2.2. Creació d&rsquo;un compte</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-unity-hub">3. Unity Hub</a>
+      <ul>
+        <li><a href="#31-descàrrega-i-installació">3.1. Descàrrega i instal·lació</a></li>
+        <li><a href="#32-primers-pasos-amb-unity-hub">3.2. Primers pasos amb Unity Hub</a></li>
+        <li><a href="#33-installant-editors">3.3. Instal·lant editors</a></li>
+        <li><a href="#34-creant-i-obrint-projectes">3.4. Creant i obrint projectes</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-interfície-de-unity">4. Interfície de Unity</a>
+      <ul>
+        <li><a href="#41-vistes-de-unity">4.1. Vistes de Unity</a></li>
+        <li><a href="#42-personalització-de-lentorn">4.2. Personalització de l&rsquo;entorn</a></li>
+        <li><a href="#43-barra-de-menú">4.3. Barra de menú</a></li>
+        <li><a href="#44-gestió-de-les-preferències-generals-i-del-projecte">4.4. Gestió de les preferències generals i del projecte</a></li>
+        <li><a href="#45-altres-opcions-de-la-interfície">4.5. Altres opcions de la interfície</a></li>
+      </ul>
+    </li>
+    <li><a href="#5--conceptes-i-funcionament-de-unity">5.  Conceptes i funcionament de Unity</a>
+      <ul>
+        <li><a href="#51-gameobjects-components-etiquetes-i-capes">5.1. GameObjects, components, etiquetes i capes</a></li>
+        <li><a href="#52-escenes">5.2. Escenes</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-asset-store">6. Asset Store</a></li>
+    <li><a href="#7-prefabs">7. Prefabs</a>
+      <ul>
+        <li><a href="#treballant-amb-prefabs">Treballant amb Prefabs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+</aside>
+
+<script>
+
+    (function () {
+        let entries = document.querySelectorAll(".table-of-contents li");
+
+        for (entry of entries) {
+            entry.addEventListener("click", function (e) {
+                
+                e.stopPropagation();
+                for (sel of document.querySelectorAll(".selected"))
+                    sel.classList.remove("selected");
+                e.currentTarget.classList.add("selected");
+                
+                for (item of e.currentTarget.children)
+                    if (item == "[object HTMLUListElement]")
+                        if (item.style.display == "none")
+                            item.style.display = "block";
+                        else item.style.display = "none"
+
+            });
+        }
+
+    
+    let entriesh2 = document.querySelectorAll(".table-of-contents li > ul");
+
+        for (entry of entriesh2) {
+            entry.style.display = "none";
+        }
+
+
+    })();
+
+</script>        
+
+</div> 
+
+<div class="footer-container">
+    <a href="http://joamuran.net/docencia"><h3>Docencia</h3></a>
+</div>
+</body>
+
+</html>
