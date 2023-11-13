@@ -78,7 +78,7 @@
 <p>El component <em>RecyclerView</em> ens mostra una llista de desplaçament d&rsquo;elements amb conjunts de dades variables i de grans dimensions. La informació que bolquem sobre un <em>RecyclerView</em> pot vindre de diverses fonts, com puguen ser fitxers, bases de dades locals o d&rsquo;Internet.</p>
 <p>Cadascun dels elements que es mostren en la llista tindrà un disseny determinat amb diversos elements de tipus <em>View</em>.</p>
 <p>Esquemàticament, podem veure-ho com un contenidor que conté diferents instàncies d&rsquo;un layout concret (ja siga un LinearLayout amb dos textos, text i imatge, o una targeta).</p>
-<p><img src="../../../../wp-content/uploads/2018/01/Android-RecyclerView-How-it-works-1024x576.png" alt="Esquema d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
+<p><img src="Android-RecyclerView-How-it-works.png" style="width: 100%;" alt="Esquema d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
 <p>El principal avantatge del <em>RecyclerView</em> respecte al clàssic <em>ListView</em> és que les diferents instàncies dels dissenys que desapareixen de la pantalla quan es fa *scroll^no es destrueixen, sinò que es &ldquo;reciclen&rdquo; amb nova informació per mostrar els elements que &ldquo;entren&rdquo; en la pantalla.</p>
 <h2 id="1-quins-elements-intervenen-en-tot-açò-què-necessitarem">1. Quins elements intervenen en tot açò? Què necessitarem?</h2>
 <p>Per implementar un <em>RecyclerView</em> necessitem diversos elements:</p>
@@ -88,7 +88,7 @@
 <li>També necessitarem saber quines són les <em>dades d&rsquo;origen</em> que volem mostrar a la llista. Aquestes poden provindre des d&rsquo;un simple vector d&rsquo;strings fins a un <em>ArrayList</em> d&rsquo;objectes de determinada classe. En alguns llocs sol nomenar-se aquesta estructura com a <em><strong>DataSource</strong></em> o <em><strong>DataSet</strong></em>.</li>
 <li>Ja tenim els dissenys per una banda i les dades per altra&hellip; pel que només ens queda lligar-los. D&rsquo;això s&rsquo;encarregarà un <em><strong>Adapter</strong></em>, que serà el component més important i que més feina ens portarà quan treballem amb <em>RecyclerView</em>. Aquest component, a més, contindrà una classe anomenada <em>ViewHolder</em> que s&rsquo;encarregarà de fer la correspondència entre el conjunt de dades <em>DataSet</em> i el disseny de la vista dels elements.</li>
 </ul>
-<p><img src="../../../../wp-content/uploads/2018/01/Android-RecyclerView-Flow.png" alt="Elements d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
+<p><img src="Android-RecyclerView-Flow.png"  style="width: 100%;" alt="Elements d&rsquo;un RecyclerView, en www.andreasjakl.com"></p>
 <h2 id="2-mans-a-lobra">2. Mans a l&rsquo;obra</h2>
 <p>Una vegada tenim clars els diferents elements, anem a vore com fer la implementació.</p>
 <blockquote>
